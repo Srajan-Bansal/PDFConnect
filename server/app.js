@@ -6,8 +6,10 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 
 // MIDDLEWARES
+if (process.env.ENVIROMENT === 'development') {
+	app.use(morgan('dev'));
+}
 app.use(express.json());
-app.use(morgan('dev'));
 
 // ROUTES
 app.use('/', userRoutes);
