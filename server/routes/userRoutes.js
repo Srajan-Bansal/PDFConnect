@@ -7,9 +7,13 @@ const router = express.Router();
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 
+router.use(authController.protect);
+
 router
 	.route('/')
-	.get(authController.protect, userController.getAllUsers)
-	.delete(authController.protect, userController.deleteAllUsers);
+	.get(userController.getAllUsers)
+	.delete(userController.deleteAllUsers);
+
+router.patch('/updateMe', userController.uploadUserPhoto);
 
 module.exports = router;

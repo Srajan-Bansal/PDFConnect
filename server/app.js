@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const morgan = require('morgan');
 
 const userRoutes = require('./routes/userRoutes');
@@ -10,6 +11,7 @@ if (process.env.ENVIROMENT === 'development') {
 	app.use(morgan('dev'));
 }
 app.use(express.json());
+// app.use(express.static(path.join(__dirname, 'public')));
 
 // ROUTES
 app.use('/', userRoutes);
