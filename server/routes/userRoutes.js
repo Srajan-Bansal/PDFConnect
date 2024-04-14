@@ -8,7 +8,7 @@ router.post('/login', authController.login);
 
 router
 	.route('/')
-	.get(authController.getAllUsers)
+	.get(authController.protect, authController.getAllUsers)
 	.delete(authController.deleteAllUsers);
 
 module.exports = router;
