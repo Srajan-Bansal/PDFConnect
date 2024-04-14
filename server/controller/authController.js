@@ -7,6 +7,17 @@ const generateToken = (id) => {
 	});
 };
 
+const sendCookie = (res, token) => {
+	const cookieOptions = {
+		expires: new Date(
+			Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+		),
+		httpOnly: true,
+	};
+	if (process.env.ENVIROMENT === 'production') cookieOptions.secure = true;
+	res.cookie('jwt', token, cookieOptions);
+};
+
 exports.signup = async (req, res, next) => {
 	try {
 		const newUser = await User.create({
@@ -17,6 +28,7 @@ exports.signup = async (req, res, next) => {
 		});
 
 		const token = generateToken(newUser._id);
+		sendCookie(res, token);
 
 		res.status(200).json({
 			status: 'success',
@@ -48,9 +60,14 @@ exports.login = async (req, res, next) => {
 		return res.status(401).json({ error: 'Incorrect email or password' });
 
 	const token = generateToken(user._id);
+	sendCookie(res, token);
+
 	res.status(200).json({
 		status: 'success',
 		token,
+		data: {
+			user,
+		},
 	});
 };
 
@@ -88,42 +105,6 @@ exports.protect = async (req, res, next) => {
 		res.status(404).json({
 			status: 'failed',
 			ERROR: err.message,
-		});
-	}
-};
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MWI3MDFjNzkzZDBmOTExMmVhY2M2ZiIsImlhdCI6MTcxMzA3NDIwNCwiZXhwIjoxNzEzMDc0MjE0fQ.v8gw_jgKjdk4N6n6Ng7kTRq_EB4LY5Gga9P5jEly9vIeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MWI3MDFjNzkzZDBmOTExMmVhY2M2ZiIsImlhdCI6MTcxMzA3NDIwNCwiZXhwIjoxNzEzMDc0MjE0fQ.v8gw_jgKjdk4N6n6Ng7kTRq_EB4LY5Gga9P5jEly9vI
-
-exports.getAllUsers = async (req, res, next) => {
-	try {
-		const users = await User.find({});
-
-		res.status(200).json({
-			status: 'success',
-			result: users.length,
-			data: {
-				users,
-			},
-		});
-	} catch {
-		res.status(404).json({
-			status: 'failed',
-			message: err.message,
-		});
-	}
-};
-
-exports.deleteAllUsers = async (req, res, next) => {
-	try {
-		await User.deleteMany({});
-
-		res.status(200).json({
-			status: 'success',
-			message: 'All users are deleted',
-		});
-	} catch (err) {
-		res.status(404).json({
-			status: 'failed',
-			message: err.message,
 		});
 	}
 };
