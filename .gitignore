@@ -1,1 +1,5 @@
 node_modules
+package-lock.json
+config.env
+public/pdf/users/
+public/img/users/
