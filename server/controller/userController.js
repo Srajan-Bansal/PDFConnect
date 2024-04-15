@@ -1,39 +1,104 @@
 const multer = require('multer');
+const fs = require('fs');
 const User = require('./../models/userModel');
 
 const multerStorage = multer.diskStorage({
 	destination: (req, file, cb) => {
-		cb(null, 'public/img/users');
-	},
-	filename: (req, file, cb) => {
-		// user-id-Date.now().jpeg
-		const extension = file.mimetype.split('/')[1];
 		if (file.mimetype.startsWith('image')) {
-			cb(null, `user-${req.user._id}-${Date.now()}.${extension}`);
+			cb(null, 'public/img/users');
+		} else if (file.mimetype === 'application/pdf') {
+			cb(null, 'public/pdf/users');
 		} else {
-			cb(new Error('Not an image! Please provide an image'), false);
+			cb(new Error('Unsupported file type'));
 		}
 	},
+	filename: (req, file, cb) => {
+		let extension = '';
+		if (file.mimetype.startsWith('image')) {
+			extension = 'jpeg';
+		} else if (file.mimetype === 'application/pdf') {
+			extension = 'pdf';
+		}
+		cb(null, `user-${req.user._id}-${Date.now()}.${extension}`);
+	},
 });
+
+const fileFilter = (req, file, cb) => {
+	if (file.mimetype === 'application/pdf' || file.mimetype === 'image/jpeg') {
+		cb(null, true);
+	} else {
+		cb(null, false);
+	}
+};
 
 const upload = multer({
 	storage: multerStorage,
+	fileFilter: fileFilter,
 });
 
-exports.uploadUserPhoto = (req, res, next) => {
-	upload.single('photo')(req, res, (err) => {
+exports.uploadFiles = (req, res, next) => {
+	upload.fields([
+		{ name: 'photo', maxCount: 1 },
+		{ name: 'pdf', maxCount: 1 },
+	])(req, res, (err) => {
 		if (err) {
 			return res.status(400).json({
 				status: 'failed',
 				error: err.message,
 			});
 		}
+		next();
+	});
+};
+
+exports.updateMe = async (req, res, next) => {
+	try {
+		const updateData = { ...req.body };
+
+		if (req.files && req.files['photo']) {
+			const getUserPhoto = await User.findById(req.user._id);
+			if (getUserPhoto && getUserPhoto.photo) {
+				fs.unlink(getUserPhoto.photo, (err) => {
+					if (err) {
+						console.error('Error deleting photo:', err);
+					} else {
+						console.log('Previous PDF file deleted successfully');
+					}
+				});
+			}
+			updateData.photo = req.files['photo'][0].path;
+		}
+
+		if (req.files && req.files['pdf']) {
+			const getUserPdf = await User.findById(req.user._id);
+			if (getUserPdf && getUserPdf.pdf) {
+				fs.unlink(getUserPdf.pdf, (err) => {
+					if (err) {
+						console.error('Error deleting file:', err);
+					} else {
+						console.log('Previous PDF file deleted successfully');
+					}
+				});
+			}
+			updateData.pdf = req.files['pdf'][0].path;
+		}
+
+		const user = await User.findByIdAndUpdate(req.user._id, updateData, {
+			new: true,
+			runValidators: true,
+		});
 		res.status(200).json({
 			status: 'success',
-			body: req.body,
-			file: req.file,
+			data: {
+				user,
+			},
 		});
-	});
+	} catch (err) {
+		res.status(400).json({
+			status: 'failed',
+			error: err.message,
+		});
+	}
 };
 
 exports.getAllUsers = async (req, res, next) => {

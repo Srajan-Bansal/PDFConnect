@@ -14,6 +14,6 @@ router
 	.get(userController.getAllUsers)
 	.delete(userController.deleteAllUsers);
 
-router.patch('/updateMe', userController.uploadUserPhoto);
+router.patch('/updateMe', userController.uploadFiles, userController.updateMe);
 
 module.exports = router;
