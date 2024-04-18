@@ -1,6 +1,9 @@
 const express = require('express');
 const userController = require('./../controller/userController');
 const authController = require('./../controller/authController');
+const fileController = require('./../controller/fileController');
+
+const uploadFilesMiddleware = require('./../utils/uploadFildes');
 
 const router = express.Router();
 
@@ -14,6 +17,8 @@ router
 	.get(userController.getAllUsers)
 	.delete(userController.deleteAllUsers);
 
-router.patch('/updateMe', userController.uploadFiles, userController.updateMe);
+router.patch('/uploadFiles', uploadFilesMiddleware, fileController.uploadFiles);
+
+router.get('/getTextFromPDF', fileController.getTextFromPDF);
 
 module.exports = router;

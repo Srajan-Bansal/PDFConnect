@@ -23,7 +23,10 @@ const multerStorage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-	if (file.mimetype === 'application/pdf' || file.mimetype === 'image/jpeg') {
+	if (
+		file.mimetype === 'application/pdf' ||
+		file.mimetype.startsWith('image')
+	) {
 		cb(null, true);
 	} else {
 		cb(null, false);
@@ -35,4 +38,26 @@ const upload = multer({
 	fileFilter: fileFilter,
 });
 
-module.exports = upload;
+const uploadFilesMiddleware = (req, res, next) => {
+	try {
+		upload.fields([
+			{ name: 'photo', maxCount: 1 },
+			{ name: 'pdf', maxCount: 1 },
+		])(req, res, (err) => {
+			if (err) {
+				return res.status(400).json({
+					status: 'failed',
+					error: err.message,
+				});
+			}
+			next();
+		});
+	} catch (err) {
+		res.status(400).json({
+			status: 'failed in uploadFilesMiddleware',
+			error: err.message,
+		});
+	}
+};
+
+module.exports = uploadFilesMiddleware;
