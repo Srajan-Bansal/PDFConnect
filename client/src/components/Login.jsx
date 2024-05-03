@@ -1,75 +1,27 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from 'react'
-import { NavLink, useNavigate } from "react-router-dom"
-import { ToastContainer, toast } from 'react-toastify';
+import { NavLink } from "react-router-dom"
+import { toast } from 'react-toastify';
 import "./mix.css"
 
-const Login = () => {
-    const [passShow, setPassShow] = useState(false);
-    const [inpval, setInpval] = useState({
-        email: "",
-        password: "",
-    });
+export default function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPass, setShowPass] = useState(false);
 
-    const history = useNavigate();
+    // const navigate = useNavigate();
 
-    const setVal = (e) => {
-        // console.log(e.target.value);
-        const { name, value } = e.target;
-
-        setInpval(() => {
-            return {
-                ...inpval,
-                [name]: value
-            }
-        })
-    };
-
-
-    const loginuser = async (e) => {
+    function handleSubmit(e) {
         e.preventDefault();
 
-        const { email, password } = inpval;
+        console.log(email, password);
 
-        if (email === "") {
-            toast.error("email is required!", {
-                position: "top-center"
-            });
-        } else if (!email.includes("@")) {
-            toast.warning("includes @ in your email!", {
-                position: "top-center"
-            });
-        } else if (password === "") {
-            toast.error("password is required!", {
-                position: "top-center"
-            });
-        } else if (password.length < 6) {
-            toast.error("password must be 6 char!", {
-                position: "top-center"
-            });
-        } else {
-            // console.log("user login succesfully done");
-
-
-            const data = await fetch("/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    email, password
-                })
-            });
-
-            const res = await data.json();
-            //  console.log(res);
-
-            if (res.status === 201) {
-                localStorage.setItem("usersdatatoken", res.result.token);
-                history("/dash")
-                setInpval({ ...inpval, email: "", password: "" });
-            }
+        if (!email || !password) {
+            toast.error('Fill form');
         }
+
+        setEmail("");
+        setPassword("");
     }
 
     return (
@@ -81,29 +33,26 @@ const Login = () => {
                         <p>Hi, we are you glad you are back. Please login.</p>
                     </div>
 
-                    <form>
+                    <form onSubmit={(e) => handleSubmit(e)}>
                         <div className="form_input">
                             <label htmlFor="email">Email</label>
-                            <input type="email" value={inpval.email} onChange={setVal} name="email" id="email" placeholder='Enter Your Email Address' />
+                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} name="email" id="email" placeholder='Enter Your Email Address' />
                         </div>
                         <div className="form_input">
                             <label htmlFor="password">Password</label>
                             <div className="two">
-                                <input type={!passShow ? "password" : "text"} onChange={setVal} value={inpval.password} name="password" id="password" placeholder='Enter Your password' />
-                                <div className="showpass" onClick={() => setPassShow(!passShow)}>
-                                    {!passShow ? "Show" : "Hide"}
+                                <input type={!showPass ? "password" : "text"} value={password} onChange={(e) => setPassword(e.target.value)} name="password" id="password" placeholder='Enter Your password' />
+                                <div className="showpass" onClick={() => setShowPass(!showPass)}>
+                                    {!showPass ? "Show" : "Hide"}
                                 </div>
                             </div>
                         </div>
 
-                        <button className='btn' onClick={loginuser}>Login</button>
+                        <button className='btn'>Login</button>
                         <p>Don't have an Account? <NavLink to="/signup">Sign Up</NavLink> </p>
                     </form>
-                    <ToastContainer />
                 </div>
             </section>
         </>
     )
 }
-
-export default Login

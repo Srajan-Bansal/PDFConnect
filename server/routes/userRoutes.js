@@ -17,7 +17,7 @@ router
 	.get(userController.getAllUsers)
 	.delete(userController.deleteAllUsers);
 
-router.patch('/uploadFiles', uploadFilesMiddleware, fileController.uploadFiles);
+router.post('/uploadFiles', uploadFilesMiddleware, fileController.uploadFiles);
 
 router.get('/getTextFromPDF', fileController.getTextFromPDF);
 

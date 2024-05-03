@@ -1,0 +1,63 @@
+
+.container {
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    width: 80vw;
+    padding: 20px;
+    text-align: center;
+    margin: auto;
+    width: 50%;
+    background-color:  #14213d ; 
+    color: aliceblue;
+}
+#btnUpload {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+#btnUpload:hover {
+    background-color: #45a049;
+}
+#resultText {
+    width: 80%;
+    height: 200px;
+    margin-top: 20px;
+    color: blue;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.btn-gen{
+    background-color:hsl(221, 51%, 16%) ;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 25px;
+}
+.inp-btn{
+    background-color: hsl(201, 100%, 36%);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 4px;
+    transition: background-color 0.3s;
+}
+
+.btn-gen:hover{
+    background-color:hsl(221, 51%, 24%) ;
+}
+
+.inp-btn:hover{
+    background-color: hsl(201, 100%, 32%);
+}
