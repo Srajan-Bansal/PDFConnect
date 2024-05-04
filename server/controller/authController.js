@@ -29,7 +29,6 @@ exports.signup = async (req, res, next) => {
 
 		const token = generateToken(newUser._id);
 		sendCookie(res, token);
-
 		res.status(200).json({
 			status: 'success',
 			token,
