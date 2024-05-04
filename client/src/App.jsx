@@ -1,16 +1,15 @@
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 
-// import { ToastContainer } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
-import './App.css';
-
 import Layout from './Layout';
 import Signup from "./components/Signup";
-// import Navbar from './components/Navbar';
+import UploadPage from './components/UploadPage';
 import Login from "./components/Login";
+
+import './App.css';
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Layout />}>
+    <Route index element={<UploadPage />} />
     <Route path='/login' element={<Login />} />
     <Route path='/signup' element={<Signup />} />
   </Route>

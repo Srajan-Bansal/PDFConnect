@@ -13,7 +13,7 @@ export default function NavBar() {
             <nav className='navbar'>
                 <div className='nav-container'>
                     <NavLink
-                        exact
+                        exact="true"
                         to='/'
                         className='nav-logo'
                     >
@@ -27,7 +27,7 @@ export default function NavBar() {
                     <ul className={click ? 'nav-menu active' : 'nav-menu'}>
                         <li className='nav-item'>
                             <NavLink
-                                exact
+                                exact="true"
                                 to='/'
                                 className='nav-links'
                                 onClick={handleClick}
@@ -38,7 +38,7 @@ export default function NavBar() {
 
                         <li className='nav-item'>
                             <NavLink
-                                exact
+                                exact="true"
                                 to='/login'
                                 className='nav-links'
                                 onClick={handleClick}
@@ -49,7 +49,7 @@ export default function NavBar() {
 
                         <li className='nav-item'>
                             <NavLink
-                                exact
+                                exact="true"
                                 to='/signup'
                                 className='nav-links'
                                 onClick={handleClick}
