@@ -29,6 +29,7 @@ exports.signup = async (req, res, next) => {
 
 		const token = generateToken(newUser._id);
 		sendCookie(res, token);
+
 		res.status(200).json({
 			status: 'success',
 			token,
@@ -78,35 +79,32 @@ exports.protect = async (req, res, next) => {
 			req.headers.authorization.startsWith('Bearer')
 		) {
 			token = req.headers.authorization.split(' ')[1];
-		} else if (req.cookies.jwt) {
-			// console.log(req.cookies.jwt);
-			token = req.cookies.jwt;
 		}
 
 		if (!token) {
-			return res.status(401).json({
-				status: 'failed',
-				error: 'You are not logged in! Please log in',
-			});
+			const error = new Error(
+				'You are not logged in! Please log in to get access'
+			);
+			error.status = 401;
+			return next(error);
 		}
 
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-		const currUser = await User.findById(decoded.id);
+		const currUser = await User.findById({ _id: decoded.id });
 		if (!currUser) {
-			return res.status(404).json({
-				status: 'failed',
-				error: 'User no longer exists',
+			return res.status(200).json({
+				status: 'Failed',
+				Error: 'USERS NO LONGER EXIST',
 			});
 		}
 
 		req.user = currUser;
 		next();
 	} catch (err) {
-		console.error('Error in protect middleware:', err);
-		res.status(500).json({
-			status: 'error',
-			message: 'Internal server error',
+		res.status(404).json({
+			status: 'failed',
+			ERROR: err.message,
 		});
 	}
 };

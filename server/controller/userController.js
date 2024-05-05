@@ -1,11 +1,4 @@
-const fs = require('fs');
 const User = require('./../models/userModel');
-
-// exports.updateMe = async (req, res, next) => {
-// 	try {
-// 		if (req.files && req.files['photo']) {
-// 	}
-// };
 
 exports.getAllUsers = async (req, res, next) => {
 	try {
