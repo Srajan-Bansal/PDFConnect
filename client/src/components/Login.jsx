@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from 'react'
 import { NavLink } from "react-router-dom"
+import axios from 'axios';
 import { toast } from 'react-toastify';
 import "./mix.css"
 
@@ -19,9 +20,20 @@ export default function Login() {
         if (!email || !password) {
             toast.error('Fill form');
         }
+        const formData = { email, password };
 
-        setEmail("");
-        setPassword("");
+        axios
+            .post('http://localhost:8000/login', formData, {
+                withCredentials: true
+            })
+            .then((data) => console.log(data))
+            .catch((err) => {
+                toast.error(err.response.data.message)
+                console.log('Error signing in ', err.response.data)
+            })
+
+        // setEmail("");
+        // setPassword("");
     }
 
     return (

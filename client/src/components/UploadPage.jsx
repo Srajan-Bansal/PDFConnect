@@ -5,7 +5,7 @@ import ShowPage from './ShowPage';
 import 'react-toastify/dist/ReactToastify.css';
 import './UploadPage.css';
 
-let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzNkYjU4ODZiM2M5MDBjYzdlNDYzNCIsImlhdCI6MTcxNDc0NDM3MSwiZXhwIjoxNzIyNTIwMzcxfQ.u5JmTHOeqTGobQnznaJi14mgQxdgasT7kShfuvbJ6bE';
+// let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mzc4YmJmMjdiNTk3MjY3NWI5ZmU0NiIsImlhdCI6MTcxNDkxNjI4NywiZXhwIjoxNzIyNjkyMjg3fQ.uHejTT1YtU6zef4nPZKOvqGcLO2lhrf9c_r47mmkCPM';
 
 export default function UploadPage() {
     const [extractedText, setExtractedText] = useState('');
@@ -13,21 +13,27 @@ export default function UploadPage() {
     const textAreaRef = useRef(null);
 
     function handleGetPDFData() {
-        try {
-            axios.get('http://localhost:8000/getTextFromPDF', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(data => {
-                const extractedData = data.data.data.docs[0].pageContent;
-                setExtractedText(extractedData);
-                toast.success('Data extracted successfully');
-            });
-        } catch (error) {
-            toast.error('Data extraction failed');
-            console.log('Error extracting', error.message);
-        }
+        axios.get('http://localhost:8000/getTextFromPDF', {
+            withCredentials: true
+        }).then(response => {
+            const extractedData = response.data.data.docs[0].pageContent;
+            setExtractedText(extractedData);
+            toast.success('Data extracted successfully');
+        }).catch(error => {
+            if (error.response) {
+                toast.error(error.response.data.error);
+                console.log('Error response:', error.response.data);
+            } else if (error.request) {
+                toast.error('No response from server');
+                console.log('No response from server');
+            } else {
+                toast.error('An error occurred');
+                console.log('Error:', error.message);
+            }
+        });
     }
+
+
 
     const handleUpload = () => {
         const fileInput = document.getElementById('inpFile');
@@ -41,15 +47,16 @@ export default function UploadPage() {
         formData.append('pdf', fileInput.files[0]);
         axios.post('http://localhost:8000/uploadFiles', formData, {
             headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${token}`
-            }
+                'Content-Type': 'multipart/form-data'
+            },
+            withCredentials: true
         }).then(() => {
             console.log('PDF uploaded successfully');
             toast.success('PDF uploaded successfully');
         }).catch((err) => {
             console.log('PDF not uploaded', err.message);
-            toast.error('PDF upload failed. Please try again.');
+            // console.log(err);
+            toast.error(err.response.data.error);
         });
     };
 
