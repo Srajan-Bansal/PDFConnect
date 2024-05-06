@@ -1,64 +1,63 @@
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom'
+import config from '../config';
 import ShowPage from './ShowPage';
 import 'react-toastify/dist/ReactToastify.css';
 import './UploadPage.css';
-
-// let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mzc4YmJmMjdiNTk3MjY3NWI5ZmU0NiIsImlhdCI6MTcxNDkxNjI4NywiZXhwIjoxNzIyNjkyMjg3fQ.uHejTT1YtU6zef4nPZKOvqGcLO2lhrf9c_r47mmkCPM';
 
 export default function UploadPage() {
     const [extractedText, setExtractedText] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
     const textAreaRef = useRef(null);
 
-    function handleGetPDFData() {
-        axios.get('http://localhost:8000/getTextFromPDF', {
-            withCredentials: true
-        }).then(response => {
+    const navigate = useNavigate();
+
+    async function handleGetPDFData() {
+        try {
+            const response = await axios.get(`${config.userAPI}/getTextFromPDF`, { withCredentials: true });
             const extractedData = response.data.data.docs[0].pageContent;
             setExtractedText(extractedData);
             toast.success('Data extracted successfully');
-        }).catch(error => {
-            if (error.response) {
-                toast.error(error.response.data.error);
-                console.log('Error response:', error.response.data);
-            } else if (error.request) {
-                toast.error('No response from server');
-                console.log('No response from server');
-            } else {
-                toast.error('An error occurred');
-                console.log('Error:', error.message);
-            }
-        });
+        } catch (error) {
+            handleAxiosError(error);
+        }
     }
 
+    async function handleUpload() {
+        try {
+            if (!selectedFile) {
+                toast.error('Please select a PDF file to upload.');
+                return;
+            }
 
+            const formData = new FormData();
+            formData.append('pdf', selectedFile);
 
-    const handleUpload = () => {
-        const fileInput = document.getElementById('inpFile');
-
-        if (!fileInput.files.length) {
-            toast.error('Please select a PDF file to upload.');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('pdf', fileInput.files[0]);
-        axios.post('http://localhost:8000/uploadFiles', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            withCredentials: true
-        }).then(() => {
+            await axios.post(`${config.userAPI}/uploadFiles`, formData, { withCredentials: true });
             console.log('PDF uploaded successfully');
             toast.success('PDF uploaded successfully');
-        }).catch((err) => {
-            console.log('PDF not uploaded', err.message);
-            // console.log(err);
-            toast.error(err.response.data.error);
-        });
-    };
+        } catch (error) {
+            handleAxiosError(error);
+        }
+    }
+
+    function handleAxiosError(error) {
+        if (error.response) {
+            if (error.response.data.error === 'You are not logged in! Please log in') {
+                navigate('/login');
+            }
+            toast.error(error.response.data.error);
+            console.log('Error response:', error.response.data);
+        } else if (error.request) {
+            toast.error('No response from server');
+            console.log('No response from server');
+        } else {
+            toast.error('An error occurred');
+            console.log('Error:', error.message);
+        }
+    }
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -74,6 +73,7 @@ export default function UploadPage() {
             textAreaRef.current.scrollTop = textAreaRef.current.scrollHeight;
         }
     }, [extractedText]);
+
 
     return (
         <div className="container">

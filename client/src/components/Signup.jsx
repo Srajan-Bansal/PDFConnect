@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import config from '../config';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './mix.css';
@@ -14,7 +15,9 @@ export default function Signup() {
     const [showPass, setShowPass] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    function handleOnSubmit(e) {
+    const navigate = useNavigate();
+
+    async function handleOnSubmit(e) {
         e.preventDefault();
 
         // console.log(name, email, password, confirmPassword);
@@ -29,11 +32,14 @@ export default function Signup() {
             toast.error('Fill form');
         }
 
-        axios
-            .post('http://localhost:8000/signup', formData, {
+        await axios
+            .post(`${config.userAPI}/signup`, formData, {
                 withCredentials: true
             })
-            .then((data) => console.log(data))
+            .then((data) => {
+                navigate('/');
+                console.log(data)
+            })
             .catch((err) => {
                 toast.error(err.response.data.message)
                 console.log('Error signing in ', err.response.data)

@@ -30,8 +30,18 @@ app.use((req, res, next) => {
 });
 
 // ROUTES
-app.use('/', userRoutes);
+app.use('/api/v1/user', userRoutes);
 
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+	console.error(err.stack);
+	res.status(500).json({
+		status: 'error',
+		message: 'Internal Server Error',
+	});
+});
+
+// 404 Not Found Middleware
 app.use('*', (req, res, next) => {
 	res.status(404).json({
 		status: 'failed',
