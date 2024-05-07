@@ -4,6 +4,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
+const viewRoutes = require('./routes/viewRoutes');
 const userRoutes = require('./routes/userRoutes');
 
 const app = express();
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
 
 // ROUTES
 app.use('/api/v1/user', userRoutes);
+app.use('/', viewRoutes);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {

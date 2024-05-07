@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { promisify } = require('util');
 const User = require('./../models/userModel');
 
 const generateToken = (id) => {
@@ -52,11 +53,11 @@ exports.login = async (req, res, next) => {
 			.status(400)
 			.json({ error: 'Please provide a email or password' });
 	}
-
 	const user = await User.findOne({ email }).select('+password');
 
-	if (!user || !(await user.correctPassword(password, user.password)))
+	if (!user || !(await user.correctPassword(password, user.password))) {
 		return res.status(401).json({ error: 'Incorrect email or password' });
+	}
 
 	const token = generateToken(user._id);
 	sendCookie(res, token);
@@ -73,12 +74,6 @@ exports.login = async (req, res, next) => {
 exports.protect = async (req, res, next) => {
 	try {
 		let token;
-		// if (
-		// 	req.headers.authorization &&
-		// 	req.headers.authorization.startsWith('Bearer')
-		// ) {
-		// 	token = req.headers.authorization.split(' ')[1];
-		// }
 		if (req.cookies.jwt) {
 			// console.log(req.cookies.jwt);
 			token = req.cookies.jwt;
@@ -92,12 +87,12 @@ exports.protect = async (req, res, next) => {
 		}
 
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
+		//
 		const currUser = await User.findById(decoded.id);
 		if (!currUser) {
 			return res.status(404).json({
 				status: 'failed',
-				error: 'User no longer exists',
+				error: 'User does not exists',
 			});
 		}
 
@@ -108,6 +103,34 @@ exports.protect = async (req, res, next) => {
 		res.status(500).json({
 			status: 'error',
 			message: 'Internal server error',
+		});
+	}
+};
+
+exports.isLoggedIn = async (req, res, next) => {
+	try {
+		const token = req.cookies.jwt;
+		if (!token) {
+			throw new Error('You are not logged in! Please log in');
+		}
+
+		const decoded = await promisify(jwt.verify)(
+			token,
+			process.env.JWT_SECRET
+		);
+
+		const currentUser = await User.findById(decoded.id);
+		if (!currentUser) {
+			throw new Error('User does not exist');
+		}
+
+		req.user = currentUser;
+		next();
+	} catch (err) {
+		console.error(err.message);
+		return res.status(401).json({
+			status: 'failed',
+			error: err.message,
 		});
 	}
 };
