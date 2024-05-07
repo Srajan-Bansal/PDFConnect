@@ -6,7 +6,7 @@ const uploadFilesMiddleware = require('./../utils/uploadFildes');
 
 const router = express.Router();
 
-router.use(authController.protect);
+router.use(authController.isLoggedIn);
 
 router.post('/uploadFiles', uploadFilesMiddleware, fileController.uploadFiles);
 
