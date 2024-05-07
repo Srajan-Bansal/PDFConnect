@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom'
 import config from '../config';
-import ShowPage from './ShowPage';
+// import ShowPage from './ShowPage';
 import 'react-toastify/dist/ReactToastify.css';
 import './UploadPage.css';
 
@@ -16,7 +16,7 @@ export default function UploadPage() {
 
     async function handleGetPDFData() {
         try {
-            const response = await axios.get(`${config.userAPI}/getTextFromPDF`, { withCredentials: true });
+            const response = await axios.get(`${config.viewAPI}getTextFromPDF`, { withCredentials: true });
             const extractedData = response.data.data.docs[0].pageContent;
             setExtractedText(extractedData);
             toast.success('Data extracted successfully');
@@ -35,7 +35,7 @@ export default function UploadPage() {
             const formData = new FormData();
             formData.append('pdf', selectedFile);
 
-            await axios.post(`${config.userAPI}/uploadFiles`, formData, { withCredentials: true });
+            await axios.post(`${config.viewAPI}uploadFiles`, formData, { withCredentials: true });
             console.log('PDF uploaded successfully');
             toast.success('PDF uploaded successfully');
         } catch (error) {
