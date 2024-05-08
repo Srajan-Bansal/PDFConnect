@@ -71,43 +71,14 @@ exports.login = async (req, res, next) => {
 	});
 };
 
-exports.protect = async (req, res, next) => {
-	try {
-		let token;
-		if (req.cookies.jwt) {
-			// console.log(req.cookies.jwt);
-			token = req.cookies.jwt;
-		}
-
-		if (!token) {
-			return res.status(401).json({
-				status: 'failed',
-				error: 'You are not logged in! Please log in',
-			});
-		}
-
-		const decoded = jwt.verify(token, process.env.JWT_SECRET);
-		//
-		const currUser = await User.findById(decoded.id);
-		if (!currUser) {
-			return res.status(404).json({
-				status: 'failed',
-				error: 'User does not exists',
-			});
-		}
-
-		req.user = currUser;
-		next();
-	} catch (err) {
-		console.error('Error in protect middleware:', err);
-		res.status(500).json({
-			status: 'error',
-			message: 'Internal server error',
-		});
-	}
+exports.logout = async (req, res, next) => {
+	res.cookie('jwt', '', {
+		httpOnly: true,
+	});
+	res.status(200).send('User is logout');
 };
 
-exports.isLoggedIn = async (req, res, next) => {
+exports.protect = async (req, res, next) => {
 	try {
 		const token = req.cookies.jwt;
 		if (!token) {
