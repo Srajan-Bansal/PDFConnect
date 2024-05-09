@@ -31,12 +31,7 @@ exports.signup = async (req, res, next) => {
 
 		const { password: userPassword, ...userData } = newUser.toObject();
 
-		res.status(200).json({
-			status: 'success',
-			data: {
-				userData,
-			},
-		});
+		res.status(200).json(userData);
 	} catch (err) {
 		res.status(404).json({
 			status: 'failed',
@@ -64,12 +59,7 @@ exports.login = async (req, res, next) => {
 
 	const { password: userPassword, ...userData } = user.toObject();
 
-	res.status(200).json({
-		status: 'success',
-		data: {
-			userData,
-		},
-	});
+	res.status(200).json(userData);
 };
 
 exports.logout = async (req, res, next) => {

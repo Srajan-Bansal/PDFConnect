@@ -27,10 +27,9 @@ const useLogin = () => {
 
 			localStorage.setItem('user-info', JSON.stringify(response.data));
 			setAuthUser(response.data);
-			console.log(response.data);
 		} catch (error) {
-			toast.error(error.message);
-			console.error('Error Loging in:', error);
+			toast.error(error.response.data.error);
+			console.error('Error Loging in:', error.response.data.error);
 		}
 	};
 

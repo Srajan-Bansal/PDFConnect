@@ -28,17 +28,9 @@ exports.uploadPhoto = async (req, res, next) => {
 			runValidators: true,
 		});
 
-		res.status(200).json({
-			status: 'success',
-			data: {
-				user,
-			},
-		});
+		res.status(200).json(user);
 	} catch (err) {
-		res.status(400).json({
-			status: 'failed',
-			error: err.message,
-		});
+		res.status(400).json(err.message);
 	}
 };
 
@@ -68,17 +60,9 @@ exports.uploadPDF = async (req, res) => {
 			runValidators: true,
 		});
 
-		res.status(200).json({
-			status: 'success',
-			data: {
-				user,
-			},
-		});
+		res.status(200).json(user);
 	} catch (err) {
-		res.status(400).json({
-			status: 'failed',
-			error: err.message,
-		});
+		res.status(400).json(err.message);
 	}
 };
 
@@ -107,16 +91,8 @@ exports.getTextFromPDF = async (req, res, next) => {
 		// const filePath = path.join(__dirname, '../uploads/pdf', 'JAVA.pdf');
 		const docs = await pdfReader(user.pdf);
 
-		res.status(200).json({
-			status: 'success convert text from pdf',
-			data: {
-				docs,
-			},
-		});
+		res.status(200).json(docs);
 	} catch (err) {
-		res.status(400).json({
-			status: 'could not convert data',
-			error: err.message,
-		});
+		res.status(400).json(err.message);
 	}
 };

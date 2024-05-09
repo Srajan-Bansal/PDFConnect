@@ -11,17 +11,11 @@ exports.getAllUsers = async (req, res, next) => {
 		const users = await User.find({});
 
 		res.status(200).json({
-			status: 'success',
 			result: users.length,
-			data: {
-				users,
-			},
+			users,
 		});
 	} catch {
-		res.status(404).json({
-			status: 'failed',
-			message: err.message,
-		});
+		res.status(404).json(err.message);
 	}
 };
 
@@ -29,14 +23,8 @@ exports.deleteAllUsers = async (req, res, next) => {
 	try {
 		await User.deleteMany({});
 
-		res.status(200).json({
-			status: 'success',
-			message: 'All users are deleted',
-		});
+		res.status(200).send('All users are deleted');
 	} catch (err) {
-		res.status(404).json({
-			status: 'failed',
-			message: err.message,
-		});
+		res.status(404).json(err.message);
 	}
 };
