@@ -1,12 +1,21 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAuthContext } from '../context/AuthContext';
+import useLogout from '../hooks/useLogout';
+
 import './NavBar.css';
 import { CodeIcon, HamburgetMenuClose, HamburgetMenuOpen } from './Iconss';
 
 export default function NavBar() {
     const [click, setClick] = useState(false);
+    const { authUser } = useAuthContext();
+    const { logout } = useLogout();
 
     const handleClick = () => setClick(!click);
+
+    async function handleLogout() {
+        await logout();
+    }
 
     return (
         <>
@@ -36,27 +45,46 @@ export default function NavBar() {
                             </NavLink>
                         </li>
 
-                        <li className='nav-item'>
-                            <NavLink
-                                exact="true"
-                                to='/login'
-                                className='nav-links'
-                                onClick={handleClick}
-                            >
-                                Log in
-                            </NavLink>
-                        </li>
+                        {
+                            authUser ? (
+                                <li className='nav-item'>
+                                    <NavLink
+                                        exact="true"
+                                        to='/'
+                                        className='nav-links'
+                                        onClick={handleLogout}
+                                    >
+                                        Log out
+                                    </NavLink>
+                                </li>
+                            ) : (
+                                <>
+                                    <li className='nav-item'>
+                                        <NavLink
+                                            exact="true"
+                                            to='/login'
+                                            className='nav-links'
+                                            onClick={handleClick}
+                                        >
+                                            Log in
+                                        </NavLink>
+                                    </li>
 
-                        <li className='nav-item'>
-                            <NavLink
-                                exact="true"
-                                to='/signup'
-                                className='nav-links'
-                                onClick={handleClick}
-                            >
-                                Sign up
-                            </NavLink>
-                        </li>
+                                    <li className='nav-item'>
+                                        <NavLink
+                                            exact="true"
+                                            to='/signup'
+                                            className='nav-links'
+                                            onClick={handleClick}
+                                        >
+                                            Sign up
+                                        </NavLink>
+                                    </li>
+                                </>
+                            )
+                        }
+
+
                     </ul>
 
                     {/* For Mobile */}

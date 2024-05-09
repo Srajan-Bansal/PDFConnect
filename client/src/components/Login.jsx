@@ -1,9 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from 'react'
-import { NavLink, useNavigate } from "react-router-dom"
-import axios from 'axios';
-import config from '../config';
-import { toast } from 'react-toastify';
+import { NavLink } from "react-router-dom"
+import useLogin from '../hooks/useLogin';
+
 import "./mix.css"
 
 export default function Login() {
@@ -11,34 +10,12 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [showPass, setShowPass] = useState(false);
 
-    const navigate = useNavigate();
+    const { login } = useLogin();
 
     async function handleSubmit(e) {
         e.preventDefault();
 
-        console.log(email, password);
-
-        if (!email || !password) {
-            toast.error('Fill form');
-        }
-        const formData = { email, password };
-
-        await axios
-            .post(`${config.userAPI}/login`, formData, {
-                withCredentials: true
-            })
-            .then((data) => {
-                navigate('/');
-                console.log(data)
-            })
-            .catch((err) => {
-                console.log(err);
-                toast.error(err.response.data.error)
-                console.log('Error signing in ', err.response.data)
-            })
-
-        // setEmail("");
-        // setPassword("");
+        await login({ email, password });
     }
 
     return (

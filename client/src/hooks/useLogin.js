@@ -1,0 +1,40 @@
+import axios from 'axios';
+import config from '../config';
+import { useAuthContext } from '../context/AuthContext';
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const useLogin = () => {
+	const { setAuthUser } = useAuthContext();
+	const login = async ({ email, password }) => {
+		try {
+			if (!email || !password) {
+				throw new Error('Please fill all fields');
+			}
+
+			const formData = { email, password };
+
+			const response = await axios.post(
+				`${config.userAPI}/login`,
+				formData,
+				{
+					withCredentials: true,
+				}
+			);
+
+			if (response.error) throw new Error(response.error);
+
+			localStorage.setItem('user-info', JSON.stringify(response.data));
+			setAuthUser(response.data);
+			console.log(response.data);
+		} catch (error) {
+			toast.error(error.message);
+			console.error('Error Loging in:', error);
+		}
+	};
+
+	return { login };
+};
+
+export default useLogin;

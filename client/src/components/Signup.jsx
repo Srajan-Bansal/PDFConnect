@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import config from '../config';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { NavLink } from 'react-router-dom';
+import useSignup from '../hooks/useSignup';
+
 import './mix.css';
 
 export default function Signup() {
@@ -15,40 +13,12 @@ export default function Signup() {
     const [showPass, setShowPass] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const navigate = useNavigate();
+    const { signup } = useSignup();
 
     async function handleOnSubmit(e) {
         e.preventDefault();
 
-        // console.log(name, email, password, confirmPassword);
-        const formData = {
-            name,
-            email,
-            password,
-            passwordConfirm,
-        };
-
-        if (!name || !email || !password || !passwordConfirm) {
-            toast.error('Fill form');
-        }
-
-        await axios
-            .post(`${config.userAPI}/signup`, formData, {
-                withCredentials: true
-            })
-            .then((data) => {
-                navigate('/');
-                console.log(data)
-            })
-            .catch((err) => {
-                toast.error(err.response.data.message)
-                console.log('Error signing in ', err.response.data)
-            })
-
-        // setName("");
-        // setEmail("");
-        // setPassword("");
-        // setConfirmPassword("");
+        await signup({ name, email, password, passwordConfirm });
     }
 
     return (
