@@ -4,8 +4,9 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
-const viewRoutes = require('./routes/viewRoutes');
+const pdfRoutes = require('./routes/pdfRoutes');
 const userRoutes = require('./routes/userRoutes');
+const teamRoutes = require('./routes/teamRoutes');
 
 const app = express();
 
@@ -13,15 +14,15 @@ const app = express();
 if (process.env.ENVIROMENT === 'development') {
 	app.use(morgan('dev'));
 }
-app.use(cookieParser());
 app.use(
 	cors({
 		credentials: true,
 		origin: 'http://localhost:5173',
 	})
 );
-app.options('*', cors());
+// app.options('*', cors());
 
+app.use(cookieParser());
 app.use(express.json());
 // app.use(express.static(path.join(__dirname, 'public')));
 
@@ -32,7 +33,8 @@ app.use((req, res, next) => {
 
 // ROUTES
 app.use('/api/v1/user', userRoutes);
-app.use('/', viewRoutes);
+app.use('/', pdfRoutes);
+app.use('/team', teamRoutes);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {

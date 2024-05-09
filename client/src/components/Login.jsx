@@ -32,6 +32,7 @@ export default function Login() {
                 console.log(data)
             })
             .catch((err) => {
+                console.log(err);
                 toast.error(err.response.data.error)
                 console.log('Error signing in ', err.response.data)
             })

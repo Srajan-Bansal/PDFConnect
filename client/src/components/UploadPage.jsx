@@ -35,7 +35,7 @@ export default function UploadPage() {
             const formData = new FormData();
             formData.append('pdf', selectedFile);
 
-            await axios.post(`${config.viewAPI}uploadFiles`, formData, { withCredentials: true });
+            await axios.post(`${config.viewAPI}uploadPDF`, formData, { withCredentials: true });
             console.log('PDF uploaded successfully');
             toast.success('PDF uploaded successfully');
         } catch (error) {

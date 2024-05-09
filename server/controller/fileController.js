@@ -1,9 +1,8 @@
 const { PDFLoader } = require('langchain/document_loaders/fs/pdf');
 const User = require('./../models/userModel');
-const path = require('path');
 const fs = require('fs');
 
-exports.uploadFiles = async (req, res, next) => {
+exports.uploadPhoto = async (req, res, next) => {
 	try {
 		const updateData = { ...req.body };
 
@@ -23,6 +22,29 @@ exports.uploadFiles = async (req, res, next) => {
 			}
 			updateData.photo = req.files['photo'][0].path;
 		}
+
+		const user = await User.findByIdAndUpdate(req.user._id, updateData, {
+			new: true,
+			runValidators: true,
+		});
+
+		res.status(200).json({
+			status: 'success',
+			data: {
+				user,
+			},
+		});
+	} catch (err) {
+		res.status(400).json({
+			status: 'failed',
+			error: err.message,
+		});
+	}
+};
+
+exports.uploadPDF = async (req, res) => {
+	try {
+		const updateData = { ...req.body };
 
 		if (req.files && req.files['pdf']) {
 			const getUserPdf = await User.findById(req.user._id);
