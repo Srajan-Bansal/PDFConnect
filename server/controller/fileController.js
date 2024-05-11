@@ -88,7 +88,6 @@ exports.getTextFromPDF = async (req, res, next) => {
 				status: 'No pdf found',
 			});
 		}
-		// const filePath = path.join(__dirname, '../uploads/pdf', 'JAVA.pdf');
 		const docs = await pdfReader(user.pdf);
 
 		res.status(200).json(docs);

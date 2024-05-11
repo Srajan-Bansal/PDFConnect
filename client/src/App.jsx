@@ -4,12 +4,10 @@ import Layout from './Layout';
 import Signup from "./components/Signup";
 import UploadPage from './components/UploadPage';
 import Login from "./components/Login";
-import { useAuthContext } from './context/AuthContext';
-
-import './App.css';
+import { useContextAPI } from './context/ContextAPI';
 
 const App = () => {
-  const { authUser } = useAuthContext();
+  const { authUser } = useContextAPI();
 
   const router = createBrowserRouter(
     createRoutesFromElements(

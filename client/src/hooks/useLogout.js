@@ -1,12 +1,12 @@
 import axios from 'axios';
 import config from '../config';
-import { useAuthContext } from '../context/AuthContext';
+import { useContextAPI } from '../context/ContextAPI';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const useLogout = () => {
-	const { setAuthUser } = useAuthContext();
+	const { setAuthUser } = useContextAPI();
 
 	const logout = async () => {
 		try {

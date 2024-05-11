@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useAuthContext } from '../context/AuthContext';
+import { useContextAPI } from '../context/ContextAPI';
 import useLogout from '../hooks/useLogout';
 
 import './NavBar.css';
@@ -8,7 +8,7 @@ import { CodeIcon, HamburgetMenuClose, HamburgetMenuOpen } from './Iconss';
 
 export default function NavBar() {
     const [click, setClick] = useState(false);
-    const { authUser } = useAuthContext();
+    const { authUser } = useContextAPI();
     const { logout } = useLogout();
 
     const handleClick = () => setClick(!click);
