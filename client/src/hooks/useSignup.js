@@ -33,13 +33,14 @@ const useSignup = () => {
 			setAuthUser(response.data);
 			console.log(response.data);
 		} catch (err) {
+			console.log(email);
 			if (
 				err.response?.data.message ==
-				'E11000 duplicate key error collection: Extraction.users index: email_1 dup key: { email: "srajan.bansal_cs21@gla.ac.in" }'
+				`E11000 duplicate key error collection: Extraction.users index: email_1 dup key: { email: "${email}" }`
 			)
-				toast.error('Email aldready exist');
+				return toast.error('Email aldready exist');
 			toast.error(err.message);
-			console.log('Error signing in ', err.message);
+			console.log('Error signing in ', err);
 		}
 	};
 
