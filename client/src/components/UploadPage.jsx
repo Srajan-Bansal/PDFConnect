@@ -26,6 +26,7 @@ export default function UploadPage() {
         try {
             const response = await axios.get(`${config.viewAPI}/getTextFromPDF`, { withCredentials: true });
             const extractedData = response.data[0].pageContent;
+            setData(extractedData);
             setExtractedText(extractedData);
             toast.success('Data extracted successfully');
         } catch (error) {

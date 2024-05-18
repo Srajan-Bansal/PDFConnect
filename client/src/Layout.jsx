@@ -1,5 +1,7 @@
 import { Outlet } from 'react-router-dom';
-import TinyMCE from './TinyMCE/TinyMCE';
+// import TinyMCE from './TinyMCE/TinyMCE';
+// import JoditRTC from './Jodit/JoditRTC';
+// import QuillRTC from './Quill/QuillRTC';
 
 import useDownloadPdf from './hooks/useDownloadPdf';
 
@@ -13,7 +15,9 @@ export default function Layout() {
     return (
         <>
             <NavBar />
-            <TinyMCE />
+            {/* <QuillRTC /> */}
+            {/* <TinyMCE /> */}
+            {/* <JoditRTC /> */}
             <button onClick={handleDownload}>Download pdf</button>
             <Outlet />
             <ToastContainer />

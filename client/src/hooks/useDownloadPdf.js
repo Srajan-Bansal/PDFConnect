@@ -3,24 +3,19 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 
 import { useContextAPI } from '../context/ContextAPI';
 
-const useDownloadPdf = () => {
-	pdfMake.vfs = pdfFonts.pdfMake.vfs;
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
+const useDownloadPdf = () => {
 	const { data } = useContextAPI();
 
 	const handleDownload = () => {
-		// Create a new PDF document
+		const text = data.substring(3, data.length - 5);
 		const docDefinition = {
-			content: [
-				// { text: 'Hello, world!', fontSize: 16, bold: true },
-				{ text: data, fontSize: 12, margin: [0, 10, 0, 0] },
-			],
+			content: [{ text: text, fontSize: 12, margin: [0, 10, 0, 0] }],
 		};
 
-		// Generate the PDF document
 		const pdfDocGenerator = pdfMake.createPdf(docDefinition);
 
-		// Download the PDF document
 		pdfDocGenerator.download('example.pdf');
 	};
 

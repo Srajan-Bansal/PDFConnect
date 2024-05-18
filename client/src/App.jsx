@@ -1,10 +1,12 @@
 import { Navigate, Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 
+import { useContextAPI } from './context/ContextAPI';
+
+import QuillRTC from './Quill/QuillRTC';
 import Layout from './Layout';
 import Signup from "./components/Signup";
 import UploadPage from './components/UploadPage';
 import Login from "./components/Login";
-import { useContextAPI } from './context/ContextAPI';
 
 const App = () => {
   const { authUser } = useContextAPI();
@@ -13,6 +15,7 @@ const App = () => {
     createRoutesFromElements(
       <Route path='/' element={<Layout />}>
         <Route index element={<UploadPage />} />
+        <Route path='docs' element={<QuillRTC />} />
         <Route path='/login' element={authUser ? <Navigate to='/' /> : <Login />} />
         <Route
           path='/signup'

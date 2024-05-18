@@ -1,18 +1,24 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { useContextAPI } from '../context/ContextAPI';
 
 export default function TinyMCE() {
     const editorRef = useRef(null);
-    const { data } = useContextAPI();
+    const { data, setData } = useContextAPI();
 
     const log = () => {
         if (editorRef.current) {
-            console.log(editorRef.current.getContent());
+            setData(editorRef.current.getContent());
         }
     };
 
-    console.log(data);
+    // useEffect(() => {
+    //     if (editorRef.current) {
+    //         console.log(editorRef.current.getContent());
+    //         setData(editorRef.current.getContent());
+    //     }
+    // }, [setData, editorRef])
+
     const formattedText = data?.replace(/\n/g, '<br>');
     const myAPI = 'hu2j20vdvbbhn968azqbo2j1ua34ru1b17c4l8uy78j34k80';
 
