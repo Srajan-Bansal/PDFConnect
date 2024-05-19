@@ -22,18 +22,6 @@ export default function UploadPage() {
 
     const navigate = useNavigate();
 
-    async function handleGetPDFData() {
-        try {
-            const response = await axios.get(`${config.viewAPI}/getTextFromPDF`, { withCredentials: true });
-            const extractedData = response.data[0].pageContent;
-            setData(extractedData);
-            setExtractedText(extractedData);
-            toast.success('Data extracted successfully');
-        } catch (error) {
-            handleAxiosError(error);
-        }
-    }
-
     async function handleUpload() {
         try {
             if (!selectedFile) {
@@ -44,9 +32,11 @@ export default function UploadPage() {
             const formData = new FormData();
             formData.append('pdf', selectedFile);
 
-            await axios.post(`${config.viewAPI}/uploadPDF`, formData, { withCredentials: true });
-            console.log('PDF uploaded successfully');
-            toast.success('PDF uploaded successfully');
+            const response = await axios.post(`${config.viewAPI}/getDataFromPDF`, formData, { withCredentials: true });
+            const extractedData = response.data[0].pageContent;
+            setData(extractedData);
+            setExtractedText(extractedData);
+            toast.success('Data extracted successfully');
         } catch (error) {
             handleAxiosError(error);
         }
@@ -54,17 +44,17 @@ export default function UploadPage() {
 
     function handleAxiosError(error) {
         if (error.response) {
-            if (error.response.data.error === 'You are not logged in! Please log in') {
+            if (error.response.status === 429) {
+                toast.error('Too many requests, please try again later.');
+            } else if (error.response.data.error === 'You are not logged in! Please log in') {
                 navigate('/login');
+            } else {
+                toast.error(error.response.data.error || 'An error occurred');
             }
-            toast.error(error.response.data.error);
-            console.log('Error response:', error.response.data);
         } else if (error.request) {
-            toast.error('No response from server');
-            console.log('No response from server');
+            toast.error('Network error: Unable to connect to the server');
         } else {
             toast.error('An error occurred');
-            console.log('Error:', error.message);
         }
     }
 
@@ -87,12 +77,11 @@ export default function UploadPage() {
     return (
         <div className="container">
             <label htmlFor="inpFile" className="file-label">Choose File</label>
-            <input className='inp-btn' type="file" id="inpFile" onChange={handleFileChange} />
+            <input className='inp-btn' type="file" id="inpFile" accept="application/pdf" onChange={handleFileChange} />
             {selectedFile && (
                 <p className="file-info">Selected File: {selectedFile.name}</p>
             )}
-            <button type='button' className="extract-btn" onClick={handleUpload}>Upload Pdf</button>
-            <button type='button' className="extract-btn" onClick={handleGetPDFData}>Extract data</button>
+            <button type='button' className="extract-btn" onClick={handleUpload}>Extract Pdf</button>
             <textarea
                 className="result-text"
                 id="resultText"
