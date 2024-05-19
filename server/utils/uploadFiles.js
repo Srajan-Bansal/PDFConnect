@@ -4,9 +4,9 @@ const path = require('path');
 const multerStorage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		if (file.mimetype.startsWith('image')) {
-			cb(null, path.join(__dirname, '../uploads/img'));
+			cb(null, path.join(__dirname, '../public/img'));
 		} else if (file.mimetype === 'application/pdf') {
-			cb(null, path.join(__dirname, '../uploads/pdf'));
+			cb(null, path.join(__dirname, '../public/pdf'));
 		} else {
 			cb(new Error('Unsupported file type'));
 		}

@@ -3,10 +3,10 @@ const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
+const { RateLimiterMemory } = require('rate-limiter-flexible');
 
 const pdfRoutes = require('./routes/pdfRoutes');
 const userRoutes = require('./routes/userRoutes');
-const teamRoutes = require('./routes/teamRoutes');
 
 const app = express();
 
@@ -14,31 +14,44 @@ const app = express();
 if (process.env.ENVIROMENT === 'development') {
 	app.use(morgan('dev'));
 }
+
 app.use(
 	cors({
 		credentials: true,
-		origin: 'http://localhost:5173',
+		origin: process.env.CLIENT_URL,
 	})
 );
-// app.options('*', cors());
 
 app.use(cookieParser());
 app.use(express.json());
-// app.use(express.static(path.join(__dirname, 'public')));
 
-app.use((req, res, next) => {
-	// console.log(req.cookies);
-	next();
+const rateLimiter = new RateLimiterMemory({
+	points: 2, // 2 requests
+	duration: 10, // per 10 seconds
 });
+
+const rateLimiterMiddleware = (req, res, next) => {
+	rateLimiter
+		.consume(req.ip)
+		.then(() => {
+			next();
+		})
+		.catch(() => {
+			res.status(429).send(
+				'Too many requests, please try again after 10 seconds.'
+			);
+		});
+};
+app.use('/getDataFromPDF', rateLimiterMiddleware);
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // ROUTES
 app.use('/api/v1/user', userRoutes);
 app.use('/', pdfRoutes);
-app.use('/team', teamRoutes);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
-	console.error(err.stack);
 	res.status(500).json({
 		status: 'error',
 		message: 'Internal Server Error',

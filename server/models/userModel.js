@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-const Team = require('./teamModel');
 
 const UserSchema = new mongoose.Schema(
 	{
@@ -12,7 +11,7 @@ const UserSchema = new mongoose.Schema(
 		email: {
 			type: String,
 			required: [true, 'Please tell us your email'],
-			unique: false,
+			unique: true,
 			lowercase: true,
 			validate: [validator.isEmail, 'Please provide a valid email'],
 		},
@@ -33,10 +32,6 @@ const UserSchema = new mongoose.Schema(
 					return el === this.password;
 				},
 			},
-		},
-		team: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Team',
 		},
 	},
 	{ timestamps: true }

@@ -45,6 +45,17 @@ export default function NavBar() {
                             </NavLink>
                         </li>
 
+                        <li className='nav-item'>
+                            <NavLink
+                                exact="true"
+                                to={authUser ? '/docs' : '/login'
+                                }
+                                className='nav-links'
+                            >
+                                Docs
+                            </NavLink>
+                        </li>
+
                         {
                             authUser ? (
                                 <li className='nav-item'>
