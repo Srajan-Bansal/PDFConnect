@@ -26,8 +26,8 @@ app.use(cookieParser());
 app.use(express.json());
 
 const rateLimiter = new RateLimiterMemory({
-	points: 2, // 2 requests
-	duration: 10, // per 10 seconds
+	points: process.env.EXTRACT_API_THROTTLING_LIMIT, // 2 requests
+	duration: process.env.EXTRACT_API_THROTTLING_DURATION, // per 10 seconds
 });
 
 const rateLimiterMiddleware = (req, res, next) => {
