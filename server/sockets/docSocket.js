@@ -1,5 +1,5 @@
 const { RateLimiterMemory } = require('rate-limiter-flexible');
-const Doc = require('./../models/docsModel');
+const Doc = require('../models/docsModel');
 
 const findOrCreateDocument = async (id) => {
 	try {
@@ -17,15 +17,15 @@ const findOrCreateDocument = async (id) => {
 };
 
 const rateLimiter = new RateLimiterMemory({
-	points: 1, // 5 points
-	duration: 10, // per second
+	points: process.env.SOCKET_RATE_LIMITER,
+	duration: process.env.SOCKET_RATE_LIMITER_DURATION,
 });
 
 module.exports = (io) => {
 	io.on('connection', async (socket) => {
 		try {
 			await rateLimiter.consume(socket.handshake.address);
-			console.log('Socket connected');
+			console.log('Socket connected', socket.id);
 
 			socket.on('get-document', async (documentID) => {
 				const document = await findOrCreateDocument(documentID);
@@ -43,7 +43,7 @@ module.exports = (io) => {
 				});
 			});
 		} catch (error) {
-			console.log('Error loading document: ', error.message);
+			console.log('Error loading document: ', error);
 		}
 	});
 };

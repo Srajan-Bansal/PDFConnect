@@ -1,10 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { useContextAPI } from '../context/ContextAPI';
 import { io } from 'socket.io-client';
 import useDownloadPdf from './../hooks/useDownloadPdf';
 import config from '../config';
-
 import Quill from 'quill';
 import "quill/dist/quill.snow.css";
 
@@ -30,12 +28,21 @@ const QuillRTC = () => {
   const [socket, setSocket] = useState(null);
   const [quill, setQuill] = useState(null);
   const { id: documentID } = useParams();
-  const { data, setData } = useContextAPI();
-  const editorRef = useRef(null);
+
+  const wrapperRef = useCallback(wrapper => {
+    if (wrapper == null) return;
+
+    wrapper.innerHTML = '';
+    const editor = document.createElement("div");
+    wrapper.append(editor);
+    const q = new Quill(editor, { theme: "snow", modules: { toolbar: toolbarOptions } });
+    setQuill(q);
+  }, []);
 
   useEffect(() => {
-    const s = io(config.viewAPI);
+    const s = io(`${config.viewAPI}/document`);
     setSocket(s);
+
     return () => {
       s.disconnect();
     };
@@ -46,10 +53,17 @@ const QuillRTC = () => {
 
     socket.once("load-document", document => {
       quill.setContents(document);
-      // quill.enable();
+      quill.enable();
     });
 
     socket.emit("get-document", documentID);
+
+    return () => {
+      if (quill) {
+        quill.disable();
+        quill.setText('Loading');
+      }
+    };
   }, [socket, quill, documentID]);
 
   useEffect(() => {
@@ -64,7 +78,6 @@ const QuillRTC = () => {
     };
   }, [socket, quill]);
 
-  // send changes
   useEffect(() => {
     if (socket == null || quill == null) return;
 
@@ -80,7 +93,6 @@ const QuillRTC = () => {
     };
   }, [socket, quill]);
 
-  // receive changes
   useEffect(() => {
     if (socket == null || quill == null) return;
 
@@ -95,36 +107,24 @@ const QuillRTC = () => {
     };
   }, [socket, quill]);
 
-  useEffect(() => {
-    const q = new Quill(editorRef.current, {
-      theme: 'snow',
-      modules: {
-        toolbar: toolbarOptions
-      }
-    });
-    // q.disable();
-    q.setText('Loading');
-    setQuill(q);
-  }, [setQuill]);
-
-  useEffect(() => {
-    if (quill && data !== quill.root.innerHTML) {
-      quill.root.innerHTML = data;
-    }
-  }, [data, quill]);
+  // useEffect(() => {
+  //   if (quill && data !== quill.root.innerHTML) {
+  //     quill.root.innerHTML = data;
+  //   }
+  // }, [data, quill]);
 
   const { handleDownload } = useDownloadPdf();
 
   async function populateData() {
-    await setData(quill.root.innerHTML);
-    handleDownload();
+    // await setData(quill.root.innerHTML);
+    // handleDownload();
   }
 
   return (
     <>
       <button onClick={populateData}>populate pdf</button>
       <button onClick={handleDownload}>Download</button>
-      <div ref={editorRef} style={{ height: '800px', background: 'white' }}></div>
+      <div className="container" style={{ height: '800px', width: '800px' }} ref={wrapperRef}></div>
     </>
   );
 }

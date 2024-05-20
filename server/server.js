@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const http = require('http');
 const { Server } = require('socket.io');
 const dotenv = require('dotenv');
+const protect = require('./Middleware/protect');
 
 dotenv.config({ path: './config.env' });
 const app = require('./app');
@@ -14,7 +15,9 @@ const io = new Server(httpServer, {
 	},
 });
 
-require('./sockets/document')(io);
+app.use(protect);
+const docIO = io.of('/document');
+require('./sockets/docSocket')(docIO);
 
 const APP_PORT = process.env.APP_PORT || 3000;
 httpServer.listen(APP_PORT, () => {

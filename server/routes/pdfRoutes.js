@@ -1,12 +1,12 @@
 const express = require('express');
-const authController = require('./../controller/authController');
 const fileController = require('./../controller/fileController');
 
+const protect = require('./../Middleware/protect');
 const uploadFilesMiddleware = require('../utils/uploadFiles');
 
 const router = express.Router();
 
-router.use(authController.protect);
+router.use(protect);
 
 router.post('/uploadPhoto', uploadFilesMiddleware, fileController.uploadPhoto);
 router.post('/getDataFromPDF', uploadFilesMiddleware, fileController.uploadPDF);
