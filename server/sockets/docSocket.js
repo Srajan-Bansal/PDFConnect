@@ -39,7 +39,10 @@ module.exports = (io) => {
 				});
 
 				socket.on('save-document', async (data) => {
-					await Doc.findByIdAndUpdate(documentID, { data });
+					await Doc.findByIdAndUpdate(documentID, {
+						data,
+						createdAt: new Date(),
+					});
 				});
 			});
 		} catch (error) {

@@ -8,5 +8,8 @@ const docSchema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
+// TTL - Time to Live
+docSchema.index({ createdAt: 1 }, { expireAfterSeconds: 86400 });
+
 const Doc = mongoose.model('Doc', docSchema);
 module.exports = Doc;

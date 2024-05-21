@@ -1,6 +1,7 @@
 const express = require('express');
 const userController = require('./../controller/userController');
 const authController = require('./../controller/authController');
+const Doc = require('./../models/docsModel');
 const protect = require('./../Middleware/protect');
 
 const router = express.Router();
@@ -15,5 +16,14 @@ router
 	.route('/')
 	.get(userController.getAllUsers)
 	.delete(userController.deleteAllUsers);
+
+router.route('/messages').delete(async (req, res, next) => {
+	try {
+		await Doc.deleteMany({});
+		res.send('deleted messages all');
+	} catch (err) {
+		res.send(`Error deleting messages`);
+	}
+});
 
 module.exports = router;
