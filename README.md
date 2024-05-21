@@ -23,13 +23,6 @@ npn install
 ```
 
 `cd server`
-
-create directory 
-```
-upload
-  |-- img
-  |-- pdf
-```
 ```sh
 npn install
 ```
