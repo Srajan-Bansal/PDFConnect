@@ -40,7 +40,7 @@ const QuillRTC = () => {
   const { id: documentID } = useParams();
   const [selectedFile, setSelectedFile] = useState(null);
   const navigate = useNavigate();
-  const { setData } = useContextAPI();
+  const { data, setData } = useContextAPI();
   const { handleDownload } = useDownloadPdf();
 
   // Initlizing Edior
@@ -127,6 +127,12 @@ const QuillRTC = () => {
     };
   }, [socket, quill]);
 
+  // Updating the quill data if data changes
+  useEffect(() => {
+    if (quill && data !== quill.root.innerHTML) {
+      quill.setText(data);
+    }
+  }, [quill, data]);
 
   // PDF Handle LOgic
   async function handleUpload() {

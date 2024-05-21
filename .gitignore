@@ -1,5 +1,5 @@
 node_modules
 package-lock.json
 config.env
-public/img/*
-public/pdf/*
+server/public/img/*
+server/public/pdf/*
