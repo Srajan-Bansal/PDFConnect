@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const { promisify } = require('util');
 const User = require('./../models/userModel');
 
 const generateToken = (id) => {
@@ -68,32 +67,4 @@ exports.logout = async (req, res, next) => {
 		httpOnly: true,
 	});
 	res.status(200).send('User is logout');
-};
-
-exports.protect = async (req, res, next) => {
-	try {
-		const token = req.cookies.jwt;
-		if (!token) {
-			throw new Error('You are not logged in! Please log in');
-		}
-
-		const decoded = await promisify(jwt.verify)(
-			token,
-			process.env.JWT_SECRET
-		);
-
-		const currentUser = await User.findById(decoded.id);
-		if (!currentUser) {
-			throw new Error('User does not exist');
-		}
-
-		req.user = currentUser;
-		next();
-	} catch (err) {
-		console.error(err.message);
-		return res.status(401).json({
-			status: 'failed',
-			error: err.message,
-		});
-	}
 };

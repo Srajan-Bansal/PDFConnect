@@ -1,12 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { useContextAPI } from '../context/ContextAPI';
 import { io } from 'socket.io-client';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
+
 import useDownloadPdf from './../hooks/useDownloadPdf';
+import { useContextAPI } from '../context/ContextAPI';
+
 import config from '../config';
 
 import Quill from 'quill';
 import "quill/dist/quill.snow.css";
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './../components/UploadPage.css'
 
 const SAVE_INTERVAL_MS = 2000;
 const toolbarOptions = [
@@ -30,28 +38,52 @@ const QuillRTC = () => {
   const [socket, setSocket] = useState(null);
   const [quill, setQuill] = useState(null);
   const { id: documentID } = useParams();
-  const { data, setData } = useContextAPI();
-  const editorRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const navigate = useNavigate();
+  const { setData } = useContextAPI();
+  const { handleDownload } = useDownloadPdf();
 
+  // Initlizing Edior
+  const wrapperRef = useCallback(wrapper => {
+    if (wrapper == null) return;
+
+    wrapper.innerHTML = '';
+    const editor = document.createElement("div");
+    wrapper.append(editor);
+    const q = new Quill(editor, { theme: "snow", modules: { toolbar: toolbarOptions } });
+    setQuill(q);
+  }, []);
+
+  // SOCKET config
   useEffect(() => {
-    const s = io(config.viewAPI);
+    const s = io(`${config.viewAPI}/document`);
     setSocket(s);
+
     return () => {
       s.disconnect();
     };
   }, []);
 
+  // Loading Document
   useEffect(() => {
     if (socket == null || quill == null) return;
 
     socket.once("load-document", document => {
       quill.setContents(document);
-      // quill.enable();
+      quill.enable();
     });
 
     socket.emit("get-document", documentID);
+
+    return () => {
+      if (quill) {
+        quill.disable();
+        quill.setText('Loading');
+      }
+    };
   }, [socket, quill, documentID]);
 
+  // Saving Document
   useEffect(() => {
     if (socket == null || quill == null) return;
 
@@ -64,7 +96,7 @@ const QuillRTC = () => {
     };
   }, [socket, quill]);
 
-  // send changes
+  // Sending text-changes
   useEffect(() => {
     if (socket == null || quill == null) return;
 
@@ -80,7 +112,7 @@ const QuillRTC = () => {
     };
   }, [socket, quill]);
 
-  // receive changes
+  // recieving text-changes
   useEffect(() => {
     if (socket == null || quill == null) return;
 
@@ -95,36 +127,70 @@ const QuillRTC = () => {
     };
   }, [socket, quill]);
 
-  useEffect(() => {
-    const q = new Quill(editorRef.current, {
-      theme: 'snow',
-      modules: {
-        toolbar: toolbarOptions
+
+  // PDF Handle LOgic
+  async function handleUpload() {
+    try {
+      if (!selectedFile) {
+        toast.error('Please select a PDF file to upload.');
+        return;
       }
-    });
-    // q.disable();
-    q.setText('Loading');
-    setQuill(q);
-  }, [setQuill]);
 
-  useEffect(() => {
-    if (quill && data !== quill.root.innerHTML) {
-      quill.root.innerHTML = data;
+      const formData = new FormData();
+      formData.append('pdf', selectedFile);
+
+      const response = await axios.post(`${config.viewAPI}/getDataFromPDF`, formData, { withCredentials: true });
+      const extractedData = response.data[0].pageContent;
+      setData(extractedData);
+      toast.success('Data extracted successfully');
+    } catch (error) {
+      handleAxiosError(error);
     }
-  }, [data, quill]);
+  }
 
-  const { handleDownload } = useDownloadPdf();
+  function handleAxiosError(error) {
+    if (error.response) {
+      if (error.response.status === 429) {
+        toast.error('Too many requests, please try again later.');
+      } else if (error.response.data.error === 'You are not logged in! Please log in') {
+        navigate('/login');
+      } else {
+        toast.error(error.response.data.error || 'An error occurred');
+      }
+    } else if (error.request) {
+      toast.error('Network error: Unable to connect to the server');
+    } else {
+      toast.error('An error occurred');
+    }
+  }
 
-  async function populateData() {
-    await setData(quill.root.innerHTML);
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedFile(file);
+  };
+
+  const handleDownlaodPDF = () => {
+    setData(quill.getText());
+    toast.info('If might some time to update. If Downlaoded PDF content is missing, RETRY!', {
+      autoClose: 7000
+    });
     handleDownload();
   }
 
   return (
     <>
-      <button onClick={populateData}>populate pdf</button>
-      <button onClick={handleDownload}>Download</button>
-      <div ref={editorRef} style={{ height: '800px', background: 'white' }}></div>
+      <label htmlFor="inpFile" className="file-label">Choose File</label>
+      <input className='inp-btn' type="file" id="inpFile" accept="application/pdf" onChange={handleFileChange} />
+      {selectedFile && (
+        <p className="file-info">Selected File: {selectedFile.name}</p>
+      )}
+      <button type='button' className="extract-btn" onClick={handleUpload}>Extract Pdf</button>
+
+      <button type='button' className="extract-btn" onClick={handleDownlaodPDF}>Download Pdf</button>
+
+      <div className="container" style={{ height: '800px', width: '800px' }} ref={wrapperRef}>
+
+      </div>
     </>
   );
 }
