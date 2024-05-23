@@ -18,7 +18,7 @@ if (process.env.ENVIROMENT === 'development') {
 app.use(
 	cors({
 		credentials: true,
-		origin: process.env.CLIENT_URL_MOBILE,
+		origin: process.env.CLIENT_URL,
 	})
 );
 
