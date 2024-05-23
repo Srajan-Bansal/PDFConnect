@@ -5,8 +5,9 @@ export const ContextAPI = createContext();
 export function ContextAPIProvider({ children }) {
     const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('user-info')) || null);
     const [data, setData] = useState('');
+    const [quill, setQuill] = useState(null);
 
-    return <ContextAPI.Provider value={{ authUser, setAuthUser, data, setData }}>
+    return <ContextAPI.Provider value={{ authUser, setAuthUser, data, setData, quill, setQuill }}>
         {children}
     </ContextAPI.Provider>
 }
