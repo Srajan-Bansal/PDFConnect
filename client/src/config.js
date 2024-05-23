@@ -1,7 +1,7 @@
 // config.js
 const config = {
-	userAPI: 'http://localhost:8000/api/v1/user',
-	viewAPI: 'http://localhost:8000',
+	userAPI: 'http://192.168.1.9:8000/api/v1/user',
+	viewAPI: 'http://192.168.1.9:8000',
 };
 
 export default config;
