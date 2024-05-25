@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 import QuillRTC from './Quill/QuillRTC';
 import Layout from './Layout';
 import Signup from "./components/Signup";
-import UploadPage from './components/UploadPage';
 import Login from "./components/Login";
 
 const App = () => {
@@ -15,7 +14,6 @@ const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path='/' element={<Layout />}>
-        <Route index element={<UploadPage />} />
 
         <Route path='docs' element={<Navigate to={`../docs/${uuidv4()}`} replace />} />
         <Route path='docs/:id' element={authUser ? <QuillRTC /> : <Navigate to='/login' />} />

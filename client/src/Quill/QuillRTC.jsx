@@ -8,7 +8,7 @@ import config from '../config';
 import Quill from 'quill';
 import "quill/dist/quill.snow.css";
 
-import './../components/UploadPage.css'
+import './QullRTC.css';
 
 const SAVE_INTERVAL_MS = 2000;
 const toolbarOptions = [
