@@ -8,7 +8,6 @@ import DragNdropParent from './components/DragNdrop/DragNdropParent';
 
 export default function Layout() {
 
-
     return (
         <>
             <NavBar />

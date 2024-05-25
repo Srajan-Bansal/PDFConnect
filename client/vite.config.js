@@ -7,5 +7,7 @@ export default defineConfig({
 	server: {
 		// Specify the public directory as the root
 		base: './public',
+		// host: '0.0.0.0',
+		// port: 5173,
 	},
 });

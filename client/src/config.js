@@ -1,7 +1,9 @@
 // config.js
+const baseURL = 'http://localhost:8000';
+// const MobileURL = 'http://192.168.1.9:8000'
 const config = {
-	userAPI: 'http://localhost:8000/api/v1/user',
-	viewAPI: 'http://localhost:8000',
+	userAPI: `${baseURL}/api/v1/user`,
+	viewAPI: `${baseURL}`,
 };
 
 export default config;

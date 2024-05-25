@@ -9,7 +9,7 @@ const docSchema = new mongoose.Schema(
 );
 
 // TTL - Time to Live
-// docSchema.index({ createdAt: 1 }, { expireAfterSeconds: 86400 });
+docSchema.index({ createdAt: 1 }, { expireAfterSeconds: 21600 });
 
 const Doc = mongoose.model('Doc', docSchema);
 module.exports = Doc;

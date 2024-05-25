@@ -25,7 +25,7 @@ module.exports = (io) => {
 	io.on('connection', async (socket) => {
 		try {
 			await rateLimiter.consume(socket.handshake.address);
-			console.log('Socket connected', socket.id);
+			console.log('Socket connected to Doc', socket.id);
 
 			socket.on('get-document', async (documentID) => {
 				const document = await findOrCreateDocument(documentID);
