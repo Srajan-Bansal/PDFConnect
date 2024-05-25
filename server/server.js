@@ -19,6 +19,9 @@ app.use(protect);
 const docIO = io.of('/document');
 require('./sockets/docSocket')(docIO);
 
+const chatIO = io.of('/chat');
+require('./sockets/chatSocket')(chatIO);
+
 const PORT = process.env.PORT || 8000;
 httpServer.listen(PORT, () => {
 	console.log(`Server listening on PORT ${PORT}`);

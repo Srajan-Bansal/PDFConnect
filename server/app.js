@@ -7,6 +7,7 @@ const { RateLimiterMemory } = require('rate-limiter-flexible');
 
 const pdfRoutes = require('./routes/pdfRoutes');
 const userRoutes = require('./routes/userRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 
 const app = express();
 
@@ -49,6 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ROUTES
 app.use('/api/v1/user', userRoutes);
 app.use('/', pdfRoutes);
+app.use('/', chatRoutes);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {

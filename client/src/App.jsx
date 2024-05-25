@@ -3,10 +3,10 @@ import { Navigate, Route, RouterProvider, createBrowserRouter, createRoutesFromE
 import { useContextAPI } from './context/ContextAPI';
 import { v4 as uuidv4 } from 'uuid';
 
-import QuillRTC from './Quill/QuillRTC';
 import Layout from './Layout';
 import Signup from "./components/Signup";
 import Login from "./components/Login";
+import Docs from './components/Docs/Docs';
 
 const App = () => {
   const { authUser } = useContextAPI();
@@ -16,7 +16,11 @@ const App = () => {
       <Route path='/' element={<Layout />}>
 
         <Route path='docs' element={<Navigate to={`../docs/${uuidv4()}`} replace />} />
-        <Route path='docs/:id' element={authUser ? <QuillRTC /> : <Navigate to='/login' />} />
+        <Route path='docs/:id' element={authUser ?
+          <>
+            <Docs />
+          </>
+          : <Navigate to='/login' />} />
 
         <Route path='/login' element={authUser ? <Navigate to='/' /> : <Login />} />
         <Route
