@@ -4,6 +4,9 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const { RateLimiterMemory } = require('rate-limiter-flexible');
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
 
 const pdfRoutes = require('./routes/pdfRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -23,8 +26,8 @@ app.use(
 	})
 );
 
-app.use(cookieParser());
-app.use(express.json());
+// Set security HTTP headers
+app.use(helmet());
 
 const rateLimiter = new RateLimiterMemory({
 	points: process.env.EXTRACT_API_THROTTLING_LIMIT, // 2 requests
@@ -45,7 +48,15 @@ const rateLimiterMiddleware = (req, res, next) => {
 };
 app.use('/getDataFromPDF', rateLimiterMiddleware);
 
+app.use(cookieParser());
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Data sanitization against NoSQL query injection
+app.use(mongoSanitize());
+
+// Data sanitization against XSS
+app.use(xss());
 
 // ROUTES
 app.use('/api/v1/user', userRoutes);
