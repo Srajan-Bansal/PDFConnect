@@ -26,7 +26,7 @@ export default function NavBar() {
                         to='/'
                         className='nav-logo'
                     >
-                        <span>File Extractor</span>
+                        <span>PDFConnect</span>
                         {/* <i className="fas fa-code"></i> */}
                         <span className='icon'>
                             <CodeIcon />
