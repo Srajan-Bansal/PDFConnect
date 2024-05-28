@@ -1,7 +1,7 @@
 const express = require('express');
 const fileController = require('./../controller/fileController');
 
-const protect = require('./../Middleware/protect');
+const protect = require('../middleware/protect');
 const uploadFilesMiddleware = require('../utils/uploadFiles');
 
 const router = express.Router();

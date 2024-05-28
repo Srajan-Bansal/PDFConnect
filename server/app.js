@@ -7,6 +7,8 @@ const { RateLimiterMemory } = require('rate-limiter-flexible');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const client = require('prom-client');
+const metricsMiddleware = require('./monitoring/monitor');
 
 const pdfRoutes = require('./routes/pdfRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -28,6 +30,8 @@ app.use(
 
 // Set security HTTP headers
 app.use(helmet());
+
+app.use(metricsMiddleware);
 
 const rateLimiter = new RateLimiterMemory({
 	points: process.env.EXTRACT_API_THROTTLING_LIMIT, // 2 requests
@@ -62,6 +66,13 @@ app.use(xss());
 app.use('/api/v1/user', userRoutes);
 app.use('/', pdfRoutes);
 app.use('/', chatRoutes);
+
+// Monitoring
+app.get('/metrics', async (req, res) => {
+	const metrics = await client.register.metrics();
+	res.set('Content-Type', client.register.contentType);
+	res.end(metrics);
+});
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {

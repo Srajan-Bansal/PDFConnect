@@ -25,7 +25,7 @@ module.exports = (io) => {
 	io.on('connection', async (socket) => {
 		try {
 			await rateLimiter.consume(socket.handshake.address);
-			console.log('Socket connected to Chat', socket.id);
+			// console.log('Socket connected to Chat', socket.id);
 
 			socket.on('get-messages', async (documentID) => {
 				const chat = await findOrCreateChat(documentID);

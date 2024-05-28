@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const http = require('http');
 const { Server } = require('socket.io');
 const dotenv = require('dotenv');
-const protect = require('./Middleware/protect');
+const protect = require('./middleware/protect');
 
 dotenv.config({ path: './config.env' });
 const app = require('./app');

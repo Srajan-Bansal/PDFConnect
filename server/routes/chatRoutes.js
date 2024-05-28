@@ -1,6 +1,6 @@
 const express = require('express');
 const chatController = require('./../controller/chatController');
-const protect = require('./../Middleware/protect');
+const protect = require('../middleware/protect');
 
 const router = express.Router();
 
