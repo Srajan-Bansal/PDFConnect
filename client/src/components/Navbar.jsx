@@ -48,16 +48,25 @@ export default function NavBar() {
                         <li className='nav-item'>
                             <NavLink
                                 exact="true"
-                                to={authUser ? '/docs' : '/login'
-                                }
+                                to={authUser ? '/docs' : '/login'}
                                 className='nav-links'
                             >
                                 Docs
                             </NavLink>
                         </li>
 
-                        {
-                            authUser ? (
+                        {authUser ? (
+                            <>
+                                <li className='nav-item'>
+                                    <NavLink
+                                        exact="true"
+                                        to='/video'
+                                        className='nav-links'
+                                        onClick={handleClick}
+                                    >
+                                        Video
+                                    </NavLink>
+                                </li>
                                 <li className='nav-item'>
                                     <NavLink
                                         exact="true"
@@ -68,31 +77,32 @@ export default function NavBar() {
                                         Log out
                                     </NavLink>
                                 </li>
-                            ) : (
-                                <>
-                                    <li className='nav-item'>
-                                        <NavLink
-                                            exact="true"
-                                            to='/login'
-                                            className='nav-links'
-                                            onClick={handleClick}
-                                        >
-                                            Log in
-                                        </NavLink>
-                                    </li>
+                            </>
+                        ) : (
+                            <>
+                                <li className='nav-item'>
+                                    <NavLink
+                                        exact="true"
+                                        to='/login'
+                                        className='nav-links'
+                                        onClick={handleClick}
+                                    >
+                                        Log in
+                                    </NavLink>
+                                </li>
 
-                                    <li className='nav-item'>
-                                        <NavLink
-                                            exact="true"
-                                            to='/signup'
-                                            className='nav-links'
-                                            onClick={handleClick}
-                                        >
-                                            Sign up
-                                        </NavLink>
-                                    </li>
-                                </>
-                            )
+                                <li className='nav-item'>
+                                    <NavLink
+                                        exact="true"
+                                        to='/signup'
+                                        className='nav-links'
+                                        onClick={handleClick}
+                                    >
+                                        Sign up
+                                    </NavLink>
+                                </li>
+                            </>
+                        )
                         }
 
 

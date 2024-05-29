@@ -7,6 +7,7 @@ import Layout from './Layout';
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Docs from './components/Docs/Docs';
+import Video from './components/Video/Video';
 
 const App = () => {
   const { authUser } = useContextAPI();
@@ -20,9 +21,19 @@ const App = () => {
           <>
             <Docs />
           </>
-          : <Navigate to='/login' />} />
+          : <Navigate to='/login' />}
+        />
 
-        <Route path='/login' element={authUser ? <Navigate to='/' /> : <Login />} />
+        <Route
+          path='/video'
+          element={authUser ? <Video /> : <Navigate to="/login" />}
+        />
+
+        <Route
+          path='/login'
+          element={authUser ? <Navigate to='/' /> : <Login />}
+        />
+
         <Route
           path='/signup'
           element={authUser ? <Navigate to='/' /> : <Signup />}
