@@ -63,6 +63,12 @@ app.use(mongoSanitize());
 app.use(xss());
 
 // ROUTES
+app.get('/', (req, res, next) => {
+	res.json({
+		status: 200,
+		mess: 'Good',
+	});
+});
 app.use('/api/v1/user', userRoutes);
 app.use('/', pdfRoutes);
 app.use('/', chatRoutes);
