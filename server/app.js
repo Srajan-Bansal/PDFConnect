@@ -62,7 +62,7 @@ app.use(mongoSanitize());
 // Data sanitization against XSS
 app.use(xss());
 
-app.use('/', (req, res, next) => {
+app.get('/', (req, res, next) => {
 	res.json({
 		status: 200,
 		mess: 'good',
