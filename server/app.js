@@ -65,7 +65,7 @@ app.use(xss());
 app.get('/', (req, res, next) => {
 	res.json({
 		status: 200,
-		mess: 'good',
+		mess: 'Good',
 	});
 });
 

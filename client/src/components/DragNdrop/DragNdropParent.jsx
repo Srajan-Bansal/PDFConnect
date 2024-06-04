@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const DragNdropParent = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const { quill, setData } = useContextAPI();
-    const handleDownload = useDownloadPdf();
+    const { handleDownload } = useDownloadPdf();
     const navigate = useNavigate();
 
     const handleFileSelected = (file) => {
