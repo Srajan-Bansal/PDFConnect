@@ -3,8 +3,6 @@ const activeRequestsGauge = require('./activeRequests');
 const httpRequestDurationMicroseconds = require('./requestTime');
 
 const metricsMiddleware = (req, res, next) => {
-	if (req.path === '/metrics') return next();
-
 	const startTime = Date.now();
 	activeRequestsGauge.inc();
 

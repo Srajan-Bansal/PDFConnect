@@ -62,10 +62,12 @@ app.use(mongoSanitize());
 // Data sanitization against XSS
 app.use(xss());
 
-// ROUTES
-app.use('/api/v1/user', userRoutes);
-app.use('/', pdfRoutes);
-app.use('/', chatRoutes);
+app.get('/', (req, res, next) => {
+	res.json({
+		status: 200,
+		mess: 'Good',
+	});
+});
 
 // Monitoring
 app.get('/metrics', async (req, res) => {
@@ -73,6 +75,11 @@ app.get('/metrics', async (req, res) => {
 	res.set('Content-Type', client.register.contentType);
 	res.end(metrics);
 });
+
+// ROUTES
+app.use('/api/v1/user', userRoutes);
+app.use('/', pdfRoutes);
+app.use('/', chatRoutes);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
