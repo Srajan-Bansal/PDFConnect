@@ -1,35 +1,54 @@
-import { useState, useRef } from 'react';
-import { useContextAPI } from './../../context/ContextAPI';
-import './Video.css';
+import { useEffect, useRef, useState } from 'react';
+import { useContextAPI } from '../../context/ContextAPI';
+import { toast } from "react-toastify";
+
+import './video.css';
 
 const Video = () => {
-    const { data } = useContextAPI();
-    const [users, setUsers] = useState([]);
-    const myVideo = useRef();
+    const { authUser } = useContextAPI();
+    const [streams, setStreams] = useState([]);
+    const [joined, setJoined] = useState(false);
+    const videoGridRef = useRef();
 
-    return (
-        <div className="video-call-container">
-            <div className="video-wrapper">
-                <div className="video-item">
-                    <video playsInline muted ref={myVideo} autoPlay className="video" />
-                    <div className="video-name">Alice</div>
+    const getUserMedia = async () => {
+        try {
+            const newStream = await navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: true
+            });
+            setStreams((streams) => [...streams, newStream]);
+
+            if (!videoGridRef.current) return;
+
+            videoGridRef.current.srcObject = newStream;
+            videoGridRef.current.play();
+        } catch (err) {
+            toast.error('Error getting user media');
+            console.log(err);
+        }
+    };
+
+    // useEffect(() => {
+    //     // getUserMedia();
+    // }, []);
+
+    if (!joined) {
+
+        return (
+            <div className="video-container">
+                <h2>Video Calling</h2>
+                <div className="video-grid">
+                    {/* {streams.map((stream) => ( */}
+                    {/* // eslint-disable-next-line react/jsx-key */}
+                    <div className="video-item">
+                        <video autoPlay ref={videoGridRef}></video>
+                        {authUser.name}
+                    </div>
+                    {/* ))} */}
                 </div>
-                {users.map(user => (
-                    user.id !== 1 && user.stream && (
-                        <div key={user.id} className="video-item">
-                            <video playsInline ref={(ref) => { if (ref) ref.srcObject = user.stream }} autoPlay className="video" />
-                            <div className="video-name">{user.name}</div>
-                        </div>
-                    )
-                ))}
             </div>
-            <button
-            //   onClick={() => callUser(/* Pass the signal data and userId */)}
-            >
-                Call User
-            </button>
-        </div>
-    )
-}
+        );
+    }
+};
 
-export default Video
+export default Video;
