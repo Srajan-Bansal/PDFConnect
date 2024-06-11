@@ -28,7 +28,7 @@ const toolbarOptions = [
   ['clean']
 ];
 
-const QuillRTC = () => {
+const QuillRTE = () => {
   const [socket, setSocket] = useState(null);
   const { id: documentID } = useParams();
   const { data, quill, setQuill } = useContextAPI();
@@ -131,4 +131,4 @@ const QuillRTC = () => {
   );
 }
 
-export default QuillRTC;
+export default QuillRTE;

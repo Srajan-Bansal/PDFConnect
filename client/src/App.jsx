@@ -8,6 +8,7 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Docs from './components/Docs/Docs';
 import Video from './components/Video/Video';
+import DragNdropParent from './components/DragNdrop/DragNdropParent';
 
 const App = () => {
   const { authUser } = useContextAPI();
@@ -19,6 +20,7 @@ const App = () => {
         <Route path='docs' element={<Navigate to={`../docs/${uuidv4()}`} replace />} />
         <Route path='docs/:id' element={authUser ?
           <>
+            <DragNdropParent />
             <Docs />
           </>
           : <Navigate to='/login' />}
