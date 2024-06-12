@@ -28,10 +28,10 @@ const toolbarOptions = [
   ['clean']
 ];
 
-const QuillRTC = () => {
+const QuillRTE = () => {
   const [socket, setSocket] = useState(null);
   const { id: documentID } = useParams();
-  const { data, quill, setQuill } = useContextAPI();
+  const { data, quill, setQuill, isExtracted, setIsExtracted } = useContextAPI();
 
   // Initlizing Edior
   const wrapperRef = useCallback(wrapper => {
@@ -102,6 +102,24 @@ const QuillRTC = () => {
     };
   }, [socket, quill]);
 
+  // send-changes when Extracting PDF
+  useEffect(() => {
+    if (socket == null || quill == null) return;
+
+    if (isExtracted) {
+      const handler = (delta, oldDelta, source) => {
+        socket.emit('send-changes', delta);
+        setIsExtracted(false);
+      }
+
+      quill.on('text-change', handler);
+
+      return () => {
+        quill.off('text-change', handler);
+      }
+    }
+  }, [socket, quill, isExtracted, setIsExtracted]);
+
   // recieving text-changes
   useEffect(() => {
     if (socket == null || quill == null) return;
@@ -131,4 +149,4 @@ const QuillRTC = () => {
   );
 }
 
-export default QuillRTC;
+export default QuillRTE;
