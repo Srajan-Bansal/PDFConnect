@@ -16,17 +16,20 @@ pdfMake.fonts = {
 };
 
 const useDownloadPdf = () => {
-	const { data } = useContextAPI();
+	const { quill } = useContextAPI();
 
-	const handleDownload = () => {
+	const handleDownload = async () => {
+		const val = await quill.getText();
 		// const text = data.substring(3, data.length - 5);
-		const docDefinition = {
-			content: [{ text: data, fontSize: 12, margin: [0, 10, 0, 0] }],
-		};
+		if (val) {
+			const docDefinition = {
+				content: [{ text: val, fontSize: 12, margin: [0, 10, 0, 0] }],
+			};
 
-		const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+			const pdfDocGenerator = pdfMake.createPdf(docDefinition);
 
-		pdfDocGenerator.download('example.pdf');
+			pdfDocGenerator.download('example.pdf');
+		}
 	};
 
 	return { handleDownload };

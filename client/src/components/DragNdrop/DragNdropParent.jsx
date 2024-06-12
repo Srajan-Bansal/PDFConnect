@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const DragNdropParent = () => {
     const [selectedFile, setSelectedFile] = useState(null);
-    const { quill, setData, setIsExtracted } = useContextAPI();
+    const { quill, setIsExtracted } = useContextAPI();
     const { handleDownload } = useDownloadPdf();
     const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ const DragNdropParent = () => {
 
             const response = await axios.post(`${config.viewAPI}/getDataFromPDF`, formData, { withCredentials: true });
             const extractedData = response.data[0].pageContent;
-            setData(extractedData);
+            quill.setText(extractedData);
             setIsExtracted(true);
             toast.success('Data extracted successfully');
         } catch (error) {
@@ -56,7 +56,7 @@ const DragNdropParent = () => {
     }
 
     const handleDownlaodPDF = () => {
-        setData(quill.getText());
+        // setData(quill.getText());
         toast.info('It might take some time to update. If the downloaded PDF content is missing, please retry!', {
             autoClose: 7000
         });

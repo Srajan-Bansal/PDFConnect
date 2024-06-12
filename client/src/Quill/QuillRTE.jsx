@@ -31,7 +31,7 @@ const toolbarOptions = [
 const QuillRTE = () => {
   const [socket, setSocket] = useState(null);
   const { id: documentID } = useParams();
-  const { data, quill, setQuill, isExtracted, setIsExtracted } = useContextAPI();
+  const { quill, setQuill, isExtracted, setIsExtracted } = useContextAPI();
 
   // Initlizing Edior
   const wrapperRef = useCallback(wrapper => {
@@ -136,11 +136,11 @@ const QuillRTE = () => {
   }, [socket, quill]);
 
   // Updating the quill data if data changes
-  useEffect(() => {
-    if (quill && data !== quill.root.innerHTML) {
-      quill.setText(data);
-    }
-  }, [quill, data]);
+  // useEffect(() => {
+  //   if (quill && data !== quill.root.innerHTML) {
+  //     quill.setText(data);
+  //   }
+  // }, [quill, data]);
 
   return (
     <div className="container" style={{ height: '800px', width: '800px' }} ref={wrapperRef}>
