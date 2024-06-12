@@ -1,14 +1,21 @@
-import { Navigate, Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
-
+import { Navigate, Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import { useContextAPI } from './context/ContextAPI';
+import { lazy } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import Layout from './Layout';
-import Signup from "./components/Signup/Signup";
-import Login from "./components/Signup/Login";
-import Docs from './components/Docs/Docs';
-import Video from './components/Video/Video';
-import DragNdropParent from './components/DragNdrop/DragNdropParent';
+const Layout = lazy(() => import('./Layout'));
+const Docs = lazy(() => import('./components/Docs/Docs'));
+const Video = lazy(() => import('./components/Video/Video'));
+const DragNdropParent = lazy(() => import('./components/DragNdrop/DragNdropParent'));
+const Signup = lazy(() => import('./components/Signup/Signup'));
+const Login = lazy(() => import('./components/Signup/Login'));
+
+const PrivateRoute = ({ element, redirectTo }) => {
+  const { authUser } = useContextAPI();
+  return authUser ? element : <Navigate to={redirectTo} />;
+};
+
+import { Suspense } from 'react';
 
 const App = () => {
   const { authUser } = useContextAPI();
@@ -18,28 +25,37 @@ const App = () => {
       <Route path='/' element={<Layout />}>
 
         <Route path='docs' element={<Navigate to={`../docs/${uuidv4()}`} replace />} />
-        <Route path='docs/:id' element={authUser ?
-          <>
-            <DragNdropParent />
-            <Docs />
-          </>
-          : <Navigate to='/login' />}
-        />
 
-        <Route
-          path='/video'
-          element={authUser ? <Video /> : <Navigate to="/login" />}
-        />
+        <Route path='docs/:id' element={
+          <PrivateRoute element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <DragNdropParent />
+              <Docs />
+            </Suspense>
+          } redirectTo='/login' />
+        } />
 
-        <Route
-          path='/login'
-          element={authUser ? <Navigate to='/' /> : <Login />}
-        />
+        <Route path='video' element={
+          <PrivateRoute element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <Video />
+            </Suspense>
+          } redirectTo='/login' />
+        } />
 
-        <Route
-          path='/signup'
-          element={authUser ? <Navigate to='/' /> : <Signup />}
-        />
+        <Route path='login' element={
+          authUser ? <Navigate to='/' /> :
+            <Suspense fallback={<div>Loading...</div>}>
+              <Login />
+            </Suspense>
+        } />
+
+        <Route path='signup' element={
+          authUser ? <Navigate to='/' /> :
+            <Suspense fallback={<div>Loading...</div>}>
+              <Signup />
+            </Suspense>
+        } />
       </Route>
     )
   );
