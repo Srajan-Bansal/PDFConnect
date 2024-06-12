@@ -102,6 +102,7 @@ const QuillRTE = () => {
     };
   }, [socket, quill]);
 
+  // send-changes when Extracting PDF
   useEffect(() => {
     if (socket == null || quill == null) return;
 
