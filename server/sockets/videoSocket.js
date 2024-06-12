@@ -1,3 +1,5 @@
 module.exports = (io) => {
-	console.log('video sokcet');
+	io.on('connection', async () => {
+		console.log('video socket');
+	});
 };

@@ -31,6 +31,6 @@ httpServer.listen(PORT, () => {
 });
 
 mongoose
-	.connect(process.env.DATABASE, { family: 4 })
+	.connect(process.env.DATABASE_LOCAL, { family: 4 })
 	.then(() => console.log('DB connected'))
 	.catch((err) => console.log(err.message));

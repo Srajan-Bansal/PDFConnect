@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import useSignup from '../hooks/useSignup';
+import useSignup from '../../hooks/useSignup';
 
 import './mix.css';
 

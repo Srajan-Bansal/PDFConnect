@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useContextAPI } from '../context/ContextAPI';
-import useLogout from '../hooks/useLogout';
+import { useContextAPI } from './../../context/ContextAPI';
+import useLogout from './../../hooks/useLogout';
 
 import './NavBar.css';
 import { CodeIcon, HamburgetMenuClose, HamburgetMenuOpen } from './Iconss';

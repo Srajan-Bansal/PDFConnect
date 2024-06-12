@@ -4,8 +4,8 @@ import { useContextAPI } from './context/ContextAPI';
 import { v4 as uuidv4 } from 'uuid';
 
 import Layout from './Layout';
-import Signup from "./components/Signup";
-import Login from "./components/Login";
+import Signup from "./components/Signup/Signup";
+import Login from "./components/Signup/Login";
 import Docs from './components/Docs/Docs';
 import Video from './components/Video/Video';
 import DragNdropParent from './components/DragNdrop/DragNdropParent';
