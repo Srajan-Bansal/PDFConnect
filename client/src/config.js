@@ -1,6 +1,5 @@
 // config.js
-const baseURL = 'http://localhost:8000';
-// const MobileURL = 'http://192.168.1.9:8000'
+const baseURL = import.meta.env.baseURL || 'http://localhost:8000';
 const config = {
 	userAPI: `${baseURL}/api/v1/user`,
 	viewAPI: `${baseURL}`,
