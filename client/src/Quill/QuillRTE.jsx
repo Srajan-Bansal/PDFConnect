@@ -107,16 +107,13 @@ const QuillRTE = () => {
     if (socket == null || quill == null) return;
 
     if (isExtracted) {
-      const handler = (delta, oldDelta, source) => {
-        socket.emit('send-changes', delta);
-        setIsExtracted(false);
+      const data = {
+        delta: quill.getContents(),
+        isExtracted: true
       }
-
-      quill.on('text-change', handler);
-
-      return () => {
-        quill.off('text-change', handler);
-      }
+      socket.emit("send-changes", data
+      );
+      setIsExtracted(false);
     }
   }, [socket, quill, isExtracted, setIsExtracted]);
 
@@ -124,8 +121,9 @@ const QuillRTE = () => {
   useEffect(() => {
     if (socket == null || quill == null) return;
 
-    const handler = (delta) => {
-      quill.updateContents(delta);
+    const handler = ({ delta, isExtracted }) => {
+      if (isExtracted) quill.setContents(delta);
+      else quill.updateContents(delta);
     };
 
     socket.on('receive-changes', handler);

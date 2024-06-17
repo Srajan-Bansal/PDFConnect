@@ -32,10 +32,10 @@ module.exports = (io) => {
 				socket.join(documentID);
 				socket.emit('load-document', document.data);
 
-				socket.on('send-changes', (delta) => {
+				socket.on('send-changes', ({ delta, isExtracted }) => {
 					socket.broadcast
 						.to(documentID)
-						.emit('receive-changes', delta);
+						.emit('receive-changes', { delta, isExtracted });
 				});
 
 				socket.on('save-document', async (data) => {

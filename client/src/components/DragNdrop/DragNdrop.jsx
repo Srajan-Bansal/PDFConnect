@@ -11,7 +11,6 @@ const DragNdrop = ({ onFilesSelected, width }) => {
     const selectedFiles = event.target.files;
     if (selectedFiles && selectedFiles.length > 0) {
       const newFile = selectedFiles[0];
-      console.log("Selected file:", newFile);
       if (newFile.type === "application/pdf") {
         setFile(newFile);
       } else {
