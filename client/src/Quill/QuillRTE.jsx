@@ -92,7 +92,7 @@ const QuillRTE = () => {
 
     const handler = (delta, oldDelta, source) => {
       if (source !== "user") return;
-      socket.emit("send-changes", delta);
+      socket.emit("send-changes", { delta, isExtracted: false });
     };
 
     quill.on("text-change", handler);
@@ -111,8 +111,7 @@ const QuillRTE = () => {
         delta: quill.getContents(),
         isExtracted: true
       }
-      socket.emit("send-changes", data
-      );
+      socket.emit("send-changes", data);
       setIsExtracted(false);
     }
   }, [socket, quill, isExtracted, setIsExtracted]);

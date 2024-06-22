@@ -6,8 +6,6 @@ import './Chat.css';
 import config from './../../config';
 import { useContextAPI } from './../../context/ContextAPI';
 
-import './Chat.css';
-
 const Chat = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');

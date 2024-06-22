@@ -82,20 +82,3 @@ exports.uploadPhoto = async (req, res, next) => {
 		res.status(400).json(err.message);
 	}
 };
-
-// exports.getTextFromPDF = async (req, res, next) => {
-// 	try {
-// 		const user = await User.findById(req.user._id);
-
-// 		if (!user.pdf) {
-// 			res.status(400).json({
-// 				status: 'No pdf found',
-// 			});
-// 		}
-// 		const docs = await pdfReader(user.pdf);
-
-// 		res.status(200).json(docs);
-// 	} catch (err) {
-// 		res.status(400).json(err.message);
-// 	}
-// };
