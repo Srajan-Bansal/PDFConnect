@@ -35,8 +35,8 @@ app.use(helmet());
 app.use(metricsMiddleware);
 
 const rateLimiter = new RateLimiterMemory({
-	points: process.env.EXTRACT_API_THROTTLING_LIMIT, // 2 requests
-	duration: process.env.EXTRACT_API_THROTTLING_DURATION, // per 10 seconds
+	points: process.env.API_THROTTLING_LIMIT, // 2 requests
+	duration: process.env.API_THROTTLING_DURATION, // per 10 seconds
 });
 
 const rateLimiterMiddleware = (req, res, next) => {
