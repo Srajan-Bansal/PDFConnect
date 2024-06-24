@@ -10,7 +10,7 @@ const app = require('./app');
 const httpServer = http.createServer(app);
 const io = new Server(httpServer, {
 	cors: {
-		origin: process.env.CLIENT_URL_DEPLOY,
+		origin: true,
 		methods: ['GET', 'POST'],
 		credentials: true,
 	},
