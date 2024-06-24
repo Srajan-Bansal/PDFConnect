@@ -10,7 +10,7 @@ const app = require('./app');
 const httpServer = http.createServer(app);
 const io = new Server(httpServer, {
 	cors: {
-		origin: process.env.CLIENT_URL,
+		origin: process.env.CLIENT_URL_DEPLOY,
 		methods: ['GET', 'POST'],
 		credentials: true,
 	},
@@ -32,6 +32,6 @@ httpServer.listen(PORT, () => {
 });
 
 mongoose
-	.connect(process.env.DATABASE_LOCAL, { family: 4 })
+	.connect(process.env.DATABASE, { family: 4 })
 	.then(() => console.log('DB connected'))
 	.catch((err) => console.log(err.message));
