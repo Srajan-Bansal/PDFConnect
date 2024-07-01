@@ -24,7 +24,7 @@ if (process.env.ENVIROMENT === 'development') {
 app.use(
 	cors({
 		credentials: true,
-		origin: true,
+		origin: '*',
 		methods: ['GET', 'POST'],
 	})
 );
