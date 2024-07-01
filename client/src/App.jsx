@@ -1,9 +1,11 @@
 import { Navigate, Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import { useContextAPI } from './context/ContextAPI';
 import { lazy } from 'react';
+import { Suspense } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 const Layout = lazy(() => import('./Layout'));
+const Home = lazy(() => import('./components/Home/Home'));
 const Docs = lazy(() => import('./components/Docs/Docs'));
 const Video = lazy(() => import('./components/Video/Video'));
 const DragNdropParent = lazy(() => import('./components/DragNdrop/DragNdropParent'));
@@ -15,14 +17,13 @@ const PrivateRoute = ({ element, redirectTo }) => {
   return authUser ? element : <Navigate to={redirectTo} />;
 };
 
-import { Suspense } from 'react';
-
 const App = () => {
   const { authUser } = useContextAPI();
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path='/' element={<Layout />}>
+        <Route path='/' index element={<Home />} />
 
         <Route path='docs' element={<Navigate to={`../docs/${uuidv4()}`} replace />} />
 
