@@ -24,6 +24,7 @@ const App = () => {
     createRoutesFromElements(
       <Route path='/' element={<Layout />}>
         <Route path='/' index element={<Home />} />
+
         <Route path='docs' element={<Navigate to={`../docs/${uuidv4()}`} replace />} />
 
         <Route path='docs/:id' element={
