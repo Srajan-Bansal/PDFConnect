@@ -10,7 +10,7 @@ export default function Home() {
                     <button className="cta-button">Get Started</button>
                 </div>
                 <div className="hero-image">
-                    <img src="/assets/hero-image.jpg" alt="PDF Management" />
+                    {/* <img src="/assets/hero-image.jpg" alt="PDF Management" /> */}
                 </div>
             </section>
 
@@ -18,17 +18,17 @@ export default function Home() {
                 <h2>Features</h2>
                 <div className="feature-list">
                     <div className="feature-item">
-                        <img src="/assets/feature1.jpg" alt="Feature 1" />
+                        {/* <img src="/assets/feature1.jpg" alt="Feature 1" /> */}
                         <h3>Edit PDFs</h3>
                         <p>Edit your PDF files with our intuitive tools.</p>
                     </div>
                     <div className="feature-item">
-                        <img src="/assets/feature2.jpg" alt="Feature 2" />
+                        {/* <img src="/assets/feature2.jpg" alt="Feature 2" /> */}
                         <h3>Convert Files</h3>
                         <p>Convert PDFs to various formats effortlessly.</p>
                     </div>
                     <div className="feature-item">
-                        <img src="/assets/feature3.jpg" alt="Feature 3" />
+                        {/* <img src="/assets/feature3.jpg" alt="Feature 3" /> */}
                         <h3>Secure Sharing</h3>
                         <p>Share your PDFs securely with anyone, anywhere.</p>
                     </div>
