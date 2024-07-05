@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
+const catchAsync = require('./../utils/catchAsync');
+const AppError = require('./../utils/appError');
 
 const generateToken = (id) => {
 	return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -16,30 +18,23 @@ const sendCookie = (res, token) => {
 	res.cookie('jwt', token, cookieOptions);
 };
 
-exports.signup = async (req, res, next) => {
-	try {
-		const newUser = await User.create({
-			name: req.body.name,
-			email: req.body.email,
-			password: req.body.password,
-			passwordConfirm: req.body.passwordConfirm,
-		});
+exports.signup = catchAsync(async (req, res, next) => {
+	const newUser = await User.create({
+		name: req.body.name,
+		email: req.body.email,
+		password: req.body.password,
+		passwordConfirm: req.body.passwordConfirm,
+	});
 
-		const token = generateToken(newUser._id);
-		sendCookie(res, token);
+	const token = generateToken(newUser._id);
+	sendCookie(res, token);
 
-		const { password: userPassword, ...userData } = newUser.toObject();
+	const { password: userPassword, ...userData } = newUser.toObject();
 
-		res.status(200).json(userData);
-	} catch (err) {
-		res.status(404).json({
-			status: 'failed',
-			message: err.message,
-		});
-	}
-};
+	res.status(200).json(userData);
+});
 
-exports.login = async (req, res, next) => {
+exports.login = catchAsync(async (req, res, next) => {
 	const { email, password } = req.body;
 
 	if (!email || !password) {
@@ -50,7 +45,7 @@ exports.login = async (req, res, next) => {
 	const user = await User.findOne({ email }).select('+password');
 
 	if (!user || !(await user.correctPassword(password, user.password))) {
-		return res.status(401).json({ error: 'Incorrect email or password' });
+		return next(new AppError('Incorrect email or password', 401));
 	}
 
 	const token = generateToken(user._id);
@@ -59,12 +54,12 @@ exports.login = async (req, res, next) => {
 	const { password: userPassword, ...userData } = user.toObject();
 
 	res.status(200).json(userData);
-};
+});
 
-exports.logout = async (req, res, next) => {
+exports.logout = catchAsync(async (req, res, next) => {
 	res.cookie('jwt', '', {
 		maxAge: 0,
 		httpOnly: true,
 	});
 	res.status(200).send('User is logout');
-};
+});

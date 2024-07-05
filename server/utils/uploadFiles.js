@@ -1,5 +1,6 @@
 const multer = require('multer');
 const path = require('path');
+const catchAsync = require('./catchAsync');
 
 const multerStorage = multer.diskStorage({
 	destination: (req, file, cb) => {
@@ -38,26 +39,19 @@ const upload = multer({
 	fileFilter: fileFilter,
 });
 
-const uploadFilesMiddleware = (req, res, next) => {
-	try {
-		upload.fields([
-			{ name: 'photo', maxCount: 1 },
-			{ name: 'pdf', maxCount: 1 },
-		])(req, res, (err) => {
-			if (err) {
-				return res.status(400).json({
-					status: 'failed',
-					error: err.message,
-				});
-			}
-			next();
-		});
-	} catch (err) {
-		res.status(400).json({
-			status: 'failed in uploadFilesMiddleware',
-			error: err.message,
-		});
-	}
-};
+const uploadFilesMiddleware = catchAsync((req, res, next) => {
+	upload.fields([
+		{ name: 'photo', maxCount: 1 },
+		{ name: 'pdf', maxCount: 1 },
+	])(req, res, (err) => {
+		if (err) {
+			return res.status(400).json({
+				status: 'failed',
+				error: err.message,
+			});
+		}
+		next();
+	});
+});
 
 module.exports = uploadFilesMiddleware;
