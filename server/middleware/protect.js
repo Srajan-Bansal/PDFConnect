@@ -14,7 +14,7 @@ const protect = catchAsync(async (req, res, next) => {
 
 	const currentUser = await User.findById(decoded.id);
 	if (!currentUser) {
-		throw next(new AppError('User does not exist'));
+		return next(new AppError('User does not exist'));
 	}
 
 	req.user = currentUser;

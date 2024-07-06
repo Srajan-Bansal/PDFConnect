@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/appError');
+const AppError = require('./../utils/AppError');
 
 const generateToken = (id) => {
 	return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -56,10 +56,24 @@ exports.login = catchAsync(async (req, res, next) => {
 	res.status(200).json(userData);
 });
 
-exports.logout = catchAsync(async (req, res, next) => {
+exports.logout = async (req, res, next) => {
 	res.cookie('jwt', '', {
 		maxAge: 0,
 		httpOnly: true,
 	});
 	res.status(200).send('User is logout');
+};
+
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+	const user = await User.findOne({ email: req.body.email });
+	if (!user) {
+		return next(new AppError('There is no user with Email address.', 404));
+	}
+
+	const resetToken = user.createPasswordResetToken();
+	await user.save({ validateBeforeSave: false });
+
+	res.send('done');
 });
+
+exports.resetPassword = catchAsync(async (req, res, next) => {});
