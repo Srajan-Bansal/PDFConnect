@@ -108,8 +108,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 			subject: 'Your Password reset token (valid for 10min)',
 			message,
 		});
-
-		res.status(200).send('email send');
+		res.status(200).json(req.body.email);
 	} catch (err) {
 		user.passwordResetToken = undefined;
 		user.passwordResetExpires = undefined;
