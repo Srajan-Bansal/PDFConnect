@@ -109,7 +109,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 			message,
 		});
 
-		res.status(200).send(req.body.email);
+		res.status(200).json(req.body.email);
 	} catch (err) {
 		user.passwordResetToken = undefined;
 		user.passwordResetExpires = undefined;

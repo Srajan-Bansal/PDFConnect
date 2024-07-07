@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useContextAPI } from './../../context/ContextAPI';
-import useLogout from './../../hooks/useLogout';
 
 import './NavBar.css';
 import { CodeIcon, HamburgetMenuClose, HamburgetMenuOpen } from './Iconss';
@@ -9,13 +8,8 @@ import { CodeIcon, HamburgetMenuClose, HamburgetMenuOpen } from './Iconss';
 export default function NavBar() {
     const [click, setClick] = useState(false);
     const { authUser } = useContextAPI();
-    const { logout } = useLogout();
 
     const handleClick = () => setClick(!click);
-
-    async function handleLogout() {
-        await logout();
-    }
 
     return (
         <>
@@ -57,7 +51,7 @@ export default function NavBar() {
 
                         {authUser ? (
                             <>
-                                <li className='nav-item'>
+                                {/* <li className='nav-item'>
                                     <NavLink
                                         exact="true"
                                         to='/video'
@@ -66,15 +60,14 @@ export default function NavBar() {
                                     >
                                         Video
                                     </NavLink>
-                                </li>
+                                </li> */}
                                 <li className='nav-item'>
                                     <NavLink
                                         exact="true"
-                                        to='/'
+                                        to='/user/dashboard'
                                         className='nav-links'
-                                        onClick={handleLogout}
                                     >
-                                        Log out
+                                        {authUser.name}
                                     </NavLink>
                                 </li>
                             </>

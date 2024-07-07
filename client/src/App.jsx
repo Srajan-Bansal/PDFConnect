@@ -11,6 +11,7 @@ const Video = lazy(() => import('./components/Video/Video'));
 const DragNdropParent = lazy(() => import('./components/DragNdrop/DragNdropParent'));
 const Signup = lazy(() => import('./components/Signup/Signup'));
 const Login = lazy(() => import('./components/Signup/Login'));
+const Dashboard = lazy(() => import('./components/Dashboard/Dashboard'));
 
 const PrivateRoute = ({ element, redirectTo }) => {
   const { authUser } = useContextAPI();
@@ -43,6 +44,13 @@ const App = () => {
             </Suspense>
           } redirectTo='/login' />
         } />
+
+        <Route path='user/dashboard' element={
+          <Suspense fallback={<div>Loading...</div>}>
+            <Dashboard />
+          </Suspense>
+        } />
+
 
         <Route path='login' element={
           authUser ? <Navigate to='/' /> :
