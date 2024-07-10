@@ -5,14 +5,25 @@ const findOrCreateDocument = async (id) => {
 	try {
 		if (!id) return;
 
-		let document = await Doc.findById(id);
+		let document = await Doc.findOne({ uuid: id });
 		if (!document) {
-			document = await Doc.create({ _id: id, data: '' });
+			document = await Doc.create({ uuid: id, data: '' });
 		}
 		return document;
 	} catch (error) {
 		console.error('Error finding or creating document:', error);
 		throw new Error(error);
+	}
+};
+
+const saveDocument = async (id, data) => {
+	try {
+		const doc = await Doc.findOne({ uuid: id });
+		doc.data = data;
+		await doc.save();
+	} catch (err) {
+		console.log('Error saving document', err);
+		throw new Error(err);
 	}
 };
 
@@ -25,7 +36,6 @@ module.exports = (io) => {
 	io.on('connection', async (socket) => {
 		try {
 			await rateLimiter.consume(socket.handshake.address);
-			// console.log('Socket connected to Doc', socket.id);
 
 			socket.on('get-document', async (documentID) => {
 				const document = await findOrCreateDocument(documentID);
@@ -39,10 +49,7 @@ module.exports = (io) => {
 				});
 
 				socket.on('save-document', async (data) => {
-					await Doc.findByIdAndUpdate(documentID, {
-						data,
-						createdAt: new Date(),
-					});
+					await saveDocument(documentID, data);
 				});
 			});
 		} catch (error) {

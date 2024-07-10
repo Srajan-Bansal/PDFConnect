@@ -9,11 +9,12 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const client = require('prom-client');
 const metricsMiddleware = require('./monitoring/monitor');
+const AppError = require('./utils/AppError');
 
 const pdfRoutes = require('./routes/pdfRoutes');
 const userRoutes = require('./routes/userRoutes');
 const chatRoutes = require('./routes/chatRoutes');
-const AppError = require('./utils/AppError');
+const docRoutes = require('./routes/docRoutes');
 
 const app = express();
 
@@ -82,6 +83,7 @@ app.get('/metrics', async (req, res) => {
 app.use('/api/v1/user', userRoutes);
 app.use('/', pdfRoutes);
 app.use('/', chatRoutes);
+app.use('/', docRoutes);
 
 // 404 Not Found Middleware
 app.use('*', (req, res, next) => {

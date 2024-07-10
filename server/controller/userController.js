@@ -23,6 +23,19 @@ exports.getAllUsers = async (req, res, next) => {
 	}
 };
 
+exports.getMe = catchAsync(async (req, res, next) => {
+	const user = await User.findById(req.user.id)
+		.populate({
+			path: 'docDetails',
+			select: '-__v -data -updatedAt',
+		})
+		.select('-__v -updatedAt');
+	if (!user) {
+		return next(new AppError('No User Exits!', 400));
+	}
+	res.status(200).json(user);
+});
+
 exports.updateMe = catchAsync(async (req, res, next) => {
 	if (req.body.password || req.body.passwordConfirm)
 		return next(
