@@ -7,7 +7,7 @@ const AppError = require('../utils/AppError');
 const protect = catchAsync(async (req, res, next) => {
 	const token = req.cookies.jwt;
 	if (!token) {
-		throw next(new AppError('You are not logged in! Please log in'));
+		return next(new AppError('You are not logged in! Please log in'));
 	}
 
 	const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);

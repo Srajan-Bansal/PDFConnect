@@ -19,7 +19,6 @@ const pdfReader = async (path) => {
 };
 
 exports.uploadPDF = catchAsync(async (req, res, next) => {
-	console.log('hrlfefewlo');
 	const updateData = { ...req.body };
 
 	if (!req.files || !req.files['pdf'])
@@ -45,8 +44,6 @@ exports.uploadPDF = catchAsync(async (req, res, next) => {
 
 	const file = req.files['pdf'][0].path;
 	const data = await pdfReader(file);
-
-	console.log('hrllo');
 
 	res.status(200).json(data);
 });
