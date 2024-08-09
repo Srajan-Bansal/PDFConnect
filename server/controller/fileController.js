@@ -2,7 +2,7 @@ const { PDFLoader } = require('langchain/document_loaders/fs/pdf');
 const User = require('./../models/userModel');
 const fs = require('fs');
 const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/AppError');
+const AppError = require('../utils/appError');
 
 const pdfReader = async (path) => {
 	try {

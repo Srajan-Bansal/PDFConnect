@@ -9,7 +9,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const client = require('prom-client');
 const metricsMiddleware = require('./monitoring/monitor');
-const AppError = require('./utils/AppError');
+const AppError = require('./utils/appError');
 
 const pdfRoutes = require('./routes/pdfRoutes');
 const userRoutes = require('./routes/userRoutes');
