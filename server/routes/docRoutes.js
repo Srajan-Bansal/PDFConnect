@@ -1,7 +1,7 @@
 const express = require('express');
 const User = require('./../models/userModel');
 const Doc = require('./../models/docsModel');
-const AppError = require('./../utils/AppError');
+const AppError = require('./../utils/appError');
 
 const router = express.Router();
 

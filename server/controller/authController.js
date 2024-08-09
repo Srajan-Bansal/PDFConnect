@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/AppError');
+const AppError = require('../utils/appError');
 const Email = require('./../utils/email');
 
 const generateToken = (id) => {
@@ -15,6 +15,7 @@ const sendCookie = (res, token) => {
 	const cookieOptions = {
 		maxAge: process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
 		httpOnly: true,
+		sameSite: 'None',
 	};
 	if (process.env.ENVIROMENT === 'production') cookieOptions.secure = true;
 	res.cookie('jwt', token, cookieOptions);
