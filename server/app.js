@@ -9,10 +9,12 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const client = require('prom-client');
 const metricsMiddleware = require('./monitoring/monitor');
+const AppError = require('./utils/AppError');
 
 const pdfRoutes = require('./routes/pdfRoutes');
 const userRoutes = require('./routes/userRoutes');
 const chatRoutes = require('./routes/chatRoutes');
+const docRoutes = require('./routes/docRoutes');
 
 const app = express();
 
@@ -24,8 +26,8 @@ if (process.env.ENVIROMENT === 'development') {
 app.use(
 	cors({
 		credentials: true,
-		origin: '*',
-		methods: ['GET', 'POST'],
+		origin: process.env.CLIENT_URL,
+		methods: ['GET', 'POST', 'PATCH', 'DELETE'],
 	})
 );
 
@@ -81,20 +83,23 @@ app.get('/metrics', async (req, res) => {
 app.use('/api/v1/user', userRoutes);
 app.use('/', pdfRoutes);
 app.use('/', chatRoutes);
-
-// Error Handling Middleware
-app.use((err, req, res, next) => {
-	res.status(500).json({
-		status: 'error',
-		message: 'Internal Server Error',
-	});
-});
+app.use('/', docRoutes);
 
 // 404 Not Found Middleware
 app.use('*', (req, res, next) => {
-	res.status(404).json({
-		status: 'failed',
-		message: '404 page not found',
+	next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
+
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+	err.statusCode = err.statusCode || 500;
+	err.status = err.status || 'error';
+
+	console.log(err);
+
+	res.status(err.statusCode).json({
+		status: err.status,
+		message: err.message,
 	});
 });
 

@@ -1,5 +1,6 @@
 const multer = require('multer');
 const path = require('path');
+const AppError = require('./AppError');
 
 const multerStorage = multer.diskStorage({
 	destination: (req, file, cb) => {
@@ -45,18 +46,14 @@ const uploadFilesMiddleware = (req, res, next) => {
 			{ name: 'pdf', maxCount: 1 },
 		])(req, res, (err) => {
 			if (err) {
-				return res.status(400).json({
-					status: 'failed',
-					error: err.message,
-				});
+				return next(
+					new AppError('Error in upload Middleware Field!', 500)
+				);
 			}
 			next();
 		});
 	} catch (err) {
-		res.status(400).json({
-			status: 'failed in uploadFilesMiddleware',
-			error: err.message,
-		});
+		return next(new AppError('Error in upload Middleware!', 500));
 	}
 };
 

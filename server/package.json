@@ -23,6 +23,7 @@
 		"langchain": "^0.1.34",
 		"mongoose": "^8.3.1",
 		"multer": "^1.4.5-lts.1",
+		"nodemailer": "^6.9.14",
 		"pdf-parse": "^1.1.1",
 		"prom-client": "^15.1.2",
 		"rate-limiter-flexible": "^5.0.3",
