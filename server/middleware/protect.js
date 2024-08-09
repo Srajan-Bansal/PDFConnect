@@ -7,6 +7,7 @@ const AppError = require('../utils/appError');
 const protect = catchAsync(async (req, res, next) => {
 	const token = req.cookies.jwt;
 	if (!token) {
+		console.log(token, req.cookies);
 		return next(new AppError('You are not logged in! Please log in'));
 	}
 
