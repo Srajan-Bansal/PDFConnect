@@ -18,6 +18,13 @@ module.exports = class Email {
 				pass: process.env.EMAIL_PASSWORD,
 			},
 		});
+		// return nodemailer.createTransport({
+		// 	service: 'gmail',
+		// 	auth: {
+		// 		user: 'srajanbansal999@gmail.com',
+		// 		pass: '9536612782s',
+		// 	},
+		// });
 	}
 
 	async send(template, subject, message = 'welcome') {
