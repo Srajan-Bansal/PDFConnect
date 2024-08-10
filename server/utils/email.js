@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const htmlTemplate = require('./../public/template/template');
+const { client } = require('../redis-client/redis-db');
 
 module.exports = class Email {
 	constructor(user, url) {
@@ -10,14 +11,14 @@ module.exports = class Email {
 	}
 
 	newTransport() {
-		return nodemailer.createTransport({
-			host: process.env.EMAIL_HOST,
-			port: process.env.EMAIL_PORT,
-			auth: {
-				user: process.env.EMAIL_USERNAME,
-				pass: process.env.EMAIL_PASSWORD,
-			},
-		});
+		// return nodemailer.createTransport({
+		// 	host: process.env.EMAIL_HOST,
+		// 	port: process.env.EMAIL_PORT,
+		// 	auth: {
+		// 		user: process.env.EMAIL_USERNAME,
+		// 		pass: process.env.EMAIL_PASSWORD,
+		// 	},
+		// });
 		// return nodemailer.createTransport({
 		// 	service: 'gmail',
 		// 	auth: {
@@ -42,7 +43,8 @@ module.exports = class Email {
 			html,
 		};
 
-		await this.newTransport().sendMail(mailOptions);
+		// await this.newTransport().sendMail(mailOptions);
+		await client.lPush('mails', JSON.stringify({ mailOptions }));
 	}
 
 	async sendWelcome() {
