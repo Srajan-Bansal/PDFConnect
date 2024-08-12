@@ -9,11 +9,12 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const client = require('prom-client');
 const metricsMiddleware = require('./monitoring/monitor');
+const AppError = require('./utils/appError');
 
 const pdfRoutes = require('./routes/pdfRoutes');
 const userRoutes = require('./routes/userRoutes');
 const chatRoutes = require('./routes/chatRoutes');
-const AppError = require('./utils/AppError');
+const docRoutes = require('./routes/docRoutes');
 
 const app = express();
 
@@ -26,7 +27,7 @@ app.use(
 	cors({
 		credentials: true,
 		origin: process.env.CLIENT_URL,
-		methods: ['GET', 'POST'],
+		methods: ['GET', 'POST', 'PATCH', 'DELETE'],
 	})
 );
 
@@ -82,6 +83,7 @@ app.get('/metrics', async (req, res) => {
 app.use('/api/v1/user', userRoutes);
 app.use('/', pdfRoutes);
 app.use('/', chatRoutes);
+app.use('/', docRoutes);
 
 // 404 Not Found Middleware
 app.use('*', (req, res, next) => {
@@ -92,6 +94,8 @@ app.use('*', (req, res, next) => {
 app.use((err, req, res, next) => {
 	err.statusCode = err.statusCode || 500;
 	err.status = err.status || 'error';
+
+	console.log(err);
 
 	res.status(err.statusCode).json({
 		status: err.status,

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Chat = require('./../models/chatModel');
 const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/AppError');
+const AppError = require('../utils/appError');
 
 exports.findMessagesByUser = catchAsync(async (req, res, next) => {
 	const userId = req.body.userId;

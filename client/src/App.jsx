@@ -1,7 +1,6 @@
 import { Navigate, Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import { useContextAPI } from './context/ContextAPI';
-import { lazy } from 'react';
-import { Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 const Layout = lazy(() => import('./Layout'));
@@ -46,9 +45,11 @@ const App = () => {
         } />
 
         <Route path='user/dashboard' element={
-          <Suspense fallback={<div>Loading...</div>}>
-            <Dashboard />
-          </Suspense>
+          <PrivateRoute element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <Dashboard />
+            </Suspense>
+          } redirectTo='/login' />
         } />
 
 

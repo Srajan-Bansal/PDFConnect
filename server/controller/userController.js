@@ -1,6 +1,6 @@
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/AppError');
+const AppError = require('../utils/appError');
 
 const filterObj = (obj, ...allowedFields) => {
 	const newObj = {};
@@ -22,6 +22,19 @@ exports.getAllUsers = async (req, res, next) => {
 		res.status(404).json(err.message);
 	}
 };
+
+exports.getMe = catchAsync(async (req, res, next) => {
+	const user = await User.findById(req.user.id)
+		.populate({
+			path: 'docDetails',
+			select: '-__v -data -updatedAt',
+		})
+		.select('-__v -updatedAt');
+	if (!user) {
+		return next(new AppError('No User Exits!', 400));
+	}
+	res.status(200).json(user);
+});
 
 exports.updateMe = catchAsync(async (req, res, next) => {
 	if (req.body.password || req.body.passwordConfirm)

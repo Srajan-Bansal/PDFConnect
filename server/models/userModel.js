@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Doc = require('./docsModel');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
@@ -42,8 +43,18 @@ const UserSchema = new mongoose.Schema(
 			select: false,
 		},
 	},
-	{ timestamps: true }
+	{
+		timestamps: true,
+		toJSON: { virtuals: true },
+		toObject: { virtuals: true },
+	}
 );
+
+UserSchema.virtual('docDetails', {
+	ref: 'Doc',
+	foreignField: 'User',
+	localField: '_id',
+});
 
 UserSchema.pre('save', async function (next) {
 	if (!this.isModified('password')) return next();

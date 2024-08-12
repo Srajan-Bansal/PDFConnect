@@ -10,7 +10,7 @@ const app = require('./app');
 const httpServer = http.createServer(app);
 const io = new Server(httpServer, {
 	cors: {
-		origin: process.env.CLIENT_URL,
+		origin: true,
 		methods: ['GET', 'POST'],
 		credentials: true,
 	},
@@ -23,15 +23,12 @@ require('./sockets/docSocket')(docIO);
 const chatIO = io.of('/chat');
 require('./sockets/chatSocket')(chatIO);
 
-const videoIO = io.of('/video');
-require('./sockets/videoSocket')(videoIO);
-
 const PORT = process.env.PORT || 8000;
 httpServer.listen(PORT, () => {
 	console.log(`Server listening on PORT ${PORT}`);
 });
 
 mongoose
-	.connect(process.env.DATABASE_LOCAL, { family: 4 })
+	.connect(process.env.DATABASE, { family: 4 })
 	.then(() => console.log('DB connected'))
 	.catch((err) => console.log(err.message));
