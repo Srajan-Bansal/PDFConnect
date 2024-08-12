@@ -1,8 +1,16 @@
 const { createClient } = require('redis');
+const express = require('express');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 
 dotenv.config({ path: './config.env' });
+
+const app = express();
+
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+	console.log('worker listing to port: ', PORT);
+});
 
 const redis_url = {
 	password: process.env.REDIS_PASSWORD,
