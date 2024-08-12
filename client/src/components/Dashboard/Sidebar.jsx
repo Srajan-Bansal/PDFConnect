@@ -19,6 +19,7 @@ const Sidebar = () => {
             <button className="mb-4 py-2 px-6 bg-blue-600 rounded hover:bg-blue-500">
                 Update Password
             </button>
+
             <button className="mb-4 py-2 px-6 bg-red-600 rounded hover:bg-red-500" onClick={handleLogOut}>
                 Logout
             </button>

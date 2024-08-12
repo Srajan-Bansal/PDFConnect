@@ -47,13 +47,13 @@ const uploadFilesMiddleware = (req, res, next) => {
 		])(req, res, (err) => {
 			if (err) {
 				return next(
-					new AppError('Error in upload Middleware Field!', 500)
+					new AppError('Error in upload Middleware fields', 500)
 				);
 			}
 			next();
 		});
 	} catch (err) {
-		return next(new AppError('Error in upload Middleware!', 500));
+		return next(new AppError('Error in upload Middleware', 500));
 	}
 };
 
