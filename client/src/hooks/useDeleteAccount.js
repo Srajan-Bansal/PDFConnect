@@ -1,32 +1,27 @@
 import axios from 'axios';
 import config from '../config';
 import { useContextAPI } from '../context/ContextAPI';
+import { useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const useLogin = () => {
+const useDeleteAccount = () => {
 	const { setAuthUser } = useContextAPI();
-	const login = async ({ email, password }) => {
+	const navigate = useNavigate();
+
+	const deleteAccount = async () => {
 		try {
-			if (!email || !password) {
-				throw new Error('Please fill all fields');
-			}
-
-			const formData = { email, password };
-
-			const response = await axios.post(
-				`${config.userAPI}/login`,
-				formData,
-				{
-					withCredentials: true,
-				}
-			);
+			const response = await axios.delete(`${config.userAPI}/deleteMe`, {
+				withCredentials: true,
+			});
 
 			if (response.error) throw new Error(response.error);
 
-			localStorage.setItem('user-info', JSON.stringify(response.data));
-			setAuthUser(response.data);
+			localStorage.removeItem('user-info');
+			setAuthUser(null);
+			navigate('/');
+			toast.success('Successfully Deleted Account');
 		} catch (error) {
 			const errorMessage =
 				error.response?.data?.error || 'Something went wrong!';
@@ -35,7 +30,7 @@ const useLogin = () => {
 		}
 	};
 
-	return { login };
+	return { deleteAccount };
 };
 
-export default useLogin;
+export default useDeleteAccount;

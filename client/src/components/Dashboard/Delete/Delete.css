@@ -1,0 +1,121 @@
+.delete-container {
+  width: 55%;
+  height: 43vh;
+  padding: 40px;
+  background-color: #ffffff;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.delete-head {
+  font-size: 32px;
+  color: #1f4068;
+  margin-bottom: 20px;
+  border-bottom: 3px solid #1f4068;
+  padding-bottom: 12px;
+  font-weight: 700;
+  background: linear-gradient(90deg, rgba(31, 64, 104, 0.1), rgba(31, 64, 104, 0));
+  text-align: center;
+  width: 100%;
+}
+
+.delete-input {
+  width: 100%;
+  text-align: center;
+}
+
+.delete-text {
+  font-size: 18px;
+  color: #333;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.inputt {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.inputt:focus {
+  border-color: #1f4068;
+  box-shadow: 0 0 8px rgba(31, 64, 104, 0.3);
+}
+
+.delete-button {
+  margin-top: 30px;
+  width: 160px;
+  background-color: #14213d;
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
+}
+
+.delete-button:hover {
+  background-color: #a4bfe0;
+  color: black;
+  transform: scale(1.03);
+  box-shadow: 0 6px 12px rgba(31, 64, 104, 0.3);
+}
+
+.delete-confirm {
+  text-align: center;
+}
+
+.delete-confirm-text {
+  font-size: 18px;
+  color: #333;
+  margin-top: 10px;
+}
+
+.delete-buttons {
+  display: flex;
+  gap: 20px;
+  position: relative;
+  top: 20px;
+}
+
+.delete-confirm-yes {
+  background-color: #ff4d4d;
+  padding: 10px 20px;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.delete-confirm-yes:hover {
+  background-color: #ff8080;
+}
+
+.delete-confirm-no {
+  background-color: #4b76ab;
+  padding: 10px 22px;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.delete-confirm-no:hover {
+  background-color: #738dac;
+}
+
+.delete-error {
+  color: red !important;
+  margin-top: 20px;
+  font-size: 14px;
+}

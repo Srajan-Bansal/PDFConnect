@@ -1,0 +1,79 @@
+.logout {
+  width: 40%;
+  height: 30vh;
+  padding: 40px;
+  background-color: #ffffff;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logout h2 {
+  font-size: 32px;
+  color: #1f4068;
+  margin-bottom: 20px;
+  border-bottom: 3px solid #1f4068;
+  padding-bottom: 12px;
+  font-weight: 700;
+  background: linear-gradient(90deg, rgba(31, 64, 104, 0.1), rgba(31, 64, 104, 0));
+  text-align: center;
+  width: 100%;
+}
+
+.bt {
+  margin-top: 30px;
+  width: 160px;
+  background-color: #14213d;
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
+}
+
+.bt:hover {
+  background-color: #a4bfe0;
+  color: black;
+  transform: scale(1.03);
+  box-shadow: 0 6px 12px rgba(31, 64, 104, 0.3);
+}
+
+.confirm {
+  text-align: center;
+}
+
+.confirm p {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+  position: relative;
+  bottom: 20px;
+}
+
+.button1 {
+  background-color: #ff4d4d;
+}
+
+.button1:hover {
+  background-color: #ff8080;
+}
+
+.button2 {
+  background-color: #376aa7;
+}
+
+.button2:hover {
+  background-color: #5d7fa9;
+}

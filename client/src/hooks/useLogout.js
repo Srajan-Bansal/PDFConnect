@@ -23,8 +23,10 @@ const useLogout = () => {
 			navigate('/');
 			toast.success('Successfully logged out');
 		} catch (error) {
-			toast.error(error.message);
-			console.error('Error logging out:', error);
+			const errorMessage =
+				error.response?.data?.error || 'Something went wrong!';
+			toast.error(errorMessage);
+			console.error('Error updating user:', errorMessage);
 		}
 	};
 

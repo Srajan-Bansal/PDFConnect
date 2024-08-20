@@ -1,30 +1,26 @@
 import axios from 'axios';
 import config from '../config';
 import { useContextAPI } from '../context/ContextAPI';
-
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const useLogin = () => {
+const useUpdateMe = () => {
 	const { setAuthUser } = useContextAPI();
-	const login = async ({ email, password }) => {
+
+	const updateMe = async (name, email) => {
 		try {
-			if (!email || !password) {
-				throw new Error('Please fill all fields');
-			}
-
-			const formData = { email, password };
-
-			const response = await axios.post(
-				`${config.userAPI}/login`,
-				formData,
+			const updateData = { name, email };
+			const response = await axios.patch(
+				`${config.userAPI}/updateMe`,
+				updateData,
 				{
 					withCredentials: true,
 				}
 			);
 
-			if (response.error) throw new Error(response.error);
+			if (response.data.error) throw new Error(response.data.error);
 
+			toast.success('Successfully updated user details');
 			localStorage.setItem('user-info', JSON.stringify(response.data));
 			setAuthUser(response.data);
 		} catch (error) {
@@ -35,7 +31,7 @@ const useLogin = () => {
 		}
 	};
 
-	return { login };
+	return { updateMe };
 };
 
-export default useLogin;
+export default useUpdateMe;
