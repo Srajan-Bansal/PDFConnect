@@ -25,7 +25,7 @@
 }
 
 .bt {
-  margin-top: 30px;
+  margin-top: 45px;
   width: 160px;
   background-color: #14213d;
   color: #ffffff;
@@ -76,4 +76,90 @@
 
 .button2:hover {
   background-color: #5d7fa9;
+}
+
+
+
+
+/* Media Query */
+
+@media (max-width: 1024px) {
+  .logout {
+    width: 60%;
+    padding: 30px;
+    height: auto;
+  }
+
+  .logout h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+  }
+
+  .bt {
+    width: 140px;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .confirm p {
+    font-size: 16px;
+  }
+
+  .buttons {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .logout {
+    width: 80%;
+    padding: 20px;
+    height: auto;
+  }
+
+  .logout h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+  }
+
+  .bt {
+    width: 120px;
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .confirm p {
+    font-size: 14px;
+  }
+
+  .buttons {
+    gap: 10px;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .logout {
+    width: 95%;
+    padding: 15px;
+    height: auto;
+  }
+
+  .logout h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+  }
+
+  .bt {
+    width: 100px;
+    padding: 8px;
+    font-size: 10px;
+  }
+
+  .confirm p {
+    font-size: 12px;
+  }
 }

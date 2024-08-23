@@ -1,6 +1,6 @@
 .delete-container {
   width: 55%;
-  height: 43vh;
+  height: 41vh;
   padding: 40px;
   background-color: #ffffff;
   margin: 0 auto;
@@ -51,7 +51,7 @@
 }
 
 .delete-button {
-  margin-top: 30px;
+  margin-top: 40px;
   width: 160px;
   background-color: #14213d;
   color: #ffffff;
@@ -118,4 +118,121 @@
   color: red !important;
   margin-top: 20px;
   font-size: 14px;
+}
+
+
+
+
+/* Media Query */
+
+@media (max-width: 1024px) {
+  .delete-container {
+    width: 70%;
+    height: auto;
+    padding: 30px;
+  }
+
+  .delete-head {
+    font-size: 28px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+  }
+
+  .delete-text {
+    font-size: 16px;
+  }
+
+  .inputt {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .delete-button {
+    width: 140px;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .delete-confirm-text {
+    font-size: 16px;
+  }
+
+  .delete-buttons {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .delete-container {
+    width: 85%;
+    padding: 20px;
+    height: auto;
+  }
+
+  .delete-head {
+    font-size: 24px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+  }
+
+  .delete-text {
+    font-size: 14px;
+  }
+
+  .inputt {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .delete-button {
+    width: 120px;
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .delete-confirm-text {
+    font-size: 14px;
+  }
+
+  .delete-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .delete-container {
+    width: 95%;
+    padding: 15px;
+    height: auto;
+  }
+
+  .delete-head {
+    font-size: 20px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+  }
+
+  .delete-text {
+    font-size: 12px;
+  }
+
+  .inputt {
+    padding: 6px;
+    font-size: 10px;
+  }
+
+  .delete-button {
+    width: 100px;
+    padding: 8px;
+    font-size: 10px;
+  }
+
+  .delete-confirm-text {
+    font-size: 12px;
+  }
+
+  .delete-buttons {
+    gap: 8px;
+  }
 }

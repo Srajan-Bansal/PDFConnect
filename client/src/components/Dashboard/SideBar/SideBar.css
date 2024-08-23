@@ -17,6 +17,7 @@ body {
   display: flex;
   flex-direction: column;
   padding: 20px;
+  transition: width 0.3s ease;
 }
 
 .s1 {
@@ -25,13 +26,14 @@ body {
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 10px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
   cursor: pointer;
   text-decoration: none;
 }
 
 .s1:hover {
   background-color: #a4bfe0;
+  transform: scale(1.05);
 }
 
 .s1:hover .img {
@@ -57,4 +59,53 @@ body {
 
 .s1:first-child {
   margin-top: 20px;
+}
+
+
+
+
+/* Media Query */
+
+@media (max-width: 768px) {
+  .left {
+    width: 35%;
+    height: auto;
+    padding: 15px;
+  }
+
+  .s1 {
+    padding: 15px;
+    font-size: 16px;
+  }
+
+  .img {
+    font-size: 20px;
+  }
+
+  .para {
+    font-size: 16px;
+    margin-left: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .left {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+  }
+
+  .s1 {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .img {
+    font-size: 18px;
+  }
+
+  .para {
+    font-size: 14px;
+    margin-left: 8px;
+  }
 }
