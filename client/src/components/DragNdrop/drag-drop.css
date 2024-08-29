@@ -115,6 +115,7 @@
     color: black;
     box-shadow: 0px 5px 15px rgba(164, 191, 224, 0.5);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 30px;
 
     &:hover {
       background-color: #14213d;
@@ -149,7 +150,7 @@
   cursor: pointer;
   box-shadow: 0px 5px 15px rgba(164, 191, 224, 0.5);
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  margin-top: 10px;
+  margin-top: 100px;
 
   &:hover {
     background-color: #14213d;
@@ -160,7 +161,6 @@
 }
 
 
-/* Responsive Styles */
 @media (max-width: 992px) {
   .document-uploader {
     padding: 15px;
