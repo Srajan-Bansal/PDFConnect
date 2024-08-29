@@ -1,8 +1,10 @@
 import './Home.css';
 import { useContextAPI } from '../../context/ContextAPI';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
     const { authUser } = useContextAPI();
+    const navigate = useNavigate();
 
     return (
         <div className="home-page">
@@ -11,11 +13,7 @@ export default function Home() {
                     <h1>Convert PDFs with Ease</h1>
                     <p>Effortlessly manage, edit, and share your PDF files with PDFConnect.</p>
                     <button className="cta-button" onClick={() => {
-                        if (!authUser) {
-                            window.location.href = '/signup';
-                        } else {
-                            window.location.href = '/docs';
-                        }
+                        navigate('/docs');
                     }}>Get Started</button>
                 </div>
                 <div className="hero-image">

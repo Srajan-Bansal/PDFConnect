@@ -26,7 +26,11 @@ const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path='/' element={<Layout />}>
-        <Route path='/' index element={<Home />} />
+        <Route path='/' index element={
+          <Suspense fallback={<div>Loading...</div>}>
+            <Home />
+          </Suspense>
+        } />
 
         <Route path='docs' element={<Navigate to={`../docs/${uuidv4()}`} replace />} />
 
