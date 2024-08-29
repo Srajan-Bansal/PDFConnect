@@ -7,7 +7,6 @@ import config from '../../config';
 import { useContextAPI } from '../../context/ContextAPI';
 import useDownloadPdf from '../../hooks/useDownloadPdf';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const DragNdropParent = () => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -65,12 +64,12 @@ const DragNdropParent = () => {
 
     return (
         <>
-            <h1>Drag and Drop File Upload</h1>
+            <h1 className='headd'>Drag and Drop File Upload</h1>
             <DragNdrop onFilesSelected={handleFileSelected} width="100%" />
 
-            <button type='button' className="extract-btn" onClick={handleUpload}>Extract Pdf</button>
+            <button type='button' className="extract-btn" style={{ marginLeft: "25px" }} onClick={handleUpload}>Extract Pdf</button>
 
-            <button type='button' className="extract-btn" onClick={handleDownlaodPDF}>Download Pdf</button>
+            <button type='button' className="extract-btn" style={{ marginLeft: "25px" }} onClick={handleDownlaodPDF}>Download Pdf</button>
         </>
     );
 };
