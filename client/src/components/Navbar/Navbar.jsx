@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { useContextAPI } from './../../context/ContextAPI';
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { useContextAPI } from "./../../context/ContextAPI";
 
-import './NavBar.css';
-import { CodeIcon, HamburgetMenuClose, HamburgetMenuOpen } from './Iconss';
+import "./NavBar.css";
+import { CodeIcon, HamburgetMenuClose, HamburgetMenuOpen } from "./Iconss";
 
 export default function NavBar() {
     const [click, setClick] = useState(false);
@@ -13,40 +13,21 @@ export default function NavBar() {
 
     return (
         <>
-            <nav className='navbar'>
-                <div className='nav-container'>
-                    <NavLink
-                        exact="true"
-                        to='/'
-                        className='nav-logo'
-                    >
+            <nav className="navbar">
+                <div className="nav-container">
+                    <NavLink exact="true" to="/" className="nav-logo">
                         <span>PDFConnect</span>
                         {/* <i className="fas fa-code"></i> */}
-                        <span className='icon'>
-                            <CodeIcon />
-                        </span>
+                        <span className="icon"><CodeIcon /></span>
                     </NavLink>
 
-                    <ul className={click ? 'nav-menu active' : 'nav-menu'}>
-                        <li className='nav-item'>
-                            <NavLink
-                                exact="true"
-                                to='/'
-                                className='nav-links'
-                                onClick={handleClick}
-                            >
-                                Home
-                            </NavLink>
+                    <ul className={click ? "nav-menu active" : "nav-menu"}>
+                        <li className="nav-item">
+                            <NavLink exact="true" to="/" className="nav-links" onClick={handleClick}>Home</NavLink>
                         </li>
 
-                        <li className='nav-item'>
-                            <NavLink
-                                exact="true"
-                                to={authUser ? '/docs' : '/login'}
-                                className='nav-links'
-                            >
-                                Docs
-                            </NavLink>
+                        <li className="nav-item">
+                            <NavLink exact="true" to={authUser ? "/docs" : "/login"} className="nav-links">Docs</NavLink>
                         </li>
 
                         {authUser ? (
@@ -61,44 +42,21 @@ export default function NavBar() {
                                         Video
                                     </NavLink>
                                 </li> */}
-                                <li className='nav-item'>
-                                    <NavLink
-                                        exact="true"
-                                        to='/user/dashboard'
-                                        className='nav-links'
-                                    >
-                                        {authUser.name}
-                                    </NavLink>
+                                <li className="nav-item">
+                                    <NavLink exact="true" to="/user/dashboard" className="nav-links">{authUser.name}</NavLink>
                                 </li>
                             </>
                         ) : (
                             <>
-                                <li className='nav-item'>
-                                    <NavLink
-                                        exact="true"
-                                        to='/login'
-                                        className='nav-links'
-                                        onClick={handleClick}
-                                    >
-                                        Log in
-                                    </NavLink>
+                                <li className="nav-item">
+                                    <NavLink exact="true" to="/login" className="nav-links" onClick={handleClick}>Login</NavLink>
                                 </li>
 
-                                <li className='nav-item'>
-                                    <NavLink
-                                        exact="true"
-                                        to='/signup'
-                                        className='nav-links'
-                                        onClick={handleClick}
-                                    >
-                                        Sign up
-                                    </NavLink>
+                                <li className="nav-item">
+                                    <NavLink exact="true" to="/signup" className="nav-links" onClick={handleClick}>Sign up</NavLink>
                                 </li>
                             </>
-                        )
-                        }
-
-
+                        )}
                     </ul>
 
                     {/* For Mobile */}

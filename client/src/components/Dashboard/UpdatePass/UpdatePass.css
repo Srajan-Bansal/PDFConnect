@@ -1,6 +1,6 @@
 .form {
   width: 75%;
-  height: 69vh;
+  height: 66vh;
   margin: 0 auto;
   padding: 40px;
   background-color: #ffffff;
@@ -57,7 +57,7 @@ input:focus {
   padding: 14px;
   background-color: #14213d;
   width: 160px;
-  margin-left: 33.7rem;
+  margin-left: auto;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -73,4 +73,45 @@ input:focus {
   color: black;
   transform: scale(1.03);
   box-shadow: 0 6px 12px rgba(31, 64, 104, 0.3);
+}
+
+
+
+
+/* Media Query */
+
+@media (max-width: 768px) {
+
+  .form {
+    width: 90%;
+    padding: 30px;
+    margin-top: 30px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  .btns {
+    width: 140px;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .form {
+    width: 100%;
+    padding: 20px;
+    margin-top: 20px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  .btns {
+    width: 120px;
+    padding: 10px;
+  }
 }
