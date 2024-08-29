@@ -1,6 +1,6 @@
 .right {
   width: 75%;
-  height: 69vh;
+  height: 66vh;
   padding: 40px;
   background-color: #ffffff;
   margin: 0 auto;
@@ -34,7 +34,7 @@ form {
   flex-direction: column;
 }
 
-.form-child:first-child{
+.form-child:first-child {
   margin-top: 15px;
 }
 
@@ -59,8 +59,7 @@ input:focus {
 }
 
 .btbt {
-  margin-top: 28px;
-  margin-left: 33.7rem;
+  margin-top: 30px;
   width: 160px;
   background-color: #14213d;
   color: #ffffff;
@@ -71,6 +70,7 @@ input:focus {
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   font-weight: 600;
+  margin-left: auto;
 }
 
 .btbt:hover {
@@ -78,4 +78,71 @@ input:focus {
   color: black;
   transform: scale(1.03);
   box-shadow: 0 6px 12px rgba(31, 64, 104, 0.3);
+}
+
+
+
+
+/* Media Query */
+
+@media (max-width: 768px) {
+  .right {
+    width: 90%;
+    padding: 30px;
+    margin-top: 30px;
+  }
+
+  .right h2 {
+    font-size: 28px;
+  }
+
+  input {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .btbt {
+    width: 140px;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .right {
+    width: 100%;
+    padding: 20px;
+    margin-top: 20px;
+  }
+
+  .right h2 {
+    font-size: 24px;
+  }
+
+  input {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .btbt {
+    width: 120px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .btbt {
+    width: 140px;
+    padding: 12px;
+    font-size: 14px;
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .btbt {
+    width: 120px;
+    padding: 10px;
+    font-size: 12px;
+    margin-left: auto;
+  }
 }
