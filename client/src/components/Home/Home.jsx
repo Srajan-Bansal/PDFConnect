@@ -1,13 +1,22 @@
 import './Home.css';
+import { useContextAPI } from '../../context/ContextAPI';
 
 export default function Home() {
+    const { authUser } = useContextAPI();
+
     return (
         <div className="home-page">
             <section className="hero">
                 <div className="hero-content">
                     <h1>Convert PDFs with Ease</h1>
                     <p>Effortlessly manage, edit, and share your PDF files with PDFConnect.</p>
-                    <button className="cta-button">Get Started</button>
+                    <button className="cta-button" onClick={() => {
+                        if (!authUser) {
+                            window.location.href = '/signup';
+                        } else {
+                            window.location.href = '/docs';
+                        }
+                    }}>Get Started</button>
                 </div>
                 <div className="hero-image">
                     {/* <img src="/assets/hero-image.jpg" alt="PDF Management" /> */}
@@ -38,7 +47,7 @@ export default function Home() {
             <section className="call-to-action">
                 <h2>Start Using PDFConnect Today</h2>
                 <p>Join millions of users who manage their PDFs with PDFConnect.</p>
-                <button className="cta-button">Sign Up Now</button>
+                {!authUser && <button className="cta-button">Sign Up Now</button>}
             </section>
         </div>
     );

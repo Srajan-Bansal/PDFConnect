@@ -15,9 +15,9 @@ const sendCookie = (res, token) => {
 	const cookieOptions = {
 		maxAge: process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
 		httpOnly: true,
-		sameSite: 'Lax',
+		sameSite: process.env.ENVIROMENT === 'production' ? 'None' : 'Lax',
+		secure: process.env.ENVIROMENT === 'production' ? true : false,
 	};
-	if (process.env.ENVIROMENT === 'production') cookieOptions.secure = true;
 	res.cookie('jwt', token, cookieOptions);
 };
 
