@@ -47,7 +47,6 @@ body::-webkit-scrollbar {
     font-size: 3.5em;
     margin-bottom: 0.5em;
     line-height: 1.2;
-    text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: 700;
 }
@@ -127,7 +126,6 @@ body::-webkit-scrollbar {
     font-size: 3em;
     margin-bottom: 1.5em;
     color: #14213d;
-    text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: 700;
     position: relative;
@@ -213,7 +211,6 @@ body::-webkit-scrollbar {
 .call-to-action h2 {
     font-size: 3em;
     margin-bottom: 0.5em;
-    text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: 700;
 }

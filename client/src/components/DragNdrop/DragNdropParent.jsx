@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import DragNdrop from './DragNdrop';
 import axios from 'axios';
 import config from '../../config';
-
+import { Helmet } from 'react-helmet-async';
 import { useContextAPI } from '../../context/ContextAPI';
 import useDownloadPdf from '../../hooks/useDownloadPdf';
 import { toast } from 'react-toastify';
@@ -64,6 +64,11 @@ const DragNdropParent = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Drag and Drop - PDFConnect</title>
+                <meta name="description" content="Easily upload and organize your files using drag and drop functionality on PDFConnect." />
+                <meta name="keywords" content="Drag and drop, file upload, PDFConnect, file organization" />
+            </Helmet>
             <h1 className='headd'>Drag and Drop File Upload</h1>
             <DragNdrop onFilesSelected={handleFileSelected} width="100%" />
 

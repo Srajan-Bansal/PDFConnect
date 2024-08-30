@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from 'react'
 import { NavLink } from "react-router-dom"
+import { Helmet } from 'react-helmet-async';
 import useLogin from '../../hooks/useLogin';
 import config from '../../config';
 
@@ -43,6 +44,11 @@ export default function Login() {
 
     return (
         <>
+            <Helmet>
+                <title>Login - PDFConnect</title>
+                <meta name="description" content="Login to your PDFConnect account and manage your documents seamlessly." />
+                <meta name="keywords" content="Login, PDFConnect, document management, PDF editor" />
+            </Helmet>
             <section>
                 <div className="form_data">
                     <div className="form_heading">
