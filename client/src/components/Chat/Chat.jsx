@@ -77,7 +77,7 @@ const Chat = () => {
 
                 <form className='chat-input' onSubmit={handleSubmit}>
                     <input type="text" value={newMessage} onChange={e => setNewMessage(e.target.value)} placeholder='Type your message...' />
-                    <button>Send</button>
+                    <button type='submit'>Send</button>
                 </form>
             </div>
         </>
