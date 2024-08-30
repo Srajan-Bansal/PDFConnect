@@ -7,7 +7,6 @@ import { Helmet } from 'react-helmet-async';
 const Layout = lazy(() => import('./Layout'));
 const Home = lazy(() => import('./components/Home/Home'));
 const Docs = lazy(() => import('./components/Docs/Docs'));
-const Video = lazy(() => import('./components/Video/Video'));
 const DragNdropParent = lazy(() => import('./components/DragNdrop/DragNdropParent'));
 const Signup = lazy(() => import('./components/Signup/Signup'));
 const Login = lazy(() => import('./components/Signup/Login'));
@@ -41,14 +40,6 @@ const App = () => {
             <Suspense fallback={<div>Loading...</div>}>
               <DragNdropParent />
               <Docs />
-            </Suspense>
-          } redirectTo='/login' />
-        } />
-
-        <Route path='video' element={
-          <PrivateRoute element={
-            <Suspense fallback={<div>Loading...</div>}>
-              <Video />
             </Suspense>
           } redirectTo='/login' />
         } />
