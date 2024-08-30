@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import useSignup from '../../hooks/useSignup';
 
 import './mix.css';
@@ -23,6 +24,11 @@ export default function Signup() {
 
     return (
         <>
+            <Helmet>
+                <title>Signup - PDFConnect</title>
+                <meta name="description" content="Create a new PDFConnect account and start editing and managing your PDFs." />
+                <meta name="keywords" content="Signup, PDFConnect, create account, document management" />
+            </Helmet>
             <section>
                 <div className='form_data'>
                     <div className='form_heading'>

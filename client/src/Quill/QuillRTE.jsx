@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { useContextAPI } from '../context/ContextAPI';
-
+import { Helmet } from 'react-helmet-async';
 import config from '../config';
 
 import Quill from 'quill';
@@ -140,9 +140,16 @@ const QuillRTE = () => {
   // }, [quill, data]);
 
   return (
-    <div className="container" style={{ height: '800px', width: '800px' }} ref={wrapperRef}>
+    <>
+      <Helmet>
+        <title>Quill Editor - PDFConnect</title>
+        <meta name="description" content="Edit and format documents with Quill, an intuitive text editor integrated with PDFConnect." />
+        <meta name="keywords" content="Quill editor, text editor, PDFConnect, document formatting" />
+      </Helmet>
+      <div className="container" style={{ height: '800px', width: '800px' }} ref={wrapperRef}>
 
-    </div>
+      </div>
+    </>
   );
 }
 

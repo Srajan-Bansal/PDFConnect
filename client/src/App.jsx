@@ -2,10 +2,11 @@ import { Navigate, Route, RouterProvider, createBrowserRouter, createRoutesFromE
 import { useContextAPI } from './context/ContextAPI';
 import { lazy, Suspense } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { Helmet } from 'react-helmet-async';
+
 const Layout = lazy(() => import('./Layout'));
 const Home = lazy(() => import('./components/Home/Home'));
 const Docs = lazy(() => import('./components/Docs/Docs'));
-const Video = lazy(() => import('./components/Video/Video'));
 const DragNdropParent = lazy(() => import('./components/DragNdrop/DragNdropParent'));
 const Signup = lazy(() => import('./components/Signup/Signup'));
 const Login = lazy(() => import('./components/Signup/Login'));
@@ -43,14 +44,6 @@ const App = () => {
           } redirectTo='/login' />
         } />
 
-        <Route path='video' element={
-          <PrivateRoute element={
-            <Suspense fallback={<div>Loading...</div>}>
-              <Video />
-            </Suspense>
-          } redirectTo='/login' />
-        } />
-
         <Route path='user/dashboard' element={
           <PrivateRoute element={<Suspense fallback={<div>Loading...</div>}><Dashboard /></Suspense>} redirectTo='/login' />
         }>
@@ -75,11 +68,20 @@ const App = () => {
               <Signup />
             </Suspense>
         } />
+
+        <Route path='*' element={<div>404 - Not Found</div>} />
       </Route>
     )
   );
 
-  return <RouterProvider router={router} />;
+  return <>
+    <Helmet>
+      <title>PDFConnect</title>
+      <meta name="description" content="PDFConnect - Your comprehensive tool for editing, managing, and sharing PDF documents." />
+      <meta name="keywords" content="PDFConnect, PDF editor, document management, file sharing" />
+    </Helmet>
+    <RouterProvider router={router} />;
+  </>
 };
 
 export default App;

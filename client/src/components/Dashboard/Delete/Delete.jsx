@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './Delete.css';
 import { toast } from 'react-toastify';
+import { Helmet } from 'react-helmet-async';
 import useDeleteAccount from '../../../hooks/useDeleteAccount';
 import { useContextAPI } from '../../../context/ContextAPI';
 
@@ -38,25 +39,32 @@ function Delete() {
   };
 
   return (
-    <div className="delete-container">
-      <h2 className="delete-head">Delete Account</h2>
-      {!showConfirmation ? (
-        <div className="delete-input">
-          <p className="delete-text">Please enter your username to delete your account:</p>
-          <input type="text" value={enteredUsername} onChange={(e) => setEnteredUsername(e.target.value)} placeholder="Enter your username" className="inputt" />
-          {error && <p className="delete-error">{error}</p>}
-          <button className="delete-button" onClick={handleDeleteClick}>Delete Account</button>
-        </div>
-      ) : (
-        <div className="delete-confirm">
-          <p className="delete-confirm-text">Are you sure you want to delete your account?</p>
-          <div className="delete-buttons">
-            <button onClick={handleConfirmDelete} className="delete-confirm-yes">Yes</button>
-            <button onClick={handleCancelDelete} className="delete-confirm-no">No</button>
+    <>
+      <Helmet>
+        <title>Delete Account - PDFConnect</title>
+        <meta name="description" content="Permanently delete your PDFConnect account and remove all data." />
+        <meta name="keywords" content="Delete account, remove account, PDFConnect, account deletion" />
+      </Helmet>
+      <div className="delete-container">
+        <h2 className="delete-head">Delete Account</h2>
+        {!showConfirmation ? (
+          <div className="delete-input">
+            <p className="delete-text">Please enter your username to delete your account:</p>
+            <input type="text" value={enteredUsername} onChange={(e) => setEnteredUsername(e.target.value)} placeholder="Enter your username" className="inputt" />
+            {error && <p className="delete-error">{error}</p>}
+            <button className="delete-button" onClick={handleDeleteClick}>Delete Account</button>
           </div>
-        </div>
-      )}
-    </div>
+        ) : (
+          <div className="delete-confirm">
+            <p className="delete-confirm-text">Are you sure you want to delete your account?</p>
+            <div className="delete-buttons">
+              <button onClick={handleConfirmDelete} className="delete-confirm-yes">Yes</button>
+              <button onClick={handleCancelDelete} className="delete-confirm-no">No</button>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 

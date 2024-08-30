@@ -5,6 +5,7 @@ import { useContextAPI } from './../../context/ContextAPI';
 import './../Chat/Chat.css';
 import config from './../../config';
 import { toast } from "react-toastify";
+import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 
 const GenerativeAI = () => {
@@ -58,29 +59,36 @@ const GenerativeAI = () => {
     }
 
     return (
-        <div className='chat-container'>
-            <div className="chat-header">
-                <FaComments />
-                <span>Generative AI</span>
-            </div>
+        <>
+            <Helmet>
+                <title>Generative AI - PDFConnect</title>
+                <meta name="description" content="Use generative AI tools for advanced document management and insights on PDFConnect." />
+                <meta name="keywords" content="Generative AI, PDFConnect, document insights, AI tools" />
+            </Helmet>
+            <div className='chat-container'>
+                <div className="chat-header">
+                    <FaComments />
+                    <span>Generative AI</span>
+                </div>
 
-            <div className="chat-body">
-                {messages.map((message, index) => (
-                    <div className={`message ${message.isSender ? 'sent' : 'received'}`} key={index}>
-                        <strong>{message.name}</strong>: <br /> {message.text}
-                    </div>
-                ))}
-            </div>
+                <div className="chat-body">
+                    {messages.map((message, index) => (
+                        <div className={`message ${message.isSender ? 'sent' : 'received'}`} key={index}>
+                            <strong>{message.name}</strong>: <br /> {message.text}
+                        </div>
+                    ))}
+                </div>
 
-            <form className='chat-input' onSubmit={handleSubmit}>
-                <input type="text" value={newMessage} onChange={e => setNewMessage(e.target.value)} placeholder='Type your message...' />
-                <button type='submit'>Send</button>
-                <button type='button' onClick={() => {
-                    localStorage.removeItem(id);
-                    setMessages([]);
-                }}>Clear</button>
-            </form>
-        </div>
+                <form className='chat-input' onSubmit={handleSubmit}>
+                    <input type="text" value={newMessage} onChange={e => setNewMessage(e.target.value)} placeholder='Type your message...' />
+                    <button type='submit'>Send</button>
+                    <button type='button' onClick={() => {
+                        localStorage.removeItem(id);
+                        setMessages([]);
+                    }}>Clear</button>
+                </form>
+            </div>
+        </>
     );
 }
 

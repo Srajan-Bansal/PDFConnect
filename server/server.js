@@ -28,7 +28,13 @@ httpServer.listen(PORT, () => {
 	console.log(`Server listening on PORT ${PORT}`);
 });
 
+let DATABASE;
+if (process.env.ENVIROMENT === 'development') {
+	DATABASE = process.env.DATABASE_LOCAL;
+} else {
+	DATABASE = process.env.DATABASE;
+}
 mongoose
-	.connect(process.env.DATABASE, { family: 4 })
+	.connect(DATABASE, { family: 4 })
 	.then(() => console.log('DB connected'))
 	.catch((err) => console.log(err.message));
