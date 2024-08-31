@@ -31,6 +31,8 @@ httpServer.listen(PORT, () => {
 let DATABASE;
 if (process.env.ENVIROMENT === 'development') {
 	DATABASE = process.env.DATABASE_LOCAL;
+} else if (process.env.ENVIROMENT === 'docker-run') {
+	DATABASE = process.env.DATABASE_DOCKER;
 } else {
 	DATABASE = process.env.DATABASE;
 }
