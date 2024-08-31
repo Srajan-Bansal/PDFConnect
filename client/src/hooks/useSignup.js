@@ -3,7 +3,6 @@ import config from '../config';
 import { useContextAPI } from '../context/ContextAPI';
 
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const useSignup = () => {
 	const { setAuthUser } = useContextAPI();
@@ -27,17 +26,26 @@ const useSignup = () => {
 				}
 			);
 
-			if (response.error) throw new Error(response.error);
+			const user = response.data;
+			const expiryDate =
+				new Date().getTime() +
+				Number(import.meta.env.VITE_LOCALSTORAGE_EXPIRY);
 
-			localStorage.setItem('user-info', JSON.stringify(response.data));
-			setAuthUser(response.data);
+			localStorage.setItem(
+				'user-info',
+				JSON.stringify({
+					user,
+					expiryDate,
+				})
+			);
+			setAuthUser({
+				user,
+				expiryDate,
+			});
 			console.log(response.data);
 		} catch (err) {
 			console.log(email);
-			if (
-				err.response?.data.message ==
-				`E11000 duplicate key error collection: Extraction.users index: email_1 dup key: { email: "${email}" }`
-			)
+			if (err.response?.data.code === 11000)
 				return toast.error('Email aldready exist');
 			toast.error(err.message);
 			console.log('Error signing in ', err);

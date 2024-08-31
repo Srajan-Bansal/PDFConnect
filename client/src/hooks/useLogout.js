@@ -4,7 +4,6 @@ import { useContextAPI } from '../context/ContextAPI';
 import { useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const useLogout = () => {
 	const { setAuthUser } = useContextAPI();
@@ -12,11 +11,9 @@ const useLogout = () => {
 
 	const logout = async () => {
 		try {
-			const response = await axios.get(`${config.userAPI}/logout`, {
+			await axios.get(`${config.userAPI}/logout`, {
 				withCredentials: true,
 			});
-
-			if (response.error) throw new Error(response.error);
 
 			localStorage.removeItem('user-info');
 			setAuthUser(null);
