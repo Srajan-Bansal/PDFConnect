@@ -46,6 +46,7 @@ export default function Signup() {
                                 name='fname'
                                 id='fname'
                                 placeholder='Enter Your Name'
+                                style={{ width: '95%' }}
                             />
                         </div>
 
@@ -58,6 +59,7 @@ export default function Signup() {
                                 name='email'
                                 id='email'
                                 placeholder='Enter Your Email Address'
+                                style={{ width: '95%' }}
                             />
                         </div>
 

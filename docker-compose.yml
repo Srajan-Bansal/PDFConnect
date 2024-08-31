@@ -5,8 +5,13 @@ services:
         build:
             context: ./client
             dockerfile: Dockerfile
+        image: srajanbansal/pdfconnect-client:latest
         ports:
             - '5173:5173'
+        env_file:
+            - ./client/.env
+        environment:
+            - VITE_ENVIRONMENT=development
         depends_on:
             - server
 
@@ -14,13 +19,16 @@ services:
         build:
             context: ./server
             dockerfile: Dockerfile
+        image: srajanbansal/pdfconnect-server:latest
         ports:
             - '8000:8000'
         env_file:
             - ./server/config.env
         environment:
-            - NODE_ENV=production
-            - DATABASE_LOCAL=mongodb+srv://Srajan_Bansal:bmod0ThlQOJ2Mxve@cluster0.l56yunk.mongodb.net/
+            - ENVIROMENT=docker-run
+            - DATABASE_LOCAL=mongodb://localhost:27017/Extraction
+            - DATABASE_DOCKER=mongodb://mongo:27017/Extraction
+            - DATABASE=mongodb+srv://Srajan_Bansal:bmod0ThlQOJ2Mxve@cluster0.l56yunk.mongodb.net/
         depends_on:
             - mongo
 

@@ -31,7 +31,7 @@ const GenerativeAI = () => {
         const prompt = newMessage;
         setNewMessage('');
 
-        const userMessage = { name: authUser.name, text: prompt, isSender: true };
+        const userMessage = { name: authUser.user.name, text: prompt, isSender: true };
         setMessages(prevMessages => {
             const updatedMessages = [...prevMessages, userMessage];
             localStorage.setItem(id, JSON.stringify(updatedMessages));
@@ -61,14 +61,14 @@ const GenerativeAI = () => {
     return (
         <>
             <Helmet>
-                <title>Generative AI - PDFConnect</title>
+                <title>Gemini Powered AI - PDFConnect</title>
                 <meta name="description" content="Use generative AI tools for advanced document management and insights on PDFConnect." />
                 <meta name="keywords" content="Generative AI, PDFConnect, document insights, AI tools" />
             </Helmet>
             <div className='chat-container'>
                 <div className="chat-header">
                     <FaComments />
-                    <span>Generative AI</span>
+                    <span>Gemini Powered AI</span>
                 </div>
 
                 <div className="chat-body">

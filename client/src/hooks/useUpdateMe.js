@@ -18,11 +18,21 @@ const useUpdateMe = () => {
 				}
 			);
 
-			if (response.data.error) throw new Error(response.data.error);
-
 			toast.success('Successfully updated user details');
-			localStorage.setItem('user-info', JSON.stringify(response.data));
-			setAuthUser(response.data);
+			const { expiryDate } = localStorage.getItem('user-info');
+			const user = response.data;
+			console.log(user, expiryDate);
+			localStorage.setItem(
+				'user-info',
+				JSON.stringify({
+					user: response.data,
+					expiryDate,
+				})
+			);
+			setAuthUser({
+				user,
+				expiryDate,
+			});
 		} catch (error) {
 			const errorMessage =
 				error.response?.data?.error || 'Something went wrong!';
