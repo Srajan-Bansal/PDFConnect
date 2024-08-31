@@ -10,8 +10,6 @@ services:
             - '5173:5173'
         env_file:
             - ./client/.env
-        environment:
-            - VITE_ENVIRONMENT=development
         depends_on:
             - server
 
@@ -26,9 +24,6 @@ services:
             - ./server/config.env
         environment:
             - ENVIROMENT=docker-run
-            - DATABASE_LOCAL=mongodb://localhost:27017/Extraction
-            - DATABASE_DOCKER=mongodb://mongo:27017/Extraction
-            - DATABASE=mongodb+srv://Srajan_Bansal:bmod0ThlQOJ2Mxve@cluster0.l56yunk.mongodb.net/
         depends_on:
             - mongo
 
