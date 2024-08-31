@@ -4,6 +4,7 @@ const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('../utils/appError');
 const Email = require('./../utils/email');
+const { promisify } = require('util');
 
 const generateToken = (id) => {
 	return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -148,3 +149,20 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 		token,
 	});
 });
+
+exports.isValidSession = async (req, res) => {
+	const token = req.cookies.jwt;
+	if (!token) {
+		return res.status(401).json({ valid: false });
+	}
+
+	try {
+		const decodedToken = await promisify(jwt.verify)(
+			token,
+			process.env.JWT_SECRET
+		);
+		return res.json({ valid: true });
+	} catch (error) {
+		return res.status(401).json({ valid: false });
+	}
+};

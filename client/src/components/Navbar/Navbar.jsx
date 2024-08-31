@@ -37,7 +37,7 @@ export default function NavBar() {
 
                         {authUser ? (
                             <li className="nav-item">
-                                <NavLink exact="true" to="/user/dashboard" className="nav-links">{authUser.name}</NavLink>
+                                <NavLink exact="true" to="/user/dashboard" className="nav-links">{authUser.user.name}</NavLink>
                             </li>
                         ) : (
                             <>

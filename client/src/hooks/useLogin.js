@@ -3,7 +3,6 @@ import config from '../config';
 import { useContextAPI } from '../context/ContextAPI';
 
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const useLogin = () => {
 	const { setAuthUser } = useContextAPI();
@@ -23,10 +22,22 @@ const useLogin = () => {
 				}
 			);
 
-			if (response.error) throw new Error(response.error);
+			const user = response.data;
+			const expiryDate =
+				new Date().getTime() +
+				Number(import.meta.env.VITE_LOCALSTORAGE_EXPIRY);
 
-			localStorage.setItem('user-info', JSON.stringify(response.data));
-			setAuthUser(response.data);
+			localStorage.setItem(
+				'user-info',
+				JSON.stringify({
+					user,
+					expiryDate,
+				})
+			);
+			setAuthUser({
+				user,
+				expiryDate,
+			});
 		} catch (error) {
 			const errorMessage =
 				error.response?.data?.error || 'Something went wrong!';
