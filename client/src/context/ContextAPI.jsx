@@ -32,7 +32,7 @@ export function ContextAPIProvider({ children }) {
             }
 
             try {
-                const response = await axios.get(`${config.userAPI}/isValidSession`, {
+                const response = await axios.get(`${config.userAPI}/validate-session`, {
                     withCredentials: true
                 });
 

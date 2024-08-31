@@ -46,8 +46,7 @@ const Chat = () => {
     function handleSubmit(e) {
         e.preventDefault();
         if (newMessage.trim() === '') return;
-        console.log(authUser._id);
-        const message = { senderId: authUser._id, name: authUser.name, text: newMessage, timestamp: new Date() }
+        const message = { senderId: authUser.user._id, name: authUser.user.name, text: newMessage, timestamp: new Date() }
         socket.emit('send-message', { message, documentID });
         setMessages((prevMessages) => [...prevMessages, message]);
         setNewMessage('');
@@ -68,7 +67,7 @@ const Chat = () => {
 
                 <div className="chat-body">
                     {messages.map((message, index) => (
-                        <div className={`message ${message.senderId === authUser._id ? 'sent' : 'received'}`} key={index}>
+                        <div className={`message ${message.senderId === authUser.user._id ? 'sent' : 'received'}`} key={index}>
                             <strong>{message.name}</strong>: <br /> {message.text}
                             <span className='timestamp'>{new Date(message.timestamp).toLocaleString()}</span>
                         </div>

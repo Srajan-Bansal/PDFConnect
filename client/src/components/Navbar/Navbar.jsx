@@ -54,15 +54,13 @@ export default function NavBar() {
 
                     {/* For Mobile */}
                     <div className="nav-icon" onClick={handleClick}>
-                        {/* // <i className={click ? "fas fa-times" : "fas fa-bars"}></i> */}
-
                         {click ? (
                             <span className="icon">
-                                <HamburgetMenuOpen />{" "}
+                                <HamburgetMenuClose />
                             </span>
                         ) : (
-                            <span className="icon">
-                                <HamburgetMenuClose />
+                            <span>
+                                <HamburgetMenuOpen />
                             </span>
                         )}
                     </div>

@@ -59,7 +59,7 @@ export default function Login() {
                     <form onSubmit={(e) => handleSubmit(e)}>
                         <div className="form_input">
                             <label htmlFor="email">Email</label>
-                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} name="email" id="email" placeholder='Enter Your Email Address' />
+                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} name="email" id="email" placeholder='Enter Your Email Address' style={{ width: '95%' }} />
                         </div>
 
                         {isLogin ?

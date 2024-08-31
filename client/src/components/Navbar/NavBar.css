@@ -1,6 +1,6 @@
 .navbar {
   background-color: #14213d;
-  width: 100vw;
+  width: 100%;
   height: 100px;
   display: flex;
   justify-content: center;
@@ -71,12 +71,7 @@
 
 .nav-icon {
   display: none;
-  color: #a4bfe0;
-}
-
-.nav-icon .icon {
-  width: 2rem;
-  height: 2rem;
+  height: 60px;
 }
 
 .nav-menu.active {
@@ -91,7 +86,7 @@
 @media screen and (max-width: 960px) {
   .nav-menu {
     flex-direction: column;
-    width: 100%;
+    width: 80%;
     position: absolute;
     top: 80px;
     left: -110%;
@@ -106,12 +101,16 @@
     font-size: 1.5rem;
   }
 
-  .nav-icon {
+  /* .nav-icon {
     display: block;
     position: absolute;
     top: 50%;
     right: 0;
     transform: translate(-100%, -50%);
     cursor: pointer;
+  } */
+
+  .nav-icon {
+    display: block;
   }
 }
