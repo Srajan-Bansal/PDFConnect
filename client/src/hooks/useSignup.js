@@ -42,10 +42,8 @@ const useSignup = () => {
 				user,
 				expiryDate,
 			});
-			console.log(response.data);
 		} catch (err) {
-			console.log(email);
-			if (err.response?.data.code === 11000)
+			if (err.response?.data?.message.startsWith('E11000'))
 				return toast.error('Email aldready exist');
 			toast.error(err.message);
 			console.log('Error signing in ', err);

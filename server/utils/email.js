@@ -44,7 +44,9 @@ module.exports = class Email {
 		};
 
 		// await this.newTransport().sendMail(mailOptions);
-		await client.lPush('mails', JSON.stringify({ mailOptions }));
+		if (process.env.ENVIROMENT === 'production') {
+			await client.lPush('mails', JSON.stringify({ mailOptions }));
+		}
 	}
 
 	async sendWelcome() {

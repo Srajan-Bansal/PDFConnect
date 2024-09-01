@@ -40,7 +40,7 @@ const useLogin = () => {
 			});
 		} catch (error) {
 			const errorMessage =
-				error.response?.data?.error || 'Something went wrong!';
+				error.response?.data?.message || 'Something went wrong!';
 			toast.error(errorMessage);
 			console.error('Error updating user:', errorMessage);
 		}
