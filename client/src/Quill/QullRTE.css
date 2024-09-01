@@ -2,8 +2,12 @@
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     width: 50%;
+    height: 800px;
     margin: auto;
-    padding: 20px;
     text-align: center;
     background-color: #f7f7f7;
+}
+
+.ql-container.ql-snow {
+    border: none !important;
 }

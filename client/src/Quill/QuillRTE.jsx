@@ -146,7 +146,7 @@ const QuillRTE = () => {
         <meta name="description" content="Edit and format documents with Quill, an intuitive text editor integrated with PDFConnect." />
         <meta name="keywords" content="Quill editor, text editor, PDFConnect, document formatting" />
       </Helmet>
-      <div className="container" style={{ height: '800px', width: '800px' }} ref={wrapperRef}>
+      <div className="container" ref={wrapperRef}>
 
       </div>
     </>
