@@ -8,13 +8,16 @@ const redis_url = {
 	},
 };
 
-const client = createClient(redis_url);
+let client = '';
+if (process.env.ENVIROMENT === 'production') {
+	client = createClient(redis_url);
 
-client.on('error', (err) => console.log('Redis Client Error: ', err));
+	client.on('error', (err) => console.log('Redis Client Error: ', err));
 
-client
-	.connect()
-	.then(() => console.log('Redis Client Connected'))
-	.catch((err) => console.log('Redis Connection Error:', err));
+	client
+		.connect()
+		.then(() => console.log('Redis Client Connected'))
+		.catch((err) => console.log('Redis Connection Error:', err));
+}
 
 module.exports = { client };

@@ -19,31 +19,10 @@ const pdfReader = async (path) => {
 };
 
 exports.uploadPDF = catchAsync(async (req, res, next) => {
-	const updateData = { ...req.body };
-
-	if (!req.files || !req.files['pdf'])
-		return next(new AppError('No File Found'));
-
-	const getUserPdf = await User.findById(req.user._id);
-
-	if (getUserPdf && getUserPdf.pdf) {
-		fs.unlink(getUserPdf.pdf, (err) => {
-			if (err) {
-				return next(new AppError('Error deleting PDF:', 400));
-			} else {
-				console.log('Previous PDF file deleted successfully');
-			}
-		});
-	}
-	updateData.pdf = req.files['pdf'][0].path;
-
-	const user = await User.findByIdAndUpdate(req.user._id, updateData, {
-		new: true,
-		runValidators: true,
-	});
-
 	const file = req.files['pdf'][0].path;
+	if (!file) return next(new AppError('No file Found', 400));
 	const data = await pdfReader(file);
+	if (!data) return next(new AppError('Unable to read data', 500));
 
 	res.status(200).json(data);
 });
