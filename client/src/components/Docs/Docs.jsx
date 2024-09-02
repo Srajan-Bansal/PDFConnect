@@ -26,7 +26,7 @@ const Docs = () => {
             <button className="extract-btn" style={{ marginLeft: "25px" }} onClick={() => handleClick('chat')}>Chat</button>
             <button className="extract-btn" style={{ marginLeft: "25px" }} onClick={() => handleClick('GenerativeAI')}>Gemini</button>
 
-            <div style={{ marginTop: '50px' }}>
+            <div className="docs-container" style={{ marginTop: '50px' }}>
                 {button === 'chat' && <Chat />}
                 {button === 'GenerativeAI' && <GenerativeAI />}
                 <QuillRTE />

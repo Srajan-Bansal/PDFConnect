@@ -1,8 +1,7 @@
 .container {
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    width: 50%;
-    height: 800px;
+    width: 800px;
     margin: auto;
     text-align: center;
     background-color: #f7f7f7;
@@ -10,4 +9,7 @@
 
 .ql-container.ql-snow {
     border: none !important;
+    height: 800px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }

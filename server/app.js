@@ -56,7 +56,7 @@ app.use('/getDataFromPDF', rateLimiterMiddleware);
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());

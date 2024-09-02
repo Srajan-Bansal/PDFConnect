@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import useUpdateMe from '../../../hooks/useUpdateMe';
-import useUploadPhoto from '../../../hooks/useUploadPhoto';
+import useUpdateProfile from '../../../hooks/useUpdateProfile';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -10,22 +9,14 @@ function UserDetails() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [photo, setPhoto] = useState(null);
-  const { updateMe } = useUpdateMe();
-  const { uploadPhoto } = useUploadPhoto();
+  const { updateProfile } = useUpdateProfile();
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      if (name || email) {
-        await updateMe(name, email);
-      }
-
-      if (photo) {
-        await uploadPhoto(photo);
-      }
-
+      await updateProfile(name, email, photo);
       navigate('/');
     } catch (error) {
       toast.error('Error updating profile. Please try again later.');
