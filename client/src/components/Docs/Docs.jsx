@@ -2,6 +2,7 @@ import { useState } from "react";
 import Chat from "../Chat/Chat";
 import GenerativeAI from "../GenerativeAI/GenerativeAI";
 import QuillRTE from "../../Quill/QuillRTE";
+import './docs.css';
 import { Helmet } from 'react-helmet-async';
 
 const Docs = () => {
