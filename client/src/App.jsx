@@ -15,6 +15,7 @@ const UserDetails = lazy(() => import('./components/Dashboard/UserDetails/UserDe
 const UpdatePass = lazy(() => import("./components/Dashboard/UpdatePass/UpdatePass"));
 const Logout = lazy(() => import("./components/Dashboard/Logout/Logout"));
 const Delete = lazy(() => import("./components/Dashboard/Delete/Delete"));
+const Spinner = lazy(() => import('./Spinner'));
 
 const PrivateRoute = ({ element, redirectTo }) => {
   const { authUser } = useContextAPI();
@@ -28,7 +29,7 @@ const App = () => {
     createRoutesFromElements(
       <Route path='/' element={<Layout />}>
         <Route path='/' index element={
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Spinner />}>
             <Home />
           </Suspense>
         } />
@@ -37,7 +38,7 @@ const App = () => {
 
         <Route path='docs/:id' element={
           <PrivateRoute element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Spinner />}>
               <DragNdropParent />
               <Docs />
             </Suspense>
@@ -45,7 +46,7 @@ const App = () => {
         } />
 
         <Route path='user/dashboard' element={
-          <PrivateRoute element={<Suspense fallback={<div>Loading...</div>}><Dashboard /></Suspense>} redirectTo='/login' />
+          <PrivateRoute element={<Suspense fallback={<Spinner />}><Dashboard /></Suspense>} redirectTo='/login' />
         }>
           <Route index element={<Navigate to='userDetails' />} />
           <Route path='userDetails' element={<UserDetails />} />
@@ -57,14 +58,14 @@ const App = () => {
 
         <Route path='login' element={
           authUser ? <Navigate to='/' /> :
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Spinner />}>
               <Login />
             </Suspense>
         } />
 
         <Route path='signup' element={
           authUser ? <Navigate to='/' /> :
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Spinner />}>
               <Signup />
             </Suspense>
         } />
