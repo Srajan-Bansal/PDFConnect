@@ -29,7 +29,7 @@ const DragNdropParent = () => {
             formData.append('pdf', selectedFile);
 
             const response = await axios.post(`${config.viewAPI}/getDataFromPDF`, formData, { withCredentials: true });
-            const extractedData = response.data[0].pageContent;
+            const extractedData = response.data.text;
             quill.setText(extractedData);
             setIsExtracted(true);
             toast.success('Data extracted successfully');

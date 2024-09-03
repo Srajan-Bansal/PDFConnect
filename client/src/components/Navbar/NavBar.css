@@ -83,6 +83,14 @@
   border-radius: 0 0 50px 0;
 }
 
+.user {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
 @media screen and (max-width: 960px) {
   .nav-menu {
     flex-direction: column;
@@ -112,5 +120,11 @@
 
   .nav-icon {
     display: block;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .user {
+    display: none;
   }
 }

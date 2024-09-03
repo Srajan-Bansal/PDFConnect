@@ -22,7 +22,6 @@ export default function NavBar() {
                 <div className="nav-container">
                     <NavLink exact="true" to="/" className="nav-logo">
                         <span>PDFConnect</span>
-                        {/* <i className="fas fa-code"></i> */}
                         <span className="icon"><CodeIcon /></span>
                     </NavLink>
 
@@ -36,9 +35,22 @@ export default function NavBar() {
                         </li>
 
                         {authUser ? (
-                            <li className="nav-item">
-                                <NavLink exact="true" to="/user/dashboard" className="nav-links">{authUser.user.name}</NavLink>
-                            </li>
+                            <>
+                                {authUser.user.photo && (
+                                    <li className="nav-item">
+                                        <div className="user-photo">
+                                            <img src={authUser.user.photo} alt="User" className="user"
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src = 'https://i.pinimg.com/474x/5d/69/42/5d6942c6dff12bd3f960eb30c5fdd0f9.jpg';
+                                                }} />
+                                        </div>
+                                    </li>
+                                )}
+                                <li className="nav-item">
+                                    <NavLink exact="true" to="/user/dashboard" className="nav-links">{authUser.user.name}</NavLink>
+                                </li>
+                            </>
                         ) : (
                             <>
                                 <li className="nav-item">

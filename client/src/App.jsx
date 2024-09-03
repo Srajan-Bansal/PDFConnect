@@ -80,7 +80,7 @@ const App = () => {
       <meta name="description" content="PDFConnect - Your comprehensive tool for editing, managing, and sharing PDF documents." />
       <meta name="keywords" content="PDFConnect, PDF editor, document management, file sharing" />
     </Helmet>
-    <RouterProvider router={router} />;
+    <RouterProvider router={router} />
   </>
 };
 
