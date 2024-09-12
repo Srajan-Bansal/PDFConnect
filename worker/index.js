@@ -2,15 +2,12 @@ const { createClient } = require('redis');
 const express = require('express');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 dotenv.config({ path: './config.env' });
 
 const app = express();
-
-const PORT = process.env.PORT;
-app.listen(PORT, () => {
-	console.log('worker listing to port: ', PORT);
-});
+app.use(cors());
 
 const redis_url = {
 	password: process.env.REDIS_PASSWORD,
@@ -55,3 +52,12 @@ async function main() {
 		}
 	}
 }
+
+app.get('/', (req, res) => {
+	res.send('Worker is running');
+});
+
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+	console.log('worker listing to port: ', PORT);
+});

@@ -46,6 +46,11 @@ module.exports = class Email {
 		// await this.newTransport().sendMail(mailOptions);
 		if (process.env.ENVIROMENT === 'production') {
 			await client.lPush('mails', JSON.stringify({ mailOptions }));
+			try {
+				await fetch(process.env.WORKER_URL);
+			} catch (error) {
+				console.log('Fail to start worker: ', error);
+			}
 		}
 	}
 
