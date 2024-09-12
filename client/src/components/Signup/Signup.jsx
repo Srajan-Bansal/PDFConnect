@@ -32,7 +32,7 @@ export default function Signup() {
             <section>
                 <div className='form_data'>
                     <div className='form_heading'>
-                        <h1>Sign Up</h1>
+                        <h1>Welcome Back, Sign Up</h1>
                         <p style={{ textAlign: 'center' }}>Please signup.</p>
                     </div>
 
