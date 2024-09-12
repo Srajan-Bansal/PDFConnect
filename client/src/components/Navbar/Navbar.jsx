@@ -39,11 +39,15 @@ export default function NavBar() {
                                 {authUser.user.photo && (
                                     <li className="nav-item">
                                         <div className="user-photo">
-                                            <img src={authUser.user.photo} alt="User" className="user"
+                                            <img
+                                                src={authUser.user.photo}
+                                                alt="User"
+                                                className="user"
                                                 onError={(e) => {
                                                     e.target.onerror = null;
                                                     e.target.src = 'https://i.pinimg.com/474x/5d/69/42/5d6942c6dff12bd3f960eb30c5fdd0f9.jpg';
-                                                }} />
+                                                }}
+                                            />
                                         </div>
                                     </li>
                                 )}
@@ -65,7 +69,12 @@ export default function NavBar() {
                     </ul>
 
                     {/* For Mobile */}
-                    <div className="nav-icon" onClick={handleClick}>
+                    <div
+                        className="nav-icon"
+                        onClick={handleClick}
+                        aria-label={click ? "Close menu" : "Open menu"}
+                        aria-expanded={click}
+                    >
                         {click ? (
                             <span className="icon">
                                 <HamburgetMenuClose />

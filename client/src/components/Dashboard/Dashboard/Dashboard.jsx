@@ -2,8 +2,6 @@ import { Outlet } from 'react-router-dom';
 import SideBar from '../SideBar/SideBar';
 import './Dashboard.css';
 import { Helmet } from 'react-helmet-async';
-import { Suspense } from 'react';
-import Spinner from '../../../Spinner';
 
 const Dashboard = () => {
   return (
@@ -13,14 +11,12 @@ const Dashboard = () => {
         <meta name="description" content="Access your PDFConnect dashboard to manage your PDFs, settings, and more." />
         <meta name="keywords" content="Dashboard, PDFConnect, manage PDFs, document tools" />
       </Helmet>
-      <Suspense fallback={<Spinner />}>
-        <div className="container">
-          <SideBar />
-          <div className="content">
-            <Outlet />
-          </div>
+      <div className="container">
+        <SideBar />
+        <div className="content">
+          <Outlet />
         </div>
-      </Suspense>
+      </div>
     </>
   );
 };

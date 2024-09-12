@@ -11,7 +11,7 @@ body {
 
 .left {
   width: 25%;
-  height: 87.8vh;
+  height: 100vh;
   background-color: #14213d;
   color: #fff;
   display: flex;
@@ -36,12 +36,10 @@ body {
   transform: scale(1.05);
 }
 
-.s1:hover .img {
-  color: black;
-}
-
-.s1:hover .para {
-  color: black;
+.s1:focus {
+  outline: 2px solid #a4bfe0;
+  background-color: #a4bfe0;
+  transform: scale(1.05);
 }
 
 .img {
@@ -61,21 +59,14 @@ body {
   margin-top: 20px;
 }
 
-
-
-
-/* Media Query */
-
 @media (max-width: 768px) {
   .left {
     width: 35%;
-    height: auto;
     padding: 15px;
   }
 
   .s1 {
     padding: 15px;
-    font-size: 16px;
   }
 
   .img {
@@ -91,13 +82,11 @@ body {
 @media (max-width: 480px) {
   .left {
     width: 100%;
-    height: auto;
     padding: 10px;
   }
 
   .s1 {
     padding: 10px;
-    font-size: 14px;
   }
 
   .img {

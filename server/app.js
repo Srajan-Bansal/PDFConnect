@@ -18,9 +18,9 @@ const docRoutes = require('./routes/docRoutes');
 const app = express();
 
 // MIDDLEWARES
-if (process.env.ENVIROMENT === 'development') {
-	app.use(morgan('dev'));
-}
+// if (process.env.ENVIROMENT === 'development') {
+app.use(morgan('dev'));
+// }
 
 app.use(
 	cors({

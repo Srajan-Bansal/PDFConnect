@@ -1,12 +1,10 @@
 .delete-container {
   width: 55%;
-  height: 41vh;
   padding: 40px;
   background-color: #ffffff;
-  margin: 0 auto;
+  margin: 50px auto 0;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin-top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -115,20 +113,14 @@
 }
 
 .delete-error {
-  color: red !important;
+  color: red;
   margin-top: 20px;
   font-size: 14px;
 }
 
-
-
-
-/* Media Query */
-
 @media (max-width: 1024px) {
   .delete-container {
     width: 70%;
-    height: auto;
     padding: 30px;
   }
 
@@ -166,7 +158,6 @@
   .delete-container {
     width: 85%;
     padding: 20px;
-    height: auto;
   }
 
   .delete-head {
@@ -204,7 +195,6 @@
   .delete-container {
     width: 95%;
     padding: 15px;
-    height: auto;
   }
 
   .delete-head {
