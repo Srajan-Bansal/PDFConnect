@@ -1,6 +1,5 @@
 .logout {
   width: 40%;
-  height: 30vh;
   padding: 40px;
   background-color: #ffffff;
   margin: 0 auto;
@@ -77,11 +76,6 @@
 .button2:hover {
   background-color: #5d7fa9;
 }
-
-
-
-
-/* Media Query */
 
 @media (max-width: 1024px) {
   .logout {

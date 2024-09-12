@@ -1,13 +1,11 @@
 .right {
   width: 75%;
-  height: 66vh;
   padding: 40px;
   background-color: #ffffff;
   margin: 0 auto;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-top: 50px;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
@@ -80,11 +78,6 @@ input:focus {
   box-shadow: 0 6px 12px rgba(31, 64, 104, 0.3);
 }
 
-
-
-
-/* Media Query */
-
 @media (max-width: 768px) {
   .right {
     width: 90%;
@@ -94,11 +87,6 @@ input:focus {
 
   .right h2 {
     font-size: 28px;
-  }
-
-  input {
-    padding: 12px;
-    font-size: 14px;
   }
 
   .btbt {
@@ -118,31 +106,8 @@ input:focus {
     font-size: 24px;
   }
 
-  input {
-    padding: 10px;
-    font-size: 14px;
-  }
-
   .btbt {
     width: 120px;
     padding: 10px;
-  }
-}
-
-@media (max-width: 768px) {
-  .btbt {
-    width: 140px;
-    padding: 12px;
-    font-size: 14px;
-    margin-left: auto;
-  }
-}
-
-@media (max-width: 480px) {
-  .btbt {
-    width: 120px;
-    padding: 10px;
-    font-size: 12px;
-    margin-left: auto;
   }
 }

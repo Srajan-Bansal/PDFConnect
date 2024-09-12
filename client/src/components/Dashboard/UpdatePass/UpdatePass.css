@@ -1,6 +1,5 @@
 .form {
   width: 75%;
-  height: 66vh;
   margin: 0 auto;
   padding: 40px;
   background-color: #ffffff;
@@ -20,6 +19,7 @@ h2 {
   font-weight: 700;
   background: linear-gradient(90deg, rgba(31, 64, 104, 0.1), rgba(31, 64, 104, 0));
   text-align: center;
+  width: 100%;
 }
 
 .update-form {
@@ -54,18 +54,18 @@ input:focus {
 }
 
 .btns {
-  padding: 14px;
-  background-color: #14213d;
-  width: 160px;
-  margin-left: auto;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  color: #ffffff;
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
   margin-top: 30px;
+  width: 160px;
+  background-color: #14213d;
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
+  margin-left: auto;
 }
 
 .btns:hover {
@@ -75,13 +75,7 @@ input:focus {
   box-shadow: 0 6px 12px rgba(31, 64, 104, 0.3);
 }
 
-
-
-
-/* Media Query */
-
 @media (max-width: 768px) {
-
   .form {
     width: 90%;
     padding: 30px;
@@ -99,7 +93,6 @@ input:focus {
 }
 
 @media (max-width: 480px) {
-
   .form {
     width: 100%;
     padding: 20px;
