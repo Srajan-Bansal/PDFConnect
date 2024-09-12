@@ -47,7 +47,7 @@ export default function Home() {
                 <section className="call-to-action">
                     <h2>JOIN THE PDFConnect COMMUNITY TODAY</h2>
                     <p>Collaborate on documents with ease and efficiency. Become part of the PDFConnect community now.</p>
-                    {!authUser && <button className="cta-button">Sign Up Now</button>}
+                    {!authUser && <button className="cta-button" onClick={() => navigate('/signup')}>Sign Up Now</button>}
                 </section>
             </div>
         </>
