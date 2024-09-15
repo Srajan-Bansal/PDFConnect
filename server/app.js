@@ -9,6 +9,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const client = require('prom-client');
 const metricsMiddleware = require('./monitoring/monitor');
 const AppError = require('./utils/appError');
+const compression = require('compression');
 
 const pdfRoutes = require('./routes/pdfRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -24,7 +25,7 @@ app.use(morgan('dev'));
 app.use(
 	cors({
 		credentials: true,
-		origin: process.env.CLIENT_URL,
+		origin: [process.env.CLIENT_URL, process.env.STATIC_CLIENT_URL],
 		methods: ['GET', 'POST', 'PATCH', 'DELETE'],
 	})
 );
@@ -59,6 +60,9 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
+
+// Data Compression
+app.use(compression());
 
 app.get('/', (req, res, next) => {
 	res.json({
