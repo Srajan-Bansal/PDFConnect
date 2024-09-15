@@ -1,31 +1,23 @@
-const mongoose = require('mongoose');
-const Chat = require('./../models/chatModel');
+const Doc = require('./../models/docsModel');
 const catchAsync = require('./../utils/catchAsync');
-const AppError = require('../utils/appError');
+const AppError = require('./../utils/appError');
 
-exports.findMessagesByUser = catchAsync(async (req, res, next) => {
-	const userId = req.body.userId;
-	if (!mongoose.Types.ObjectId.isValid(userId)) {
-		return next(new AppError('Invalid user ID', 400));
+exports.getAllChats = catchAsync(async (documentID) => {
+	const docs = await Doc.findOne({ uuid: documentID });
+
+	if (!docs) {
+		return next(new AppError('No documents found', 404));
 	}
 
-	const chats = await Chat.find({ 'messages.senderId': userId })
-		.populate({
-			path: 'messages.senderId',
-			select: 'name',
-			model: 'User',
-		})
-		.exec();
+	const chats = docs.chatMessages || [];
+	return chats;
+});
 
-	// const userMessages = chats.flatMap((chat) =>
-	// 	chat.messages.filter(
-	// 		(message) => message.senderId.toString() === userId
-	// 	)
-	// );
-
-	// if (userMessages.length === 0) {
-	// 	return res.status(404).send('No messages found for this user');
-	// }
-
-	res.status(200).json(chats);
+exports.saveMessages = catchAsync(async ({ message, documentID }) => {
+	const doc = await Doc.findOne({ uuid: documentID });
+	if (!doc) {
+		return next(new AppError('Document does not exist', 404));
+	}
+	doc.chatMessages.push(message);
+	await doc.save();
 });

@@ -1,25 +1,22 @@
-.form {
+.update-form-container {
   width: 75%;
-  margin: 0 auto;
+  margin: 50px auto;
   padding: 40px;
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin-top: 50px;
   display: flex;
   flex-direction: column;
 }
 
-h2 {
+.update-form-container h2 {
   font-size: 32px;
   color: #1f4068;
   margin-bottom: 20px;
   border-bottom: 3px solid #1f4068;
   padding-bottom: 12px;
   font-weight: 700;
-  background: linear-gradient(90deg, rgba(31, 64, 104, 0.1), rgba(31, 64, 104, 0));
   text-align: center;
-  width: 100%;
 }
 
 .update-form {
@@ -28,8 +25,9 @@ h2 {
   gap: 20px;
 }
 
-.form-div {
-  margin-top: 15px;
+.form-group {
+  display: flex;
+  flex-direction: column;
 }
 
 label {
@@ -40,11 +38,11 @@ label {
 }
 
 input {
-  width: 100%;
   padding: 14px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
+  width: 100%;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -53,7 +51,7 @@ input:focus {
   box-shadow: 0 0 8px rgba(31, 64, 104, 0.3);
 }
 
-.btns {
+.submit-button {
   margin-top: 30px;
   width: 160px;
   background-color: #14213d;
@@ -65,10 +63,10 @@ input:focus {
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   font-weight: 600;
-  margin-left: auto;
+  align-self: center;
 }
 
-.btns:hover {
+.submit-button:hover {
   background-color: #a4bfe0;
   color: black;
   transform: scale(1.03);
@@ -76,34 +74,34 @@ input:focus {
 }
 
 @media (max-width: 768px) {
-  .form {
+  .update-form-container {
     width: 90%;
     padding: 30px;
     margin-top: 30px;
   }
 
-  h2 {
+  .update-form-container h2 {
     font-size: 28px;
   }
 
-  .btns {
+  .submit-button {
     width: 140px;
     padding: 12px;
   }
 }
 
 @media (max-width: 480px) {
-  .form {
+  .update-form-container {
     width: 100%;
     padding: 20px;
     margin-top: 20px;
   }
 
-  h2 {
+  .update-form-container h2 {
     font-size: 24px;
   }
 
-  .btns {
+  .submit-button {
     width: 120px;
     padding: 10px;
   }

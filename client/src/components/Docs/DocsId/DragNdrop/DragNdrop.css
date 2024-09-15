@@ -1,0 +1,110 @@
+/* General styles */
+.drag-drop {
+  padding: 20px;
+  max-width: 96%;
+  margin: 0 auto;
+  height: 200px;
+}
+
+.document-uploader {
+  border: 2px dashed #a4bfe0;
+  background-color: #f4fbff;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.document-uploader.active {
+  border-color: #6dc24b;
+}
+
+.upload-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.upload-info svg {
+  font-size: 36px;
+  color: #14213d;
+}
+
+.upload-info p {
+  font-size: 16px;
+  color: #444;
+}
+
+/* Button styles */
+.browse-btn {
+  padding: 0.5rem 1.5rem;
+  border: 1px solid #a4bfe0;
+  border-radius: 50px;
+  cursor: pointer;
+  background-color: #a4bfe0;
+  color: black;
+  transition: background-color 0.3s ease;
+}
+
+.browse-btn:hover {
+  background-color: #14213d;
+  color: white;
+}
+
+/* File item styles */
+.file-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #a4bfe0;
+  border-radius: 8px;
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+
+.file-item svg {
+  cursor: pointer;
+  font-size: 18px;
+  color: #888;
+  transition: color 0.3s ease;
+}
+
+.file-item svg:hover {
+  color: #d44;
+}
+
+/* Success file styles */
+.success-file {
+  display: flex;
+  align-items: center;
+  color: #6dc24b;
+  gap: 5px;
+}
+
+.success-file p {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .browse-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .upload-info svg {
+    font-size: 28px;
+  }
+
+  .upload-info p {
+    font-size: 14px;
+  }
+}

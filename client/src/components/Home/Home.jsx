@@ -18,11 +18,10 @@ export default function Home() {
                     <div className="hero-content">
                         <h1>COLLABORATE ON PDFs IN REAL TIME</h1>
                         <p>Experience seamless real-time PDF editing and collaboration with PDFConnect. Manage, edit, and share your documents effortlessly.</p>
-                        <button className="cta-button" aria-label="Start editing PDFs now" onClick={() => {
-                            navigate('/docs');
-                        }}>Get Started</button>
+                        <button className="cta-button" aria-label="Start editing PDFs now" onClick={() => navigate('/docs')}>Get Started</button>
                     </div>
                     <div className="hero-image">
+                        {/* Optionally add an image here */}
                     </div>
                 </section>
 

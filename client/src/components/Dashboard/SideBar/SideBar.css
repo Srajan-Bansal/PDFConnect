@@ -9,7 +9,7 @@ body {
   background-color: #f4f4f4;
 }
 
-.left {
+.sidebar {
   width: 25%;
   height: 100vh;
   background-color: #14213d;
@@ -17,83 +17,81 @@ body {
   display: flex;
   flex-direction: column;
   padding: 20px;
+  box-sizing: border-box;
   transition: width 0.3s ease;
 }
 
-.s1 {
+.sidebar-item {
   display: flex;
   align-items: center;
-  padding: 20px;
+  padding: 15px;
   border-radius: 8px;
   margin-bottom: 10px;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  cursor: pointer;
   text-decoration: none;
+  color: white;
 }
 
-.s1:hover {
+.sidebar-item:hover {
   background-color: #a4bfe0;
   transform: scale(1.05);
 }
 
-.s1:focus {
+.sidebar-item:focus {
   outline: 2px solid #a4bfe0;
   background-color: #a4bfe0;
   transform: scale(1.05);
 }
 
-.img {
+.icon {
   font-size: 24px;
-  color: white;
 }
 
-.para {
+.label {
   font-size: 18px;
   margin-left: 15px;
   font-weight: 500;
-  text-decoration: none;
-  color: white;
 }
 
-.s1:first-child {
+.sidebar-item:first-child {
   margin-top: 20px;
 }
 
 @media (max-width: 768px) {
-  .left {
+  .sidebar {
     width: 35%;
     padding: 15px;
   }
 
-  .s1 {
-    padding: 15px;
+  .sidebar-item {
+    padding: 12px;
   }
 
-  .img {
+  .icon {
     font-size: 20px;
   }
 
-  .para {
+  .label {
     font-size: 16px;
     margin-left: 10px;
   }
 }
 
 @media (max-width: 480px) {
-  .left {
+  .sidebar {
     width: 100%;
     padding: 10px;
   }
 
-  .s1 {
+  .sidebar-item {
     padding: 10px;
   }
 
-  .img {
+  .icon {
     font-size: 18px;
   }
 
-  .para {
+  .label {
     font-size: 14px;
     margin-left: 8px;
   }

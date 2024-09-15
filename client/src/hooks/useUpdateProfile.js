@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from '../config';
+import URL from '../config';
 import { toast } from 'react-toastify';
 import { useContextAPI } from '../context/ContextAPI';
 
@@ -13,7 +13,7 @@ const useUpdateProfile = () => {
 
 			if (name || email) {
 				response = await axios.patch(
-					`${config.userAPI}/updateMe`,
+					`${URL}/user/updateMe`,
 					updateData,
 					{
 						withCredentials: true,
@@ -26,7 +26,7 @@ const useUpdateProfile = () => {
 				formData.append('photo', photo);
 
 				const photoResponse = await axios.post(
-					`${config.viewAPI}/uploadPhoto`,
+					`${URL}/pdf/uploadPhoto`,
 					formData,
 					{
 						withCredentials: true,

@@ -1,36 +1,21 @@
 const express = require('express');
-const User = require('./../models/userModel');
-const Doc = require('./../models/docsModel');
-const AppError = require('./../utils/appError');
+const docController = require('./../controller/docController');
+const protect = require('./../middleware/protect');
 
 const router = express.Router();
 
-router.post('/saveDocToUser', async (req, res, next) => {
-	try {
-		const user = await User.findById(req.user.id);
-		if (!user) {
-			return next(new AppError('No User Exits!', 400));
-		}
+router.use(protect);
 
-		const doc = await Doc.findById(req.body.docId);
-		if (!doc) {
-			return next(new AppError('No Document Exist!', 400));
-		}
+router.get('/createDoc', docController.createDoc);
+router.get('/getUserDocs', docController.getUserDocs);
+router.get('/accessDoc/:docId', docController.accessDoc);
+router.patch('/revokeAccess/:docId', docController.revokeAccess);
+router.patch('/addParticipant/:docId', docController.addParticipant);
+router.patch('/changeTitle/:docId', docController.changeTitle);
+router.delete('/deleteDoc/:docId', docController.deleteDoc);
 
-		doc.participants.forEach((e) => {
-			if (e === user.id) {
-				res.status(200).json(doc);
-			}
-		});
-
-		doc.participants.push(user.id);
-		await doc.save({ validateBeforeSave: false });
-
-		res.status(200).json(doc);
-	} catch (err) {
-		console.log(err);
-		res.json(err);
-	}
-});
+// Admin routes
+router.delete('/deleteAllDocs', docController.deleteAllDocs);
+router.get('/getAllDocs/admin', docController.getAllDocs);
 
 module.exports = router;

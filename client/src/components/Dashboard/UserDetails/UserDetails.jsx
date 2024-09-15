@@ -1,11 +1,11 @@
+import './UserDetails.css';
 import { useState } from 'react';
 import useUpdateProfile from '../../../hooks/useUpdateProfile';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import './UserDetails.css';
+import { showError } from '../../Toast';
 
-function UserDetails() {
+const UserDetails = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [photo, setPhoto] = useState(null);
@@ -14,12 +14,11 @@ function UserDetails() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
       await updateProfile(name, email, photo);
       navigate('/');
     } catch (error) {
-      toast.error('Error updating profile. Please try again later.');
+      showError('Error updating profile. Please try again later.');
       console.error('Error:', error);
     }
   };
@@ -35,10 +34,10 @@ function UserDetails() {
         <meta name="description" content="View and update your account details on PDFConnect." />
         <meta name="keywords" content="User details, account settings, PDFConnect, manage account" />
       </Helmet>
-      <div className="right">
+      <div className="user-details">
         <h2>User Profile</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-child">
+          <div className="form-group">
             <label htmlFor="name">Name:</label>
             <input
               type="text"
@@ -48,7 +47,7 @@ function UserDetails() {
               placeholder="Enter your name"
             />
           </div>
-          <div className="form-child">
+          <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input
               type="email"
@@ -58,7 +57,7 @@ function UserDetails() {
               placeholder="Enter your email"
             />
           </div>
-          <div className="form-child">
+          <div className="form-group">
             <label htmlFor="photo">Upload Photo:</label>
             <input
               type="file"
@@ -67,11 +66,11 @@ function UserDetails() {
               onChange={handlePhotoChange}
             />
           </div>
-          <button type="submit" className="btbt">Submit</button>
+          <button type="submit" className="submit-button">Submit</button>
         </form>
       </div>
     </>
   );
-}
+};
 
 export default UserDetails;

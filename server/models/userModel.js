@@ -52,7 +52,7 @@ const UserSchema = new mongoose.Schema(
 
 UserSchema.virtual('docDetails', {
 	ref: 'Doc',
-	foreignField: 'User',
+	foreignField: 'creator',
 	localField: '_id',
 });
 
@@ -65,10 +65,10 @@ UserSchema.pre('save', async function (next) {
 	next();
 });
 
-UserSchema.pre(/^find/, function (next) {
-	this.find({ active: { $ne: false } });
-	next();
-});
+// UserSchema.pre(/^find/, function (next) {
+// 	this.find({ active: { $ne: false } });
+// 	next();
+// });
 
 UserSchema.methods.correctPassword = async (
 	candidatePassword,

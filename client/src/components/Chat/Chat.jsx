@@ -1,10 +1,11 @@
+import './Chat.css';
+
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { FaComments } from 'react-icons/fa';
 import { Helmet } from 'react-helmet-async';
-import './Chat.css';
-import config from './../../config';
+import { baseURL } from './../../config';
 import { useContextAPI } from './../../context/ContextAPI';
 
 const Chat = () => {
@@ -14,8 +15,10 @@ const Chat = () => {
     const { authUser } = useContextAPI();
     const { id: documentID } = useParams();
 
+    const SAVE_INTERVAL_MS = import.meta.env.VITE_CHAT_SAVE_INTERVAL_MS || 30000;
+
     useEffect(() => {
-        const s = io(`${config.viewAPI}/chat`);
+        const s = io(`${baseURL}/chat`);
         setSocket(s);
         return () => {
             s.disconnect();
@@ -23,19 +26,20 @@ const Chat = () => {
     }, []);
 
     useEffect(() => {
-        if (socket == null) return;
+        if (!socket) return;
 
-        socket.once('load-messages', messages => {
+        socket.once('load-messages', (messages) => {
             setMessages(messages);
-        })
+        });
+
         socket.emit('get-messages', documentID);
     }, [socket, documentID]);
 
     useEffect(() => {
-        if (socket == null) return;
+        if (!socket) return;
 
-        socket.on('receive-message', message => {
-            setMessages(prevMessages => [...prevMessages, message]);
+        socket.on('receive-message', (message) => {
+            setMessages((prevMessages) => Array.isArray(prevMessages) ? [...prevMessages, message] : [message]);
         });
 
         return () => {
@@ -43,12 +47,30 @@ const Chat = () => {
         }
     }, [socket]);
 
+    useEffect(() => {
+        if (!socket) return;
+        const interval = setInterval(() => {
+            const unsavedMessages = JSON.parse(localStorage.getItem('unsavedMessages')) || [];
+            if (unsavedMessages.length === 0) return;
+            socket.emit('save-message-batch', { messages: unsavedMessages, documentID });
+            localStorage.removeItem('unsavedMessages');
+        }, SAVE_INTERVAL_MS);
+
+        return () => {
+            clearInterval(interval);
+        }
+    }, [socket, documentID, SAVE_INTERVAL_MS]);
+
     function handleSubmit(e) {
         e.preventDefault();
         if (newMessage.trim() === '') return;
-        const message = { senderId: authUser.user._id, name: authUser.user.name, text: newMessage, timestamp: new Date() }
+        const message = { senderId: authUser.user._id, name: authUser.user.name, text: newMessage, timestamp: new Date() };
+
+        const unsavedMessages = JSON.parse(localStorage.getItem('unsavedMessages')) || [];
+        localStorage.setItem('unsavedMessages', JSON.stringify([...unsavedMessages, message]));
+
         socket.emit('send-message', { message, documentID });
-        setMessages((prevMessages) => [...prevMessages, message]);
+        setMessages((prevMessages) => Array.isArray(prevMessages) ? [...prevMessages, message] : [message]);
         setNewMessage('');
     }
 
@@ -66,7 +88,7 @@ const Chat = () => {
                 </div>
 
                 <div className="chat-body">
-                    {messages.map((message, index) => (
+                    {messages?.map((message, index) => (
                         <div className={`message ${message.senderId === authUser.user._id ? 'sent' : 'received'}`} key={index}>
                             <strong>{message.name}</strong>: <br /> {message.text}
                             <span className='timestamp'>{new Date(message.timestamp).toLocaleString()}</span>

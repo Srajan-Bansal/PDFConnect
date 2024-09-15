@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from '../config';
+import URL from '../config';
 import { useContextAPI } from '../context/ContextAPI';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,7 +11,7 @@ const useLogout = () => {
 
 	const logout = async () => {
 		try {
-			await axios.get(`${config.userAPI}/logout`, {
+			await axios.get(`${URL}/user/logout`, {
 				withCredentials: true,
 			});
 

@@ -1,12 +1,13 @@
+import './../Chat/Chat.css';
+
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FaComments } from 'react-icons/fa';
 import { useContextAPI } from './../../context/ContextAPI';
-import './../Chat/Chat.css';
-import config from './../../config';
+import axios from 'axios';
+import URL from './../../config';
 import { toast } from "react-toastify";
 import { Helmet } from 'react-helmet-async';
-import axios from 'axios';
 
 const GenerativeAI = () => {
     const [messages, setMessages] = useState([]);
@@ -39,7 +40,7 @@ const GenerativeAI = () => {
         });
 
         try {
-            const response = await axios.post(`${config.viewAPI}/generativeText`, { prompt }, {
+            const response = await axios.post(`${URL}/pdf/generativeText`, { prompt }, {
                 withCredentials: true
             });
 

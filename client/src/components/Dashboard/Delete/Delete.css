@@ -1,7 +1,7 @@
 .delete-container {
   width: 55%;
   padding: 40px;
-  background-color: #ffffff;
+  background: #fff;
   margin: 50px auto 0;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -41,6 +41,7 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .inputt:focus {
@@ -51,20 +52,20 @@
 .delete-button {
   margin-top: 40px;
   width: 160px;
-  background-color: #14213d;
-  color: #ffffff;
+  background: #14213d;
+  color: #fff;
   border: none;
   padding: 14px;
   border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s, transform 0.2s;
   font-weight: 600;
 }
 
 .delete-button:hover {
   background-color: #a4bfe0;
-  color: black;
+  color: #000;
   transform: scale(1.03);
   box-shadow: 0 6px 12px rgba(31, 64, 104, 0.3);
 }
@@ -82,34 +83,33 @@
 .delete-buttons {
   display: flex;
   gap: 20px;
-  position: relative;
-  top: 20px;
+  margin-top: 20px;
 }
 
-.delete-confirm-yes {
-  background-color: #ff4d4d;
+.delete-confirm-yes,
+.delete-confirm-no {
   padding: 10px 20px;
   border: none;
   font-size: 15px;
   font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-confirm-yes {
+  background: #ff4d4d;
 }
 
 .delete-confirm-yes:hover {
-  background-color: #ff8080;
+  background: #ff8080;
 }
 
 .delete-confirm-no {
-  background-color: #4b76ab;
-  padding: 10px 22px;
-  border: none;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
+  background: #4b76ab;
 }
 
 .delete-confirm-no:hover {
-  background-color: #738dac;
+  background: #738dac;
 }
 
 .delete-error {
@@ -118,6 +118,7 @@
   font-size: 14px;
 }
 
+/* Responsive Styles */
 @media (max-width: 1024px) {
   .delete-container {
     width: 70%;
