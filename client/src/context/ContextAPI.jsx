@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { useState, createContext, useContext, useEffect } from 'react'
-import config from './../config';
+import { useState, createContext, useContext, useEffect } from 'react';
+import URL from './../config';
 
 export const ContextAPI = createContext();
 
@@ -11,7 +11,7 @@ const isTokenExpired = () => {
     const { expiryDate } = userInfo;
     const currTime = new Date().getTime();
     return currTime > expiryDate;
-}
+};
 
 export function ContextAPIProvider({ children }) {
     const [authUser, setAuthUser] = useState(() => {
@@ -32,29 +32,30 @@ export function ContextAPIProvider({ children }) {
             }
 
             try {
-                const response = await axios.get(`${config.userAPI}/validate-session`, {
+                const { data } = await axios.get(`${URL}/user/validate-session`, {
                     withCredentials: true
                 });
 
-                if (!response.data.valid) {
+                if (!data.valid) {
                     localStorage.removeItem('user-info');
                     setAuthUser(null);
                 }
 
             } catch (error) {
+                console.error('Session validation error:', error);
                 localStorage.removeItem('user-info');
                 setAuthUser(null);
             }
-        }
+        };
+
         validateSession();
-    }, [])
+    }, []);
 
-    return <ContextAPI.Provider value={{ authUser, setAuthUser, quill, setQuill, isExtracted, setIsExtracted }}>
-        {children}
-    </ContextAPI.Provider>
+    return (
+        <ContextAPI.Provider value={{ authUser, setAuthUser, quill, setQuill, isExtracted, setIsExtracted }}>
+            {children}
+        </ContextAPI.Provider>
+    );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const useContextAPI = () => {
-    return useContext(ContextAPI);
-}
+export const useContextAPI = () => useContext(ContextAPI);

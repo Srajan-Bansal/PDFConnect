@@ -1,3 +1,4 @@
+/* General Navbar Styles */
 .navbar {
   background-color: #14213d;
   width: 100%;
@@ -21,6 +22,7 @@
   padding: 0 2em;
 }
 
+/* Logo */
 .nav-logo {
   color: #fff;
   cursor: pointer;
@@ -38,6 +40,7 @@
   color: #a4bfe0;
 }
 
+/* Navigation Menu */
 .nav-menu {
   display: flex;
   list-style: none;
@@ -66,6 +69,7 @@
   margin-right: 1rem;
 }
 
+/* User Icon */
 .user {
   width: 40px;
   height: 40px;
@@ -74,6 +78,7 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
+/* Mobile Menu */
 .nav-icon {
   display: none;
   height: 60px;
@@ -86,14 +91,6 @@
   transition: all 0.5s ease;
   z-index: 1;
   border-radius: 0 0 50px 0;
-}
-
-.user {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 @media screen and (max-width: 960px) {
@@ -123,12 +120,6 @@
     cursor: pointer;
   }
 
-  .user {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 960px) {
   .user {
     display: none;
   }

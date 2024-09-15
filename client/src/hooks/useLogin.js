@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from '../config';
+import URL from '../config';
 import { useContextAPI } from '../context/ContextAPI';
 
 import { toast } from 'react-toastify';
@@ -14,13 +14,9 @@ const useLogin = () => {
 
 			const formData = { email, password };
 
-			const response = await axios.post(
-				`${config.userAPI}/login`,
-				formData,
-				{
-					withCredentials: true,
-				}
-			);
+			const response = await axios.post(`${URL}/user/login`, formData, {
+				withCredentials: true,
+			});
 
 			const user = response.data;
 			const expiryDate =

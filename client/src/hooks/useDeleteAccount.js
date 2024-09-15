@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from '../config';
+import URL from '../config';
 import { useContextAPI } from '../context/ContextAPI';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ const useDeleteAccount = () => {
 
 	const deleteAccount = async () => {
 		try {
-			const response = await axios.delete(`${config.userAPI}/deleteMe`, {
+			const response = await axios.delete(`${URL}/user/deleteMe`, {
 				withCredentials: true,
 			});
 

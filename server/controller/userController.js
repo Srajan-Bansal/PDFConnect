@@ -27,7 +27,7 @@ exports.getMe = catchAsync(async (req, res, next) => {
 	const user = await User.findById(req.user.id)
 		.populate({
 			path: 'docDetails',
-			select: '-__v -data -updatedAt',
+			select: '-__v -data -chatMessages -updatedAt',
 		})
 		.select('-__v -updatedAt');
 	if (!user) {

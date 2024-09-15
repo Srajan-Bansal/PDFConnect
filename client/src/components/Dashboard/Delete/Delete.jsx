@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import './Delete.css';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
 import useDeleteAccount from '../../../hooks/useDeleteAccount';
@@ -13,7 +13,7 @@ function Delete() {
   const { authUser } = useContextAPI();
 
   const handleDeleteClick = () => {
-    if (enteredUsername.trim() !== '' && enteredUsername === authUser.name) {
+    if (enteredUsername.trim() === authUser.name) {
       setShowConfirmation(true);
       setError('');
     } else {
@@ -25,17 +25,13 @@ function Delete() {
     try {
       await deleteAccount();
       toast.success('Account deleted successfully!');
-      setShowConfirmation(false);
       setEnteredUsername('');
+      setShowConfirmation(false);
     } catch (error) {
       const errorMessage = error.response?.data?.error || 'Error deleting account.';
       toast.error(errorMessage);
       console.error('Error deleting account:', errorMessage);
     }
-  };
-
-  const handleCancelDelete = () => {
-    setShowConfirmation(false);
   };
 
   return (
@@ -50,7 +46,13 @@ function Delete() {
         {!showConfirmation ? (
           <div className="delete-input">
             <p className="delete-text">Please enter your username to delete your account:</p>
-            <input type="text" value={enteredUsername} onChange={(e) => setEnteredUsername(e.target.value)} placeholder="Enter your username" className="inputt" />
+            <input
+              type="text"
+              value={enteredUsername}
+              onChange={(e) => setEnteredUsername(e.target.value)}
+              placeholder="Enter your username"
+              className="inputt"
+            />
             {error && <p className="delete-error">{error}</p>}
             <button className="delete-button" onClick={handleDeleteClick}>Delete Account</button>
           </div>
@@ -59,7 +61,7 @@ function Delete() {
             <p className="delete-confirm-text">Are you sure you want to delete your account?</p>
             <div className="delete-buttons">
               <button onClick={handleConfirmDelete} className="delete-confirm-yes">Yes</button>
-              <button onClick={handleCancelDelete} className="delete-confirm-no">No</button>
+              <button onClick={() => setShowConfirmation(false)} className="delete-confirm-no">No</button>
             </div>
           </div>
         )}

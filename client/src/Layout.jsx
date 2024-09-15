@@ -15,13 +15,25 @@ export default function Layout() {
                 <meta name="keywords" content="PDFConnect, layout, navigation, document management" />
             </Helmet>
 
-            <header>
+            <header className="bg-gray-800 text-white">
                 <NavBar />
             </header>
-            <main>
+
+            <main className="p-4">
                 <Outlet />
             </main>
-            <ToastContainer />
+
+            <ToastContainer
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </>
-    )
+    );
 }

@@ -1,24 +1,23 @@
+import './Dashboard.css';
+
 import { Outlet } from 'react-router-dom';
 import SideBar from '../SideBar/SideBar';
-import './Dashboard.css';
 import { Helmet } from 'react-helmet-async';
 
-const Dashboard = () => {
-  return (
-    <>
-      <Helmet>
-        <title>Dashboard - PDFConnect</title>
-        <meta name="description" content="Access your PDFConnect dashboard to manage your PDFs, settings, and more." />
-        <meta name="keywords" content="Dashboard, PDFConnect, manage PDFs, document tools" />
-      </Helmet>
-      <div className="container">
-        <SideBar />
-        <div className="content">
-          <Outlet />
-        </div>
-      </div>
-    </>
-  );
-};
+const Dashboard = () => (
+  <>
+    <Helmet>
+      <title>Dashboard - PDFConnect</title>
+      <meta name="description" content="Manage your PDFs and settings in the PDFConnect dashboard." />
+      <meta name="keywords" content="Dashboard, PDFConnect, PDFs, document tools" />
+    </Helmet>
+    <div className="dashboard-container">
+      <SideBar />
+      <main className="dashboard-content">
+        <Outlet />
+      </main>
+    </div>
+  </>
+);
 
 export default Dashboard;

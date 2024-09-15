@@ -1,15 +1,14 @@
 import { Navigate, Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import { useContextAPI } from './context/ContextAPI';
 import { lazy, Suspense } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { Helmet } from 'react-helmet-async';
 
 const Layout = lazy(() => import('./Layout'));
 const Home = lazy(() => import('./components/Home/Home'));
 const Docs = lazy(() => import('./components/Docs/Docs'));
-const DragNdropParent = lazy(() => import('./components/DragNdrop/DragNdropParent'));
-const Signup = lazy(() => import('./components/Signup/Signup'));
-const Login = lazy(() => import('./components/Signup/Login'));
+const DocsId = lazy(() => import('./components/Docs/DocsId/DocsId'));
+const Signup = lazy(() => import('./components/Auth/Signup'));
+const Login = lazy(() => import('./components/Auth/Login'));
 const Dashboard = lazy(() => import('./components/Dashboard/Dashboard/Dashboard'));
 const UserDetails = lazy(() => import('./components/Dashboard/UserDetails/UserDetails'));
 const UpdatePass = lazy(() => import("./components/Dashboard/UpdatePass/UpdatePass"));
@@ -34,13 +33,18 @@ const App = () => {
           </Suspense>
         } />
 
-        <Route path='docs' element={<Navigate to={`../docs/${uuidv4()}`} replace />} />
+        <Route path='docs' element={
+          <PrivateRoute element={
+            <Suspense fallback={<Spinner />}>
+              <Docs />
+            </Suspense>
+          } redirectTo='/login' />
+        } />
 
         <Route path='docs/:id' element={
           <PrivateRoute element={
             <Suspense fallback={<Spinner />}>
-              <DragNdropParent />
-              <Docs />
+              <DocsId />
             </Suspense>
           } redirectTo='/login' />
         } />

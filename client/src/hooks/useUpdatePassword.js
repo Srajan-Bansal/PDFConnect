@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from '../config';
+import URL from '../config';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -8,7 +8,7 @@ const useUpdatePassword = () => {
 		try {
 			const updateData = { currPassword, password, passwordConfirm };
 			const response = await axios.patch(
-				`${config.userAPI}/updateMyPassword`,
+				`${URL}/user/updateMyPassword`,
 				updateData,
 				{
 					withCredentials: true,

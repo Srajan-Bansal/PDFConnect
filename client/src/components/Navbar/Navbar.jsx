@@ -1,8 +1,8 @@
+import "./NavBar.css";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useContextAPI } from "./../../context/ContextAPI";
 import { Helmet } from 'react-helmet-async';
-import "./NavBar.css";
 import { CodeIcon, HamburgetMenuClose, HamburgetMenuOpen } from "./Iconss";
 
 export default function NavBar() {

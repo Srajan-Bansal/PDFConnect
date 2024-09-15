@@ -1,9 +1,9 @@
+import './auth.css';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import useSignup from '../../hooks/useSignup';
-
-import './mix.css';
+import { showSuccess, showError } from '../Toast';
 
 export default function Signup() {
     const [name, setName] = useState('');
@@ -19,7 +19,17 @@ export default function Signup() {
     async function handleOnSubmit(e) {
         e.preventDefault();
 
-        await signup({ name, email, password, passwordConfirm });
+        if (!name || !email || !password || password !== passwordConfirm) {
+            showError('Please fill out all fields correctly.');
+            return;
+        }
+
+        try {
+            await signup({ name, email, password, passwordConfirm });
+            showSuccess('Signup successful! Please log in.');
+        } catch (error) {
+            showError('An error occurred. Please try again.');
+        }
     }
 
     return (
@@ -32,11 +42,11 @@ export default function Signup() {
             <section>
                 <div className='form_data'>
                     <div className='form_heading'>
-                        <h1>Welcome Back, Sign Up</h1>
-                        <p style={{ textAlign: 'center' }}>Please signup.</p>
+                        <h1>Welcome, Sign Up</h1>
+                        <p style={{ textAlign: 'center' }}>Please sign up.</p>
                     </div>
 
-                    <form onSubmit={(e) => handleOnSubmit(e)}>
+                    <form onSubmit={handleOnSubmit}>
                         <div className='form_input'>
                             <label htmlFor='fname'>Name</label>
                             <input
@@ -46,7 +56,6 @@ export default function Signup() {
                                 name='fname'
                                 id='fname'
                                 placeholder='Enter Your Name'
-                                style={{ width: '95%' }}
                             />
                         </div>
 
@@ -59,7 +68,6 @@ export default function Signup() {
                                 name='email'
                                 id='email'
                                 placeholder='Enter Your Email Address'
-                                style={{ width: '95%' }}
                             />
                         </div>
 
@@ -69,9 +77,7 @@ export default function Signup() {
                                 <input
                                     type={!showPass ? 'password' : 'text'}
                                     value={password}
-                                    onChange={(e) =>
-                                        setPassword(e.target.value)
-                                    }
+                                    onChange={(e) => setPassword(e.target.value)}
                                     name='password'
                                     id='password'
                                     placeholder='Enter Your password'
@@ -87,30 +93,20 @@ export default function Signup() {
                         </div>
 
                         <div className='form_input'>
-                            <label htmlFor='password'>Confirm Password</label>
+                            <label htmlFor='passwordConfirm'>Confirm Password</label>
                             <div className='two'>
                                 <input
-                                    type={
-                                        !showConfirmPassword
-                                            ? 'password'
-                                            : 'text'
-                                    }
+                                    type={!showConfirmPassword ? 'password' : 'text'}
                                     value={passwordConfirm}
-                                    onChange={(e) =>
-                                        setPasswordConfirm(e.target.value)
-                                    }
-                                    name='showConfirmPassword'
-                                    id='showConfirmPassword'
+                                    onChange={(e) => setPasswordConfirm(e.target.value)}
+                                    name='passwordConfirm'
+                                    id='passwordConfirm'
                                     placeholder='Confirm password'
                                     autoComplete='new-password'
                                 />
                                 <div
                                     className='showpass'
-                                    onClick={() =>
-                                        setShowConfirmPassword(
-                                            !showConfirmPassword
-                                        )
-                                    }
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                 >
                                     {!showConfirmPassword ? 'Show' : 'Hide'}
                                 </div>

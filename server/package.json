@@ -11,6 +11,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"@faker-js/faker": "^9.0.1",
 		"@google/generative-ai": "^0.13.0",
 		"bcryptjs": "^2.4.3",
 		"compression": "^1.7.4",
@@ -29,6 +30,7 @@
 		"rate-limiter-flexible": "^5.0.3",
 		"redis": "^4.7.0",
 		"socket.io": "^4.7.5",
+		"uuid": "^10.0.0",
 		"validator": "^13.11.0"
 	},
 	"devDependencies": {

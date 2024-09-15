@@ -1,31 +1,5 @@
 const { RateLimiterMemory } = require('rate-limiter-flexible');
-const Doc = require('../models/docsModel');
-
-const findOrCreateDocument = async (id) => {
-	try {
-		if (!id) return;
-
-		let document = await Doc.findOne({ uuid: id });
-		if (!document) {
-			document = await Doc.create({ uuid: id, data: '' });
-		}
-		return document;
-	} catch (error) {
-		console.error('Error finding or creating document:', error);
-		throw new Error(error);
-	}
-};
-
-const saveDocument = async (id, data) => {
-	try {
-		const doc = await Doc.findOne({ uuid: id });
-		doc.data = data;
-		await doc.save();
-	} catch (err) {
-		console.log('Error saving document', err);
-		throw new Error(err);
-	}
-};
+const { saveDocument } = require('../controller/docController');
 
 const rateLimiter = new RateLimiterMemory({
 	points: process.env.SOCKET_RATE_LIMITER,
@@ -37,23 +11,23 @@ module.exports = (io) => {
 		try {
 			await rateLimiter.consume(socket.handshake.address);
 
-			socket.on('get-document', async (documentID) => {
-				const document = await findOrCreateDocument(documentID);
+			socket.on('send-changes', ({ documentID, delta, isExtracted }) => {
 				socket.join(documentID);
-				socket.emit('load-document', document.data);
+				socket.broadcast
+					.to(documentID)
+					.emit('receive-changes', { delta, isExtracted });
+			});
 
-				socket.on('send-changes', ({ delta, isExtracted }) => {
-					socket.broadcast
-						.to(documentID)
-						.emit('receive-changes', { delta, isExtracted });
-				});
-
-				socket.on('save-document', async (data) => {
+			socket.on('save-document', async ({ documentID, data }) => {
+				try {
 					await saveDocument(documentID, data);
-				});
+				} catch (err) {
+					console.error('Error saving document:', err);
+					socket.emit('error', 'Error saving document');
+				}
 			});
 		} catch (error) {
-			console.log('Error loading document: ', error);
+			console.log('Error in socket connection: ', error);
 		}
 	});
 };

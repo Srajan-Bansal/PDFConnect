@@ -13,7 +13,6 @@ const compression = require('compression');
 
 const pdfRoutes = require('./routes/pdfRoutes');
 const userRoutes = require('./routes/userRoutes');
-const chatRoutes = require('./routes/chatRoutes');
 const docRoutes = require('./routes/docRoutes');
 
 const app = express();
@@ -81,9 +80,8 @@ app.get('/metrics', async (req, res) => {
 
 // ROUTES
 app.use('/api/v1/user', userRoutes);
-app.use('/', pdfRoutes);
-app.use('/', chatRoutes);
-app.use('/', docRoutes);
+app.use('/api/v1/pdf', pdfRoutes);
+app.use('/api/v1/doc', docRoutes);
 
 // 404 Not Found Middleware
 app.use('*', (req, res, next) => {
@@ -95,7 +93,7 @@ app.use((err, req, res, next) => {
 	err.statusCode = err.statusCode || 500;
 	err.status = err.status || 'error';
 
-	console.log(err);
+	console.error(err);
 
 	res.status(err.statusCode).json({
 		status: err.status,
