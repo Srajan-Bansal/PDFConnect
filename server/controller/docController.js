@@ -11,6 +11,15 @@ const generateFunnyName = () => {
 	return `${firstName} ${lastName}`;
 };
 
+exports.checkDocumentExists = catchAsync(async (req, res, next) => {
+	const { docId } = req.params;
+	const doc = await Doc.findOne({ uuid: docId });
+	if (!doc) {
+		return res.status(200).json({ documentExists: false });
+	}
+	res.status(200).json({ documentExists: true });
+});
+
 exports.createDoc = catchAsync(async (req, res, next) => {
 	const Docs = await Doc.find({ creator: req.user.id });
 	if (Docs.length >= 7) {

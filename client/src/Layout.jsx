@@ -2,10 +2,11 @@ import { Outlet } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import NavBar from './components/Navbar/Navbar';
+import usePageTracking from './hooks/usePageTracking';
 
 export default function Layout() {
+    usePageTracking();
 
     return (
         <>

@@ -1,16 +1,54 @@
 import './DocsId.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import axios from 'axios';
 import DragNdrop from './DragNdrop/DragNdrop';
 import ButtonGroup from './ButtonGroup/ButtonGroup';
 import QuillRTE from './Quill/QuillRTE';
+import Spinner from './../../../Spinner';
+import URL from './../../../config';
 
 const DocsId = () => {
+    const { id: documentID } = useParams();
     const [selectedFile, setSelectedFile] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [documentExists, setDocumentExists] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const checkDocumentExists = async () => {
+            try {
+                setIsLoading(true);
+                const response = await axios.get(`${URL}/doc/checkDocumentExists/${documentID}`, { withCredentials: true });
+                const { documentExists } = response.data;
+                if (!documentExists) {
+                    navigate('/not-found');
+                } else {
+                    setDocumentExists(true);
+                }
+            } catch (error) {
+                console.error('Error checking document:', error);
+                navigate('/not-found');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        checkDocumentExists();
+    }, [documentID, navigate]);
 
     const handleFileSelected = (file) => {
         setSelectedFile(file);
     };
+
+    if (isLoading) {
+        return <Spinner />;
+    }
+
+    if (!documentExists) {
+        return null;
+    }
 
     return (
         <div className="docs-id-container">
