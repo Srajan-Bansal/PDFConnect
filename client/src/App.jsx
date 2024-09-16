@@ -1,7 +1,8 @@
 import { Navigate, Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import { useContextAPI } from './context/ContextAPI';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+import ReactGA from 'react-ga4';
 
 const Layout = lazy(() => import('./Layout'));
 const Home = lazy(() => import('./components/Home/Home'));
@@ -14,6 +15,7 @@ const UserDetails = lazy(() => import('./components/Dashboard/UserDetails/UserDe
 const UpdatePass = lazy(() => import("./components/Dashboard/UpdatePass/UpdatePass"));
 const Logout = lazy(() => import("./components/Dashboard/Logout/Logout"));
 const Delete = lazy(() => import("./components/Dashboard/Delete/Delete"));
+const ErrorBoundary = lazy(() => import('./ErrorBoundary'));
 const Spinner = lazy(() => import('./Spinner'));
 
 const PrivateRoute = ({ element, redirectTo }) => {
@@ -23,6 +25,18 @@ const PrivateRoute = ({ element, redirectTo }) => {
 
 const App = () => {
   const { authUser } = useContextAPI();
+
+  useEffect(() => {
+    const TRACKING_ID = 'G-770PN7LTCC';
+    const NODE_ENV = import.meta.env.VITE_ENVIRONMENT;
+
+    ReactGA.initialize(TRACKING_ID, {
+      gaOptions: {
+        debug_mode: NODE_ENV === 'development'
+      }
+    });
+
+  }, []);
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -74,7 +88,7 @@ const App = () => {
             </Suspense>
         } />
 
-        <Route path='*' element={<div>404 - Not Found</div>} />
+        <Route path='*' element={<ErrorBoundary />} />
       </Route>
     )
   );

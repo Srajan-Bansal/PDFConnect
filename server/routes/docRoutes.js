@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.use(protect);
 
+router.get('/checkDocumentExists/:docId', docController.checkDocumentExists);
 router.get('/createDoc', docController.createDoc);
 router.get('/getUserDocs', docController.getUserDocs);
 router.get('/accessDoc/:docId', docController.accessDoc);
