@@ -4,6 +4,7 @@ const fs = require('fs');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('../utils/appError');
 const pdfParse = require('pdf-parse');
+const cloudinaryUploader = require('./../utils/cloudinary');
 
 // const pdfReader = async (path) => {
 // 	try {
@@ -40,15 +41,21 @@ exports.uploadPhoto = catchAsync(async (req, res, next) => {
 	if (req.files && req.files['photo']) {
 		const getUserPhoto = await User.findById(req.user._id);
 		if (getUserPhoto && getUserPhoto.photo) {
-			fs.unlink(getUserPhoto.photo, (err) => {
-				if (err) {
-					return next(new AppError('Error deleting Photo', 400));
-				} else {
-					console.log('Previous photo deleted successfully');
-				}
-			});
+			const publicId = getUserPhoto.photo
+				.split('/')
+				.slice(-2)
+				.join('/')
+				.replace(/\.[^/.]+$/, '');
+
+			const deletedFile = await cloudinaryUploader.deleteFromCloudinary(
+				publicId
+			);
 		}
-		updateData.photo = req.files['photo'][0].path;
+
+		const cloudinaryResponse = await cloudinaryUploader.uploadOnCloudinary(
+			req.files['photo'][0].path
+		);
+		updateData.photo = cloudinaryResponse.secure_url;
 	}
 
 	const user = await User.findByIdAndUpdate(req.user._id, updateData, {
