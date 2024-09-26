@@ -8,13 +8,7 @@ function Logout() {
   const { logout } = useLogout();
 
   const handleLogoutClick = () => setShowConfirmation(true);
-  const handleConfirmLogout = async () => {
-    try {
-      await logout();
-    } catch (error) {
-      console.error('Error logging out');
-    }
-  };
+  const handleConfirmLogout = async () => await logout();
   const handleCancelLogout = () => setShowConfirmation(false);
 
   return (

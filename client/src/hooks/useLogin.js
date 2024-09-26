@@ -1,8 +1,7 @@
 import axios from 'axios';
 import URL from '../config';
 import { useContextAPI } from '../context/ContextAPI';
-
-import { toast } from 'react-toastify';
+import { showSuccess, showError } from '../components/Toast';
 
 const useLogin = () => {
 	const { setAuthUser } = useContextAPI();
@@ -34,10 +33,11 @@ const useLogin = () => {
 				user,
 				expiryDate,
 			});
+			showSuccess('Succesfully logged in');
 		} catch (error) {
 			const errorMessage =
 				error.response?.data?.message || 'Something went wrong!';
-			toast.error(errorMessage);
+			showError(errorMessage);
 			console.error('Error updating user:', errorMessage);
 		}
 	};
