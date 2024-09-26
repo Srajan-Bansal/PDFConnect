@@ -31,10 +31,12 @@ const QuillRTE = ({ initialContent }) => {
 
     if (initialContent) {
       q.setContents(initialContent);
-      q.enable();
       setLastSavedContent(initialContent);
+    } else {
+      q.setText("Start typing here...");
     }
-  }, [setQuill]);
+    q.focus();
+  }, [setQuill, setLastSavedContent, initialContent]);
 
   // SOCKET config
   useEffect(() => {

@@ -28,14 +28,14 @@ const DocsId = () => {
                 setHasAccess(true);
             } catch (error) {
                 console.error('Error checking document:', error);
-                navigate('/not-found', { replace: true });
+                navigate('/not-found');
             } finally {
                 setIsLoading(false);
             }
         };
 
         loadDocument();
-    }, [documentID, navigate]);
+    }, [documentID]);
 
     const handleFileSelected = (file) => {
         setSelectedFile(file);
