@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import useSignup from '../../hooks/useSignup';
-import { showSuccess, showError } from '../Toast';
+import { showError } from '../Toast';
 
 export default function Signup() {
     const [name, setName] = useState('');
@@ -24,12 +24,7 @@ export default function Signup() {
             return;
         }
 
-        try {
-            await signup({ name, email, password, passwordConfirm });
-            showSuccess('Signup successful! Please log in.');
-        } catch (error) {
-            showError('An error occurred. Please try again.');
-        }
+        await signup({ name, email, password, passwordConfirm });
     }
 
     return (

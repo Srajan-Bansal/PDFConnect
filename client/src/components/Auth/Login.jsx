@@ -23,15 +23,10 @@ export default function Login() {
             return;
         }
 
-        try {
-            if (isLogin) {
-                await login({ email, password });
-                showSuccess('Login successful!');
-            } else {
-                await passwordForgot({ email });
-            }
-        } catch (error) {
-            showError('An error occurred. Please try again.');
+        if (isLogin) {
+            await login({ email, password });
+        } else {
+            await passwordForgot({ email });
         }
     }
 

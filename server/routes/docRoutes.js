@@ -6,12 +6,12 @@ const router = express.Router();
 
 router.use(protect);
 
-router.get('/checkDocumentExists/:docId', docController.checkDocumentExists);
 router.get('/createDoc', docController.createDoc);
 router.get('/getUserDocs', docController.getUserDocs);
 router.get('/accessDoc/:docId', docController.accessDoc);
 router.patch('/revokeAccess/:docId', docController.revokeAccess);
 router.patch('/addParticipant/:docId', docController.addParticipant);
+router.post('/saveDocument/:docId', docController.saveDocument);
 router.patch('/changeTitle/:docId', docController.changeTitle);
 router.delete('/deleteDoc/:docId', docController.deleteDoc);
 

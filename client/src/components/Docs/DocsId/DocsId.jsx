@@ -13,42 +13,33 @@ const DocsId = () => {
     const { id: documentID } = useParams();
     const [selectedFile, setSelectedFile] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [documentExists, setDocumentExists] = useState(false);
+    const [hasAccess, setHasAccess] = useState(false);
+    const [documentContent, setDocumentContent] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const checkDocumentExists = async () => {
+        const loadDocument = async () => {
             try {
                 setIsLoading(true);
-                const response = await axios.get(`${URL}/doc/checkDocumentExists/${documentID}`, { withCredentials: true });
-                const { documentExists } = response.data;
-                if (!documentExists) {
-                    navigate('/not-found');
-                } else {
-                    setDocumentExists(true);
-                }
+                const response = await axios.get(`${URL}/doc/accessDoc/${documentID}`, { withCredentials: true });
+                const document = response.data.data;
+                console.log(document);
+                setDocumentContent(document);
+                setHasAccess(true);
             } catch (error) {
                 console.error('Error checking document:', error);
-                navigate('/not-found');
+                navigate('/not-found', { replace: true });
             } finally {
                 setIsLoading(false);
             }
         };
 
-        checkDocumentExists();
+        loadDocument();
     }, [documentID, navigate]);
 
     const handleFileSelected = (file) => {
         setSelectedFile(file);
     };
-
-    if (isLoading) {
-        return <Spinner />;
-    }
-
-    if (!documentExists) {
-        return null;
-    }
 
     return (
         <div className="docs-id-container">
@@ -61,7 +52,7 @@ const DocsId = () => {
             <DragNdrop onFilesSelected={handleFileSelected} width="100%" />
             <div className='content'>
                 <ButtonGroup selectedFile={selectedFile} />
-                <QuillRTE />
+                {isLoading ? (<Spinner />) : hasAccess ? (<QuillRTE initialContent={documentContent} />) : <p>No access to this  document</p>}
             </div>
         </div>
     );

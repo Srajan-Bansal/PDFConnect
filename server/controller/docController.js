@@ -11,15 +11,6 @@ const generateFunnyName = () => {
 	return `${firstName} ${lastName}`;
 };
 
-exports.checkDocumentExists = catchAsync(async (req, res, next) => {
-	const { docId } = req.params;
-	const doc = await Doc.findOne({ uuid: docId });
-	if (!doc) {
-		return res.status(200).json({ documentExists: false });
-	}
-	res.status(200).json({ documentExists: true });
-});
-
 exports.createDoc = catchAsync(async (req, res, next) => {
 	const Docs = await Doc.find({ creator: req.user.id });
 	if (Docs.length >= 7) {
@@ -283,18 +274,33 @@ exports.changeTitle = catchAsync(async (req, res, next) => {
 	res.status(200).json('Title updated successfully');
 });
 
-exports.saveDocument = catchAsync(async (documentID, data) => {
-	if (!data || typeof data !== 'object' || !Array.isArray(data.ops)) {
-		return new AppError('Invalid data format', 400);
+exports.saveDocument = catchAsync(async (req, res, next) => {
+	const { docId } = req.params;
+	const { data } = req.body;
+
+	if (!docId || !data) {
+		return next(new AppError('Document ID and data are required', 400));
 	}
 
-	const doc = await Doc.findOne({ uuid: documentID });
+	const doc = await Doc.findOne({ uuid: docId });
+
 	if (!doc) {
-		throw new AppError('Document not found', 404);
+		return next(new AppError('Document does not exist', 404));
+	}
+
+	if (!doc.participants.includes(req.user.id)) {
+		return next(
+			new AppError(
+				'You do not have permission to save this document',
+				403
+			)
+		);
 	}
 
 	doc.data = data;
-	await doc.save();
+	await doc.save({ validateBeforeSave: false });
+
+	res.status(200).json('Document saved successfully');
 });
 
 exports.deleteAllDocs = async (req, res, next) => {

@@ -22,7 +22,7 @@ router.delete('/deleteMe', userController.deleteMe);
 router.get('/getMe', userController.getMe);
 
 router
-	.route('/')
+	.route('/admin/users')
 	.get(userController.getAllUsers)
 	.delete(userController.deleteAllUsers);
 

@@ -10,10 +10,11 @@ import axios from "axios";
 import { showError } from './../../../Toast';
 import { Helmet } from 'react-helmet-async';
 
-const QuillRTE = () => {
+const QuillRTE = ({ initialContent }) => {
   const [socket, setSocket] = useState(null);
   const { id: documentID } = useParams();
   const { quill, setQuill, isExtracted, setIsExtracted } = useContextAPI();
+  const [lastSavedContent, setLastSavedContent] = useState(null);
 
   const SAVE_INTERVAL_MS = import.meta.env.VITE_DOCUMENT_SAVE_INTERVAL_MS;
 
@@ -27,6 +28,12 @@ const QuillRTE = () => {
 
     const q = new Quill(editor, { theme: "snow", modules: { toolbar: toolbarOptions } });
     setQuill(q);
+
+    if (initialContent) {
+      q.setContents(initialContent);
+      q.enable();
+      setLastSavedContent(initialContent);
+    }
   }, [setQuill]);
 
   // SOCKET config
@@ -39,41 +46,27 @@ const QuillRTE = () => {
     };
   }, []);
 
-  // Loading Document
-  useEffect(() => {
-    async function loadDocument() {
-      try {
-        const response = await axios.get(`${URL}/doc/accessDoc/${documentID}`, { withCredentials: true });
-        const document = response.data.data;
-        if (quill && document) {
-          quill.setContents(document);
-          quill.enable();
-        }
-      } catch (error) {
-        console.error('Error loading document:', error);
-        showError('Error loading document');
-      }
-    }
-    loadDocument();
-
-    return () => {
-      if (quill) {
-        quill.disable();
-        quill.setText('Loading...');
-      }
-    };
-  }, [documentID, quill]);
-
   // Saving Document
   useEffect(() => {
-    if (!socket || !quill) return;
+    if (!quill) return;
 
-    const interval = setInterval(() => {
-      socket.emit('save-document', { documentID, data: quill.getContents() });
+    const interval = setInterval(async () => {
+      const currentContent = quill.getContents();
+
+      if (JSON.stringify(currentContent) === JSON.stringify(lastSavedContent)) return;
+
+      try {
+        await axios.post(`${URL}/doc/saveDocument/${documentID}`, { data: currentContent }, { withCredentials: true });
+        setLastSavedContent(currentContent);
+        console.log('document saved successfully');
+      } catch (error) {
+        console.error('Error saving document:', error);
+        showError('Error saving document');
+      }
     }, SAVE_INTERVAL_MS);
 
     return () => clearInterval(interval);
-  }, [socket, quill, documentID, SAVE_INTERVAL_MS]);
+  }, [socket, quill, documentID, lastSavedContent, SAVE_INTERVAL_MS]);
 
   // Sending text-changes
   useEffect(() => {

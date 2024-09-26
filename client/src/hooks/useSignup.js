@@ -1,8 +1,7 @@
 import axios from 'axios';
 import URL from '../config';
 import { useContextAPI } from '../context/ContextAPI';
-
-import { toast } from 'react-toastify';
+import { showSuccess, showError } from '../components/Toast';
 
 const useSignup = () => {
 	const { setAuthUser } = useContextAPI();
@@ -38,10 +37,11 @@ const useSignup = () => {
 				user,
 				expiryDate,
 			});
+			showSuccess('Succesfully signed up');
 		} catch (err) {
 			if (err.response?.data?.message.startsWith('E11000'))
-				return toast.error('Email aldready exist');
-			toast.error(err.message);
+				return showError('Email already exists');
+			showError(err.message);
 			console.log('Error signing in ', err);
 		}
 	};
