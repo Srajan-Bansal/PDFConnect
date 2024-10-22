@@ -50,6 +50,16 @@ export default function Login() {
                 <meta name="description" content="Login to your PDFConnect account and manage your documents seamlessly." />
                 <meta name="keywords" content="Login, PDFConnect, document management, PDF editor" />
             </Helmet>
+            <div>
+                Server is deployed on Render, please wait for a 1 Min for the server to wake up. Checkout Server {' '}
+                <NavLink
+                    to="https://pdfconnect-server.onrender.com/metrics"
+                    style={{ color: 'blue' }}
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    https://pdfconnect-server.onrender.com/metrics
+                </NavLink>
+            </div>
             <section>
                 <div className="form_data">
                     <div className="form_heading">
