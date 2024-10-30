@@ -27,7 +27,10 @@ PDFConnect is a robust and feature-rich web application designed for real-time c
 - **AI Integration**: Google Gemini
 - **PDF Editor**: Quill.js
 - **Email Notifications**: Redis
-- **Monitoring**: Docker, Prometheus, Grafana
+- **Containerization**: Docker
+- **Container Orchestration**: Docker Compose
+- **Monitoring**: Prometheus, Grafana
+- **Deployment**: Render
 
 > [API documentation](https://documenter.getpostman.com/view/34607742/2sA3duHDw5)
 
@@ -103,8 +106,6 @@ Just run the following command at the root of your project and answer questions:
 
 ### System Monitoring:
 - Monitor the application's performance using Prometheus and Grafana dashboards.
-
-
 
 ## Author
 
