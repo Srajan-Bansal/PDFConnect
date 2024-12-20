@@ -27,7 +27,10 @@ PDFConnect is a robust and feature-rich web application designed for real-time c
 - **AI Integration**: Google Gemini
 - **PDF Editor**: Quill.js
 - **Email Notifications**: Redis
-- **Monitoring**: Docker, Prometheus, Grafana
+- **Containerization**: Docker
+- **Container Orchestration**: Docker Compose
+- **Monitoring**: Prometheus, Grafana
+- **Deployment**: Render
 
 > [API documentation](https://documenter.getpostman.com/view/34607742/2sA3duHDw5)
 
@@ -84,7 +87,7 @@ Just run the following command at the root of your project and answer questions:
 ## 🚀 Usage
 
 ### Real-Time Collaboration:
-- Open a document and start editing. Changes will be synced in real-time with other collaborators.
+- Open a document and start editing. Changes will be synced in real time with other collaborators.
 - Use the integrated chat feature to communicate with collaborators.
 
 ### PDF Extraction and Editing:
@@ -102,9 +105,7 @@ Just run the following command at the root of your project and answer questions:
 - Receive real-time email notifications for document edits and collaboration invites.
 
 ### System Monitoring:
-- Monitor the performance of the application using Prometheus and Grafana dashboards.
-
-
+- Monitor the application's performance using Prometheus and Grafana dashboards.
 
 ## Author
 
@@ -113,6 +114,14 @@ Just run the following command at the root of your project and answer questions:
 * Twitter: [@Srajanstwt](https://twitter.com/Srajanstwt)
 * Github: [@Srajan-Bansal](https://github.com/Srajan-Bansal)
 * LinkedIn: [@srajan-bansal](https://linkedin.com/in/srajan-bansal)
+
+## Learning
+- Integration of client and server
+- Real-time collaboration ( Socket.io + Quill Editor )
+- Docker
+- Redis
+- Monitoring ( Prometheus + Grafana stack )
+- Security best practices ( Rate limiting, etc )
 
 ## Show your support
 
