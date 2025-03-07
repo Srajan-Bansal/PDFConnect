@@ -96,6 +96,22 @@ exports.accessDoc = catchAsync(async (req, res, next) => {
 	);
 });
 
+exports.getDocument = catchAsync(async (req, res, next) => {
+	const docId = req.params.docId;
+
+	if (!docId) {
+		return next(new AppError('Document ID is required', 400));
+	}
+
+	const doc = await Doc.findOne({ uuid: docId });
+
+	if (!doc) {
+		return next(new AppError('Document not found', 404));
+	}
+
+	res.status(200).json(doc);
+});
+
 exports.revokeAccess = catchAsync(async (req, res, next) => {
 	const docId = req.params.docId;
 	const email = req.body.email;

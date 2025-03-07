@@ -36,6 +36,7 @@ if (process.env.ENVIROMENT === 'development') {
 } else {
 	DATABASE = process.env.DATABASE;
 }
+DATABASE = process.env.DATABASE;
 mongoose
 	.connect(DATABASE, { family: 4 })
 	.then(() => console.log('DB connected'))

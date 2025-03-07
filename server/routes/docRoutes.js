@@ -9,6 +9,7 @@ router.use(protect);
 router.get('/createDoc', docController.createDoc);
 router.get('/getUserDocs', docController.getUserDocs);
 router.get('/accessDoc/:docId', docController.accessDoc);
+router.get('/getDocument/:docId', docController.getDocument);
 router.patch('/revokeAccess/:docId', docController.revokeAccess);
 router.patch('/addParticipant/:docId', docController.addParticipant);
 router.post('/saveDocument/:docId', docController.saveDocument);
