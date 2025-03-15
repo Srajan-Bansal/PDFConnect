@@ -15,6 +15,7 @@ const QuillRTE = ({ initialContent }) => {
   const { id: documentID } = useParams();
   const { quill, setQuill, isExtracted, setIsExtracted } = useContextAPI();
   const [lastSavedContent, setLastSavedContent] = useState(null);
+  const [isConnected, setIsConnected] = useState(false);
 
   const SAVE_INTERVAL_MS = import.meta.env.VITE_DOCUMENT_SAVE_INTERVAL_MS;
 
@@ -43,10 +44,32 @@ const QuillRTE = ({ initialContent }) => {
     const s = io(`${baseURL}/document`);
     setSocket(s);
 
+    s.on('connect', () => {
+      setIsConnected(true);
+      console.log('Connected to socket server');
+
+      // Join the document room as soon as connected
+      s.emit('join-document', documentID);
+    });
+
+    s.on('disconnect', () => {
+      setIsConnected(false);
+      console.log('Disconnected from socket server');
+    });
+
     return () => {
       s.disconnect();
     };
-  }, []);
+  }, [documentID]);
+
+  // Re-join document room if needed
+  useEffect(() => {
+    if (!socket || !isConnected) return;
+
+    // Ensure we're in the right document room
+    socket.emit('join-document', documentID);
+
+  }, [socket, isConnected, documentID]);
 
   // Saving Document
   useEffect(() => {
@@ -72,7 +95,7 @@ const QuillRTE = ({ initialContent }) => {
 
   // Sending text-changes
   useEffect(() => {
-    if (!socket || !quill) return;
+    if (!socket || !quill || !isConnected) return;
 
     const handler = (delta, oldDelta, source) => {
       if (source !== "user") return;
@@ -82,17 +105,17 @@ const QuillRTE = ({ initialContent }) => {
     quill.on("text-change", handler);
 
     return () => quill.off("text-change", handler);
-  }, [socket, quill, documentID]);
+  }, [socket, quill, documentID, isConnected]);
 
   // send-changes when Extracting PDF
   useEffect(() => {
-    if (!socket || !quill) return;
+    if (!socket || !quill || !isConnected) return;
 
     if (isExtracted) {
       socket.emit("send-changes", { documentID, delta: quill.getContents(), isExtracted });
       setIsExtracted(false);
     }
-  }, [socket, quill, documentID, isExtracted, setIsExtracted]);
+  }, [socket, quill, documentID, isExtracted, setIsExtracted, isConnected]);
 
   // Receiving text-changes
   useEffect(() => {
@@ -116,6 +139,7 @@ const QuillRTE = ({ initialContent }) => {
         <meta name="keywords" content="Quill editor, text editor, PDFConnect, document formatting" />
       </Helmet>
       <div className="container" ref={wrapperRef}></div>
+      {!isConnected && <div className="connection-warning">Connecting to server...</div>}
     </>
   );
 }

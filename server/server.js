@@ -14,6 +14,14 @@ const io = new Server(httpServer, {
 		methods: ['GET', 'POST'],
 		credentials: true,
 	},
+	// Add these configuration options for better reliability
+	pingTimeout: 60000, // How long to wait for a ping response
+	pingInterval: 25000, // How often to ping the client
+	connectTimeout: 20000, // Connection timeout
+	reconnection: true, // Allow reconnection
+	reconnectionAttempts: 5, // Number of reconnection attempts
+	reconnectionDelay: 1000, // Initial delay between reconnection attempts
+	reconnectionDelayMax: 5000, // Maximum delay between reconnection attempts
 });
 
 app.use(protect);
