@@ -26,13 +26,11 @@ jobs:
               run: |
                   cd server
                   npm install
-                  npm run build
 
             - name: Build Worker
               run: |
                   cd worker
                   npm install
-                  npm run build
 
     deploy:
         needs: build
