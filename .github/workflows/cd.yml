@@ -4,25 +4,70 @@ on:
     workflow_dispatch: {}
 
 jobs:
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '18'
+
+            - name: Build Client
+              run: |
+                  cd client
+                  npm install
+                  npm run build
+
+            - name: Build Server
+              run: |
+                  cd server
+                  npm install
+                  npm run build
+
+            - name: Build Worker
+              run: |
+                  cd worker
+                  npm install
+                  npm run build
+
     deploy:
+        needs: build
         name: Deploy Artifacts to EC2
         runs-on: ubuntu-latest
-
         steps:
-            - name: Download Build Artifacts
-              uses: actions/download-artifact@v4
-              with:
-                  name: build-artifacts
-                  path: artifacts
+            - name: Checkout
+              uses: actions/checkout@v3
 
-            - name: Upload Artifacts to EC2
+            - name: Upload Client Artifacts to EC2
               uses: appleboy/scp-action@v0.1.4
               with:
                   host: ${{ secrets.EC2_HOST }}
                   username: ${{ secrets.EC2_USER }}
                   key: ${{ secrets.EC2_SSH_KEY }}
-                  source: 'artifacts/*'
-                  target: '/home/${{ secrets.EC2_USER }}/deployments/latest'
+                  source: 'client/dist'
+                  target: '/home/${{ secrets.EC2_USER }}/deployments/latest/client'
+
+            - name: Upload Server Artifacts to EC2
+              uses: appleboy/scp-action@v0.1.4
+              with:
+                  host: ${{ secrets.EC2_HOST }}
+                  username: ${{ secrets.EC2_USER }}
+                  key: ${{ secrets.EC2_SSH_KEY }}
+                  source: 'server/dist'
+                  target: '/home/${{ secrets.EC2_USER }}/deployments/latest/server'
+
+            - name: Upload Worker Artifacts to EC2
+              uses: appleboy/scp-action@v0.1.4
+              with:
+                  host: ${{ secrets.EC2_HOST }}
+                  username: ${{ secrets.EC2_USER }}
+                  key: ${{ secrets.EC2_SSH_KEY }}
+                  source: 'worker/dist'
+                  target: '/home/${{ secrets.EC2_USER }}/deployments/latest/worker'
 
             - name: Verify Uploaded Files
               uses: appleboy/ssh-action@v0.1.10
