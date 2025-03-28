@@ -47,3 +47,6 @@ jobs:
                       client/build
                       server
                       worker
+
+            - name: Debug Build Output
+              run: ls -lah client/build server worker || echo "One or more directories are missing!"
