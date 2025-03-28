@@ -3,10 +3,12 @@ name: Build
 on:
     push:
         branches:
-            - [main, deploy]
+            - main
+            - deploy
     pull_request:
         branches:
-            - [main, deploy]
+            - main
+            - deploy
 
 jobs:
     build:
