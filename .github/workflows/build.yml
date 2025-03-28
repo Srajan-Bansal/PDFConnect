@@ -44,9 +44,9 @@ jobs:
               with:
                   name: build-artifacts
                   path: |
-                      client/build
+                      client/dist
                       server
                       worker
 
             - name: Debug Build Output
-              run: ls -lah client/build server worker || echo "One or more directories are missing!"
+              run: ls -lah client/dist server worker || echo "One or more directories are missing!"
