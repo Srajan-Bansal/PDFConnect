@@ -1,7 +1,7 @@
 name: Deploy Artifacts to EC2
 
 on:
-    workflow_dispatch:
+    workflow_dispatch: {}
 
 jobs:
     deploy:
