@@ -1,0 +1,35 @@
+name: Deploy Artifacts to EC2
+
+on:
+    workflow_dispatch:
+
+jobs:
+    deploy:
+        name: Deploy Artifacts to EC2
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Download Build Artifacts
+              uses: actions/download-artifact@v4
+              with:
+                  name: build-artifacts
+                  path: build
+
+            - name: Upload Artifacts to EC2
+              uses: appleboy/scp-action@v0.1.4
+              with:
+                  host: ${{ secrets.EC2_HOST }}
+                  username: ${{ secrets.EC2_USER }}
+                  key: ${{ secrets.EC2_SSH_KEY }}
+                  source: 'build/*'
+                  target: '/home/${{ secrets.EC2_USER }}/deployments/latest'
+
+            - name: Verify Uploaded Files
+              uses: appleboy/ssh-action@v0.1.10
+              with:
+                  host: ${{ secrets.EC2_HOST }}
+                  username: ${{ secrets.EC2_USER }}
+                  key: ${{ secrets.EC2_SSH_KEY }}
+                  script: |
+                      echo "Files in deployments/latest:"
+                      ls -lah /home/${{ secrets.EC2_USER }}/deployments/latest
